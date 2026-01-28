@@ -6,7 +6,7 @@ import { socialLinks } from '../../data/profile';
 const Footer = () => {
     return (
         <motion.footer
-            className="relative z-20 mt-32"
+            className="relative z-20 mt-20 md:mt-32"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, duration: 0.8 }}
@@ -19,9 +19,9 @@ const Footer = () => {
                 }}
             >
                 <div className="max-w-7xl mx-auto px-6 py-12">
-                    <div className="grid md:grid-cols-3 gap-8 items-center">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
                         {/* Logo Section */}
-                        <div>
+                        <div className="flex flex-col items-center md:items-start">
                             <motion.div
                                 className="text-2xl font-bold text-cyan-300 mb-2"
                                 whileHover={{
@@ -37,7 +37,7 @@ const Footer = () => {
                         </div>
 
                         {/* Copyright */}
-                        <div className="text-center">
+                        <div className="order-3 md:order-2">
                             <p className="text-gray-400 text-sm">
                                 © 2024 J.A.R.V.I.S. Portfolio • Built with React & Tailwind CSS
                             </p>
@@ -54,7 +54,7 @@ const Footer = () => {
                         </div>
 
                         {/* Social Links */}
-                        <div className="flex justify-center md:justify-end space-x-6">
+                        <div className="flex justify-center md:justify-end space-x-6 order-2 md:order-3">
                             <motion.a
                                 href={socialLinks.github}
                                 target="_blank"

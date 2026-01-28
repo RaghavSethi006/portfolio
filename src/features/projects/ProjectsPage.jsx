@@ -30,7 +30,7 @@ const ProjectsPage = () => {
     }
     return (
         <motion.div
-            className="max-w-7xl mx-auto px-6 py-12"
+            className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
@@ -38,24 +38,24 @@ const ProjectsPage = () => {
         >
             {/* ===== SECTION HEADER WITH HUD STYLING ===== */}
             <motion.div
-                className="text-center mb-16"
+                className="text-center mb-12 md:mb-16"
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
             >
-                <div className="relative inline-block">
-                    <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 mb-4">
+                <div className="relative inline-block px-4">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 mb-4">
                         Projects Archive
                     </h1>
-                    {/* Decorative HUD elements */}
-                    <div className="absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 border-cyan-400/60" />
-                    <div className="absolute -top-4 -right-4 w-8 h-8 border-r-2 border-t-2 border-cyan-400/60" />
-                    <div className="absolute -bottom-4 -left-4 w-8 h-8 border-l-2 border-b-2 border-cyan-400/60" />
-                    <div className="absolute -bottom-4 -right-4 w-8 h-8 border-r-2 border-b-2 border-cyan-400/60" />
+                    {/* Decorative HUD elements - Responsive sizing */}
+                    <div className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 w-4 h-4 sm:w-8 sm:h-8 border-l-2 border-t-2 border-cyan-400/60" />
+                    <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-4 h-4 sm:w-8 sm:h-8 border-r-2 border-t-2 border-cyan-400/60" />
+                    <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 w-4 h-4 sm:w-8 sm:h-8 border-l-2 border-b-2 border-cyan-400/60" />
+                    <div className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 w-4 h-4 sm:w-8 sm:h-8 border-r-2 border-b-2 border-cyan-400/60" />
                 </div>
 
                 <motion.div
-                    className="w-32 h-1 mx-auto bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+                    className="w-24 md:w-32 h-1 mx-auto bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
@@ -63,7 +63,7 @@ const ProjectsPage = () => {
             </motion.div>
 
             {/* ===== PROJECTS GRID ===== */}
-            <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                 {projects.map((project, index) => (
                     <motion.div
                         key={project.id}
@@ -79,7 +79,7 @@ const ProjectsPage = () => {
                     >
                         {/* Project card with advanced glassmorphism */}
                         <div
-                            className="relative p-6 rounded-2xl backdrop-blur-md border transition-all duration-500 group-hover:shadow-2xl overflow-hidden"
+                            className="relative h-full p-5 sm:p-6 rounded-2xl backdrop-blur-md border transition-all duration-500 group-hover:shadow-2xl overflow-hidden flex flex-col"
                             style={{
                                 background: project.featured
                                     ? 'rgba(6, 182, 212, 0.15)'
@@ -95,7 +95,7 @@ const ProjectsPage = () => {
                             {/* Featured project indicator */}
                             {project.featured && (
                                 <motion.div
-                                    className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
+                                    className="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold"
                                     style={{
                                         background: 'rgba(34, 211, 238, 0.2)',
                                         border: '1px solid rgba(34, 211, 238, 0.4)',
@@ -115,9 +115,9 @@ const ProjectsPage = () => {
                             )}
 
                             {/* Status and progress */}
-                            <div className="flex justify-between items-start mb-6">
+                            <div className="flex justify-between items-start mb-4 sm:mb-6">
                                 <span
-                                    className={`px-3 py-1 rounded-full text-xs font-medium border ${project.status === 'Completed'
+                                    className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium border ${project.status === 'Completed'
                                         ? 'bg-green-500/20 text-green-300 border-green-500/40'
                                         : 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40'
                                         }`}
@@ -127,8 +127,8 @@ const ProjectsPage = () => {
 
                                 {/* Progress indicator */}
                                 <div className="text-right">
-                                    <div className="text-xs text-gray-400 mb-1">{project.progress}%</div>
-                                    <div className="w-16 h-1 bg-gray-700 rounded-full overflow-hidden">
+                                    <div className="text-[10px] sm:text-xs text-gray-400 mb-1">{project.progress}%</div>
+                                    <div className="w-12 sm:w-16 h-1 bg-gray-700 rounded-full overflow-hidden">
                                         <motion.div
                                             className="h-full bg-gradient-to-r from-cyan-500 to-blue-500"
                                             initial={{ width: 0 }}
@@ -139,7 +139,7 @@ const ProjectsPage = () => {
                                 </div>
                             </div>
 
-                            <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors">
+                            <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4 group-hover:text-cyan-300 transition-colors">
                                 {project.title}
                             </h3>
 

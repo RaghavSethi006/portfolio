@@ -55,7 +55,7 @@ const App = () => {
             />
 
             {/* ===== PAGE CONTENT WITH LOADING ===== */}
-            <main className="relative z-20 pt-28">
+            <main className="relative z-20 pt-20 md:pt-28">
                 <AnimatePresence mode="wait">
                     {isLoading ? (
                         <LoadingInterface key="loading" />

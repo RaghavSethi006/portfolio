@@ -1,8 +1,10 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { User, Code, FileText, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, Code, FileText, MessageCircle, Menu, X } from 'lucide-react';
 
 const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const navItems = [
         { id: 'about', label: 'About', icon: User },
         { id: 'projects', label: 'Projects', icon: Code },
@@ -10,9 +12,14 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
         { id: 'reviews', label: 'Reviews', icon: MessageCircle },
     ];
 
+    const handleNavClick = (id) => {
+        setCurrentPage(id);
+        setIsMenuOpen(false);
+    };
+
     return (
         <motion.nav
-            className="fixed top-0 left-0 right-0 z-30 backdrop-blur-md"
+            className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
             style={{
                 background: 'rgba(2, 6, 23, 0.7)',
                 borderBottom: '1px solid rgba(6, 182, 212, 0.2)',
@@ -22,7 +29,7 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-            <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 md:py-4">
                 <div className="flex items-center justify-between">
                     {/* ===== LOGO WITH HUD FRAME ===== */}
                     <motion.div
@@ -30,14 +37,14 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
                         whileHover={{ scale: 1.05 }}
                     >
                         <div
-                            className="px-6 py-3 rounded-lg relative overflow-hidden"
+                            className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg relative overflow-hidden"
                             style={{
                                 background: 'rgba(6, 182, 212, 0.1)',
                                 border: '1px solid rgba(6, 182, 212, 0.3)',
                                 boxShadow: '0 0 20px rgba(6, 182, 212, 0.2)',
                             }}
                         >
-                            <span className="text-2xl font-bold text-cyan-300 relative z-10">
+                            <span className="text-xl sm:text-2xl font-bold text-cyan-300 relative z-10">
                                 J.A.R.V.I.S.
                             </span>
                             {/* Animated border effect */}
@@ -58,8 +65,18 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
                         </div>
                     </motion.div>
 
-                    {/* ===== NAVIGATION ITEMS WITH GLASSMORPHISM ===== */}
-                    <div className="flex space-x-2">
+                    {/* ===== MOBILE MENU BUTTON ===== */}
+                    <div className="md:hidden">
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="p-2 text-cyan-300 hover:bg-cyan-500/10 rounded-lg transition-colors"
+                        >
+                            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        </button>
+                    </div>
+
+                    {/* ===== DESKTOP NAVIGATION ITEMS ===== */}
+                    <div className="hidden md:flex space-x-2">
                         {navItems.map((item, index) => {
                             const Icon = item.icon;
                             const isActive = currentPage === item.id;
@@ -67,7 +84,7 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
                             return (
                                 <motion.button
                                     key={item.id}
-                                    onClick={() => setCurrentPage(item.id)}
+                                    onClick={() => handleNavClick(item.id)}
                                     className="relative group"
                                     disabled={isLoading}
                                     initial={{ opacity: 0, y: -20 }}
@@ -78,8 +95,8 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
                                 >
                                     <div
                                         className={`flex items-center space-x-2 px-4 py-3 rounded-lg backdrop-blur-sm transition-all duration-300 ${isActive
-                                                ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border-cyan-400/60 text-cyan-300'
-                                                : 'bg-white/5 border-white/10 text-gray-400 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-white/10'
+                                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border-cyan-400/60 text-cyan-300'
+                                            : 'bg-white/5 border-white/10 text-gray-400 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-white/10'
                                             }`}
                                         style={{
                                             border: '1px solid',
@@ -106,6 +123,39 @@ const Navigation = ({ currentPage, setCurrentPage, isLoading }) => {
                     </div>
                 </div>
             </div>
+
+            {/* ===== MOBILE MENU DROPDOWN ===== */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden border-t border-cyan-500/20 overflow-hidden bg-slate-950/90 backdrop-blur-xl"
+                    >
+                        <div className="px-4 py-6 space-y-4">
+                            {navItems.map((item) => {
+                                const Icon = item.icon;
+                                const isActive = currentPage === item.id;
+
+                                return (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => handleNavClick(item.id)}
+                                        className={`w-full flex items-center space-x-4 px-6 py-4 rounded-xl transition-all duration-300 ${isActive
+                                            ? 'bg-cyan-500/20 border-cyan-400/40 text-cyan-300'
+                                            : 'bg-white/5 border-white/10 text-gray-400'
+                                            } border`}
+                                    >
+                                        <Icon className="w-5 h-5" />
+                                        <span className="text-lg font-medium">{item.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.nav>
     );
 };

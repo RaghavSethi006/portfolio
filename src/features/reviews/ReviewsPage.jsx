@@ -33,7 +33,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
 
     return (
         <motion.div
-            className="max-w-7xl mx-auto px-6 py-12"
+            className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
@@ -41,23 +41,23 @@ const ReviewsPage = ({ reviews, setReviews }) => {
         >
             {/* ===== SECTION HEADER ===== */}
             <motion.div
-                className="text-center mb-16"
+                className="text-center mb-12 md:mb-16"
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
             >
-                <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 mb-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 mb-4">
                     Client Reviews
                 </h1>
                 <motion.div
-                    className="w-32 h-1 mx-auto bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+                    className="w-24 md:w-32 h-1 mx-auto bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
                 />
             </motion.div>
 
-            <div className="grid xl:grid-cols-5 gap-12">
+            <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 lg:gap-12">
                 {/* ===== HOLOGRAPHIC REVIEW FORM ===== */}
                 <motion.div
                     className="xl:col-span-2"
@@ -65,13 +65,13 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4, duration: 0.8 }}
                 >
-                    <h2 className="text-3xl font-bold text-cyan-300 mb-8 flex items-center">
-                        <MessageCircle className="w-8 h-8 mr-3" />
+                    <h2 className="text-2xl sm:text-3xl font-bold text-cyan-300 mb-6 sm:mb-8 flex items-center">
+                        <MessageCircle className="w-6 h-6 sm:w-8 sm:h-8 mr-3" />
                         Leave a Review
                     </h2>
 
                     <div
-                        className="relative p-8 rounded-2xl backdrop-blur-md border overflow-hidden"
+                        className="relative p-6 sm:p-8 rounded-2xl backdrop-blur-md border overflow-hidden"
                         style={{
                             background: 'rgba(2, 6, 23, 0.6)',
                             border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -79,20 +79,20 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                         }}
                     >
                         {/* Corner HUD elements */}
-                        <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-cyan-400/60" />
-                        <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-cyan-400/60" />
-                        <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-cyan-400/60" />
-                        <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-cyan-400/60" />
+                        <div className="absolute top-4 left-4 w-4 h-4 sm:w-6 sm:h-6 border-l-2 border-t-2 border-cyan-400/60" />
+                        <div className="absolute top-4 right-4 w-4 h-4 sm:w-6 sm:h-6 border-r-2 border-t-2 border-cyan-400/60" />
+                        <div className="absolute bottom-4 left-4 w-4 h-4 sm:w-6 sm:h-6 border-l-2 border-b-2 border-cyan-400/60" />
+                        <div className="absolute bottom-4 right-4 w-4 h-4 sm:w-6 sm:h-6 border-r-2 border-b-2 border-cyan-400/60" />
 
-                        <div className="space-y-6 relative z-10">
+                        <div className="space-y-4 sm:space-y-6 relative z-10">
                             {/* Name Input */}
                             <div>
-                                <label className="block text-cyan-300 mb-3 font-medium">Name</label>
+                                <label className="block text-cyan-300 mb-2 sm:mb-3 text-sm sm:text-base font-medium">Name</label>
                                 <motion.input
                                     type="text"
                                     value={reviewForm.name}
                                     onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-lg backdrop-blur-sm border transition-all duration-300 focus:outline-none"
+                                    className="w-full px-4 py-2 sm:py-3 rounded-lg backdrop-blur-sm border transition-all duration-300 focus:outline-none text-sm sm:text-base"
                                     style={{
                                         background: 'rgba(0, 0, 0, 0.5)',
                                         border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -108,7 +108,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
 
                             {/* Rating System */}
                             <div>
-                                <label className="block text-cyan-300 mb-3 font-medium">Rating</label>
+                                <label className="block text-cyan-300 mb-2 sm:mb-3 text-sm sm:text-base font-medium">Rating</label>
                                 <div className="flex space-x-2">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <motion.button
@@ -119,9 +119,9 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                                             whileTap={{ scale: 0.9 }}
                                         >
                                             <Star
-                                                className={`w-8 h-8 ${star <= reviewForm.rating
-                                                        ? 'text-yellow-400 fill-current drop-shadow-glow'
-                                                        : 'text-gray-500'
+                                                className={`w-6 h-6 sm:w-8 sm:h-8 ${star <= reviewForm.rating
+                                                    ? 'text-yellow-400 fill-current drop-shadow-glow'
+                                                    : 'text-gray-500'
                                                     }`}
                                                 style={{
                                                     filter: star <= reviewForm.rating
@@ -136,12 +136,12 @@ const ReviewsPage = ({ reviews, setReviews }) => {
 
                             {/* Review Textarea */}
                             <div>
-                                <label className="block text-cyan-300 mb-3 font-medium">Review</label>
+                                <label className="block text-cyan-300 mb-2 sm:mb-3 text-sm sm:text-base font-medium">Review</label>
                                 <motion.textarea
                                     value={reviewForm.review}
                                     onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })}
                                     rows={4}
-                                    className="w-full px-4 py-3 rounded-lg backdrop-blur-sm border transition-all duration-300 focus:outline-none resize-none"
+                                    className="w-full px-4 py-2 sm:py-3 rounded-lg backdrop-blur-sm border transition-all duration-300 focus:outline-none resize-none text-sm sm:text-base"
                                     style={{
                                         background: 'rgba(0, 0, 0, 0.5)',
                                         border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -159,7 +159,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                             <motion.button
                                 onClick={handleSubmitReview}
                                 disabled={isSubmitting || !reviewForm.name || !reviewForm.review}
-                                className="w-full px-6 py-4 rounded-xl backdrop-blur-md border-2 transition-all duration-300 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full px-6 py-3 sm:py-4 rounded-xl backdrop-blur-md border-2 transition-all duration-300 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
                                 style={{
                                     background: 'rgba(6, 182, 212, 0.2)',
                                     border: '2px solid rgba(6, 182, 212, 0.4)',
@@ -174,16 +174,16 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                                     {isSubmitting ? (
                                         <>
                                             <motion.div
-                                                className="w-5 h-5 border-2 border-cyan-300 border-t-transparent rounded-full"
+                                                className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-cyan-300 border-t-transparent rounded-full"
                                                 animate={{ rotate: 360 }}
                                                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                                             />
-                                            <span className="text-cyan-300 font-semibold">Submitting...</span>
+                                            <span className="text-cyan-300 font-semibold text-sm sm:text-base">Submitting...</span>
                                         </>
                                     ) : (
                                         <>
-                                            <MessageCircle className="w-5 h-5 text-cyan-300" />
-                                            <span className="text-cyan-300 font-semibold">Submit Review</span>
+                                            <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-300" />
+                                            <span className="text-cyan-300 font-semibold text-sm sm:text-base">Submit Review</span>
                                         </>
                                     )}
                                 </div>
@@ -220,28 +220,28 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.6, duration: 0.8 }}
                 >
-                    <h2 className="text-3xl font-bold text-cyan-300 mb-8 flex items-center">
-                        <Star className="w-8 h-8 mr-3 text-yellow-400" />
+                    <h2 className="text-2xl sm:text-3xl font-bold text-cyan-300 mb-6 sm:mb-8 flex items-center">
+                        <Star className="w-6 h-6 sm:w-8 sm:h-8 mr-3 text-yellow-400" />
                         Recent Reviews
                     </h2>
 
-                    <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
+                    <div className="space-y-6 lg:max-h-[600px] lg:overflow-y-auto pr-0 lg:pr-4 custom-scrollbar">
                         {reviews.length === 0 ? (
                             <motion.div
-                                className="text-center py-16"
+                                className="text-center py-12 md:py-16"
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                             >
                                 <div
-                                    className="inline-block p-12 rounded-2xl backdrop-blur-md border"
+                                    className="inline-block p-8 md:p-12 rounded-2xl backdrop-blur-md border"
                                     style={{
                                         background: 'rgba(2, 6, 23, 0.4)',
                                         border: '1px solid rgba(6, 182, 212, 0.2)',
                                     }}
                                 >
-                                    <MessageCircle className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-                                    <h3 className="text-xl text-gray-400 mb-2">No reviews yet</h3>
-                                    <p className="text-gray-500">Be the first to share your experience!</p>
+                                    <MessageCircle className="w-12 h-12 md:w-16 md:h-16 text-gray-500 mx-auto mb-4" />
+                                    <h3 className="text-lg md:text-xl text-gray-400 mb-2">No reviews yet</h3>
+                                    <p className="text-sm md:text-base text-gray-500">Be the first to share your experience!</p>
                                 </div>
                             </motion.div>
                         ) : (
@@ -292,8 +292,8 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                                                         <Star
                                                             key={star}
                                                             className={`w-4 h-4 ${star <= review.rating
-                                                                    ? 'text-yellow-400 fill-current'
-                                                                    : 'text-gray-500'
+                                                                ? 'text-yellow-400 fill-current'
+                                                                : 'text-gray-500'
                                                                 }`}
                                                         />
                                                     ))}

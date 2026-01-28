@@ -17,15 +17,15 @@ const HUDOverlay = () => {
 
     return (
         <div className="fixed inset-0 z-10 pointer-events-none">
-            {/* Top-left system status */}
+            {/* Top-left system status - Hidden on mobile, visible on small screens up */}
             <motion.div
-                className="absolute top-20 left-4 space-y-2"
+                className="absolute top-24 sm:top-28 left-4 space-y-2 hidden sm:block"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 2, duration: 0.8 }}
             >
                 <div
-                    className="px-3 py-2 rounded-lg backdrop-blur-md text-xs font-mono"
+                    className="px-3 py-2 rounded-lg backdrop-blur-md text-[10px] md:text-xs font-mono"
                     style={{
                         background: 'rgba(2, 6, 23, 0.7)',
                         border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -36,7 +36,7 @@ const HUDOverlay = () => {
                 </div>
 
                 <div
-                    className="px-3 py-2 rounded-lg backdrop-blur-md text-xs font-mono"
+                    className="px-3 py-2 rounded-lg backdrop-blur-md text-[10px] md:text-xs font-mono"
                     style={{
                         background: 'rgba(2, 6, 23, 0.7)',
                         border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -47,9 +47,9 @@ const HUDOverlay = () => {
                 </div>
             </motion.div>
 
-            {/* Bottom-right coordinates */}
+            {/* Bottom-right coordinates - Hidden on mobile */}
             <motion.div
-                className="absolute bottom-20 right-4"
+                className="absolute bottom-20 right-4 hidden lg:block"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 2.5, duration: 0.8 }}
@@ -66,27 +66,27 @@ const HUDOverlay = () => {
                 </div>
             </motion.div>
 
-            {/* Corner frame elements */}
+            {/* Corner frame elements - Responsive sizing */}
             <motion.div
-                className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-cyan-400/40"
+                className="absolute top-4 left-4 w-6 h-6 sm:w-12 sm:h-12 border-l-2 border-t-2 border-cyan-400/40"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 3, duration: 0.6 }}
             />
             <motion.div
-                className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-cyan-400/40"
+                className="absolute top-4 right-4 w-6 h-6 sm:w-12 sm:h-12 border-r-2 border-t-2 border-cyan-400/40"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 3.2, duration: 0.6 }}
             />
             <motion.div
-                className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-cyan-400/40"
+                className="absolute bottom-4 left-4 w-6 h-6 sm:w-12 sm:h-12 border-l-2 border-b-2 border-cyan-400/40"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 3.4, duration: 0.6 }}
             />
             <motion.div
-                className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-cyan-400/40"
+                className="absolute bottom-4 right-4 w-6 h-6 sm:w-12 sm:h-12 border-r-2 border-b-2 border-cyan-400/40"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 3.6, duration: 0.6 }}
