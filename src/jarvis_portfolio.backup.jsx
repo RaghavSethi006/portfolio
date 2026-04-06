@@ -710,7 +710,7 @@ const AboutPage = () => {
         >
           {/* HUD-style frame around content */}
           <div 
-            className="relative p-8 rounded-2xl backdrop-blur-md"
+            className="relative p-8 rounded-xl backdrop-blur-md"
             style={{
               background: 'rgba(2, 6, 23, 0.4)',
               border: '1px solid rgba(6, 182, 212, 0.2)',
@@ -984,7 +984,7 @@ const projects = [
           >
             {/* Project card with advanced glassmorphism */}
             <div 
-              className="relative p-6 rounded-2xl backdrop-blur-md border transition-all duration-500 group-hover:shadow-2xl overflow-hidden"
+              className="relative p-6 rounded-xl backdrop-blur-md border transition-all duration-500 group-hover:shadow-2xl overflow-hidden"
               style={{
                 background: project.featured 
                   ? 'rgba(6, 182, 212, 0.15)' 
@@ -1110,7 +1110,7 @@ const projects = [
               
               {/* Holographic scan effect on hover */}
               <motion.div
-                className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100"
+                className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100"
                 animate={{
                   x: ['-100%', '100%'],
                 }}
@@ -1123,7 +1123,7 @@ const projects = [
             </div>
             
             {/* External glow effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/10 to-blue-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" />
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/10 to-blue-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" />
           </motion.div>
         ))}
       </div>
@@ -1591,7 +1591,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
           </h2>
           
           <div 
-            className="relative p-8 rounded-2xl backdrop-blur-md border overflow-hidden"
+            className="relative p-8 rounded-xl backdrop-blur-md border overflow-hidden"
             style={{
               background: 'rgba(2, 6, 23, 0.6)',
               border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -1754,7 +1754,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                 animate={{ opacity: 1, scale: 1 }}
               >
                 <div 
-                  className="inline-block p-12 rounded-2xl backdrop-blur-md border"
+                  className="inline-block p-12 rounded-xl backdrop-blur-md border"
                   style={{
                     background: 'rgba(2, 6, 23, 0.4)',
                     border: '1px solid rgba(6, 182, 212, 0.2)',

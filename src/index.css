@@ -1,40 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar styles */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #0B1428;
+    color: #EEF2F9;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-3 rounded-full border border-[#C8D8F0]/30 bg-[#0B1428] px-6 py-3 text-sm uppercase tracking-[0.3em] text-[#EEF2F9] transition hover:border-[#B8960C] hover:bg-[#13213F];
+  }
+
+  .section-heading {
+    @apply text-center mb-12;
+  }
+
+  .section-heading p {
+    @apply text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4;
+  }
+
+  .section-heading h2 {
+    @apply text-4xl font-serif text-[#EEF2F9] sm:text-5xl;
+  }
+
+  .card {
+    @apply rounded-xl border border-[#1A2744] bg-[#0B1428] p-8;
+  }
+
+  .accent-line {
+    @apply h-10 w-1 rounded-full bg-[#B8960C];
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(6, 182, 212, 0.5);
-  border-radius: 10px;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.7);
+/* ── Watch mechanism ring rotations ─────────────────── */
+@keyframes ring-cw-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes ring-ccw-mid {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes ring-cw-fast {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+.watch-ring-outer {
+  animation: ring-cw-slow 120s linear infinite;
+  transform-origin: center center;
+}
+.watch-ring-middle {
+  animation: ring-ccw-mid 80s linear infinite;
+  transform-origin: center center;
+}
+.watch-ring-inner {
+  animation: ring-cw-fast 40s linear infinite;
+  transform-origin: center center;
 }
 
-/* Custom focus styles */
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid rgba(6, 182, 212, 0.8);
-  outline-offset: 2px;
+/* ── Hero name letter fade-in ────────────────────────── */
+@keyframes letterFade {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.fade-letter {
+  animation: letterFade 0.5s ease forwards;
 }
 
-/* Glow effects */
-.drop-shadow-glow {
-  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+/* ── Subtle architectural background grid ────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200, 216, 240, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 216, 240, 0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .watch-ring-outer,
+  .watch-ring-middle,
+  .watch-ring-inner {
+    animation: none;
+  }
 }
