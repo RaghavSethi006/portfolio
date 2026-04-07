@@ -7,7 +7,7 @@ const WatchMechanism = () => {
   );
 
   return (
-    <div className="relative aspect-square w-full opacity-30 select-none pointer-events-none">
+    <div className="relative aspect-square w-full opacity-85 select-none pointer-events-none">
 
       {/* Outermost faint boundary ring */}
       <div className="absolute inset-0 rounded-full border border-[#C8D8F0]/10" />

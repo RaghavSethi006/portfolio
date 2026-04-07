@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { loadResumeData } from '../../utils/excelLoader';
+import SplitHeading from '../../components/ui/SplitHeading';
 
 const technicalSkills = [
   {
@@ -92,7 +93,7 @@ const ResumePage = () => {
           className="text-center mb-12"
         >
           <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Resume</p>
-          <h2 className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Professional Experience</h2>
+          <SplitHeading className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Professional Experience</SplitHeading>
           <a
             href={`${process.env.PUBLIC_URL}/assets/Raghav_Sethi_Resume.pdf`}
             download="Raghav_Sethi_Resume.pdf"

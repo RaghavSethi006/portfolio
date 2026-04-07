@@ -1,152 +1,197 @@
-﻿import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MessageCircle, Star, Shield } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { reviews as staticReviews } from '../../data/profile';
+
+const chessNav = [
+  { prev: '← Qb6', next: 'Nf3 →' },
+  { prev: '← d4',  next: 'Bc4 →' },
+  { prev: '← Bb5', next: 'O-O →' },
+  { prev: '← c4',  next: 'e5 →' },
+  { prev: '← Nd2', next: 'O-O-O →' },
+];
 
 const ReviewsPage = ({ reviews, setReviews }) => {
-  const [reviewForm, setReviewForm] = useState({
-    name: '',
-    review: '',
-    rating: 5,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isComposing, setIsComposing] = useState(false);
+  const [formData, setFormData] = useState({ quote: '', author: '', role: '' });
 
-  const handleSubmitReview = async (e) => {
+  const current = reviews[index] || reviews[0];
+  const nav = chessNav[index % chessNav.length];
+
+  const paginate = (dir) => {
+    setDirection(dir);
+    setIndex((prev) => (prev + dir + reviews.length) % reviews.length);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!reviewForm.name || !reviewForm.review) return;
+    if (!formData.quote.trim() || !formData.author.trim()) return;
+    
+    setReviews(prev => [...prev, { ...formData }]);
+    setFormData({ quote: '', author: '', role: '' });
+    setIsComposing(false);
+    
+    setDirection(1);
+    setIndex(reviews.length);
+  };
 
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
-    const newReview = {
-      id: Date.now(),
-      ...reviewForm,
-      date: new Date().toLocaleDateString(),
-      verified: Math.random() > 0.5,
-    };
-
-    setReviews([newReview, ...reviews]);
-    setReviewForm({ name: '', review: '', rating: 5 });
-    setIsSubmitting(false);
+  const variants = {
+    enter: (d) => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
+    center: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+    exit: (d) => ({ opacity: 0, x: d > 0 ? -40 : 40, transition: { duration: 0.3 } }),
   };
 
   return (
-    <section className="py-20" id="reviews">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Testimonials</p>
-          <h2 className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Client Reviews</h2>
-        </motion.div>
+    <section className="py-28 bg-[#050A18]" id="reviews">
+      <div className="mx-auto max-w-4xl px-6 text-center">
 
-        <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr] items-start">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-            className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="h-10 w-1 rounded-full bg-[#B8960C]" />
-              <h3 className="text-2xl font-serif text-[#EEF2F9]">Share a Review</h3>
-            </div>
-            <form className="space-y-6" onSubmit={handleSubmitReview}>
-              <div>
-                <label className="block text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-3">Name</label>
-                <input
-                  type="text"
-                  value={reviewForm.name}
-                  onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
-                  className="w-full rounded-xl border border-[#1E2D4D] bg-[#0E1A34] px-4 py-3 text-sm text-[#EEF2F9] outline-none transition focus:border-[#B8960C]"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-3">Rating</label>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setReviewForm({ ...reviewForm, rating: star })}
-                      className="rounded-full p-3 transition hover:scale-105"
-                    >
-                      <Star
-                        className={star <= reviewForm.rating ? 'h-6 w-6 text-[#F5C451]' : 'h-6 w-6 text-[#4A5568]'}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-3">Review</label>
-                <textarea
-                  value={reviewForm.review}
-                  onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })}
-                  rows={5}
-                  className="w-full rounded-[24px] border border-[#1E2D4D] bg-[#0E1A34] px-4 py-3 text-sm text-[#EEF2F9] outline-none transition focus:border-[#B8960C] resize-none"
-                  placeholder="Share your experience working with me..."
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isSubmitting || !reviewForm.name || !reviewForm.review}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#B8960C] px-6 py-3 text-sm uppercase tracking-[0.35em] text-[#0B1428] transition disabled:opacity-50"
+        <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#8BA3C7] mb-16">
+          Testimonials
+        </p>
+
+        <div style={{ minHeight: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+          <AnimatePresence custom={direction} mode="wait">
+            <motion.div
+              key={index}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              style={{ position: 'absolute', width: '100%' }}
+            >
+              <p
+                className="font-serif text-[#EEF2F9] leading-relaxed"
+                style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)', fontStyle: 'italic' }}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Review'}
-              </button>
-            </form>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="space-y-6"
-          >
-            {reviews.length === 0 ? (
-              <div className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8 text-center text-[#7A8EAB]">
-                <p className="text-sm">No reviews yet.</p>
-                <p className="mt-3 text-[#CED9EB]">Be the first to share your experience.</p>
+                "{current.quote}"
+              </p>
+              <div className="mt-8 flex flex-col items-center gap-1">
+                <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0]">
+                  {current.author}
+                </span>
+                <span className="font-mono text-[10px] tracking-[0.2em] text-[#7A8EAB]">
+                  {current.role}
+                </span>
               </div>
-            ) : (
-              reviews.map((review, index) => (
-                <div
-                  key={review.id}
-                  className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8 shadow-[0_0_40px_rgba(0,0,0,0.25)]"
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="mt-20 flex items-center justify-center gap-12">
+          <button
+            onClick={() => paginate(-1)}
+            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200"
+          >
+            {nav.prev}
+          </button>
+
+          <div className="flex gap-2">
+            {reviews.map((_, i) => (
+              <div
+                key={i}
+                onClick={() => { setDirection(i > index ? 1 : -1); setIndex(i); }}
+                style={{
+                  width: i === index ? '20px' : '4px',
+                  height: '4px',
+                  borderRadius: '2px',
+                  background: i === index ? '#B8960C' : 'rgba(200,216,240,0.2)',
+                  transition: 'all 0.4s ease',
+                  cursor: 'pointer',
+                }}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={() => paginate(1)}
+            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200"
+          >
+            {nav.next}
+          </button>
+        </div>
+
+        <div className="mt-16 pt-10 border-t border-[#1A2744] relative z-50 flex flex-col items-center">
+          <AnimatePresence mode="wait">
+            {!isComposing ? (
+              <motion.div
+                key="prompt"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#7A8EAB] mb-3">
+                  Worked with me?
+                </p>
+                <button
+                  onClick={() => setIsComposing(true)}
+                  className="inline-block px-4 py-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-200"
                 >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-4">
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">{review.name}</p>
-                      <p className="mt-2 text-[#EEF2F9]">{review.review}</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={star <= review.rating ? 'h-4 w-4 text-[#F5C451]' : 'h-4 w-4 text-[#4A5568]'}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-[#7A8EAB]">{review.date}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-[#A7B5D1]">
-                    <Shield className="h-4 w-4 text-[#7ED8A1]" />
-                    <span>{review.verified ? 'Verified client' : 'Verified completion'}</span>
+                  Leave a note →
+                </button>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="form"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                onSubmit={handleSubmit}
+                className="w-full max-w-lg text-left"
+              >
+                <div className="space-y-4">
+                  <textarea
+                    autoFocus
+                    required
+                    rows="3"
+                    placeholder="Your note..."
+                    value={formData.quote}
+                    onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
+                    className="w-full bg-transparent border border-[#1A2744] rounded-lg p-4 font-serif text-[#EEF2F9] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors resize-none"
+                    style={{ fontSize: '1.2rem', fontStyle: 'italic' }}
+                  />
+                  <div className="flex gap-4">
+                    <input
+                      required
+                      type="text"
+                      placeholder="Name"
+                      value={formData.author}
+                      onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Role (Optional)"
+                      value={formData.role}
+                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                    />
                   </div>
                 </div>
-              ))
+                
+                <div className="mt-6 flex justify-between items-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsComposing(false)}
+                    className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] hover:text-[#EEF2F9] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-[#1A2744] hover:bg-[#B8960C] text-[#EEF2F9] hover:text-[#050A18] px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300"
+                  >
+                    Sign & Attach
+                  </button>
+                </div>
+              </motion.form>
             )}
-          </motion.div>
+          </AnimatePresence>
         </div>
+
       </div>
     </section>
   );

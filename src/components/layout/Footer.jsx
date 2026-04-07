@@ -1,6 +1,7 @@
 import React from 'react';
 import { Github, Linkedin } from 'lucide-react';
 import { socialLinks } from '../../data/profile';
+import CardFlipEgg from '../ui/CardFlipEgg';
 
 const Footer = () => {
   return (
@@ -9,6 +10,10 @@ const Footer = () => {
         <p className="text-sm text-[#7A8EAB]">
           © 2026 Raghav Sethi. Quiet confidence through careful design.
         </p>
+
+        <div className="flex items-end justify-center">
+          <CardFlipEgg />
+        </div>
 
         <div className="flex items-center gap-4">
           <a

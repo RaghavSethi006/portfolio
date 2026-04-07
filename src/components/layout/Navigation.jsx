@@ -51,6 +51,9 @@ const Navigation = ({ activeSection, onNavigate }) => {
               </button>
             );
           })}
+          <span className="font-mono text-[9px] tracking-[0.2em] select-none ml-4" style={{ color: 'rgba(138,163,199,0.4)' }}>
+            #{(activeSection || 'home').slice(0, 2).toUpperCase()}
+          </span>
         </div>
 
         <button
@@ -65,19 +68,24 @@ const Navigation = ({ activeSection, onNavigate }) => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden border-t border-[#1A2744] bg-[#050A18]/95"
+            key="mobile-nav"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="md:hidden absolute w-full left-0 border-b border-[#1A2744] bg-[#050A18]/95 backdrop-blur-xl shadow-2xl"
           >
-            <div className="space-y-2 px-4 py-4">
+            <div className="flex flex-col px-4 py-6 gap-2">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
-                    className={`block w-full rounded-xl border px-4 py-3 text-left text-sm uppercase tracking-[0.35em] transition ${isActive ? 'border-[#B8960C] text-[#EEF2F9]' : 'border-[#1A2744] text-[#7A8EAB] hover:border-[#B8960C] hover:text-[#EEF2F9]'}`}
+                    className={`block w-full rounded-xl border px-4 py-4 text-left text-sm uppercase tracking-[0.35em] transition-all ${
+                      isActive 
+                        ? 'border-[#B8960C] text-[#EEF2F9] bg-[#B8960C]/5' 
+                        : 'border-[#1A2744] text-[#7A8EAB] hover:border-[#B8960C]/50 hover:text-[#EEF2F9]'
+                    }`}
                   >
                     {item.label}
                   </button>

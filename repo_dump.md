@@ -37,8 +37,14 @@ portfolio/
 │   │       │   ├── HolographicBackground.jsx
 │   │       │   ├── ParticleSystem.jsx
 │   │       │   └── ScanningSystem.jsx
+│   │       ├── CardFlipEgg.jsx
+│   │       ├── DataTicker.jsx
 │   │       ├── HeroSection.jsx
+│   │       ├── InterestsStrip.jsx
 │   │       ├── LoadingInterface.jsx
+│   │       ├── NeuralBackground.jsx
+│   │       ├── SectionDivider.jsx
+│   │       ├── ThePocket.jsx
 │   │       └── WatchMechanism.jsx
 │   ├── data/
 │   │   ├── profile.js
@@ -74,7 +80,7 @@ portfolio/
 └── tailwind.config.js
 ```
 
-## File Contents (39 files)
+## File Contents (45 files)
 
 ---
 
@@ -310,268 +316,8 @@ console.log('done');
 ### File: `src\components\layout\FloatingAIAssistant.jsx`
 
 ```jsx
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Cpu } from 'lucide-react';
-
-const FloatingAIAssistant = ({ currentPage }) => {
-    const [position, setPosition] = useState({ x: 85, y: 20 });
-    const [isMoving, setIsMoving] = useState(false);
-    const [isGlitching, setIsGlitching] = useState(false);
-    const [currentMessage, setCurrentMessage] = useState('');
-
-    // Enhanced page descriptions with personality
-    const pageMessages = {
-        about: "Analyzing user profile... Personal data successfully loaded. Welcome to my creator's digital workspace.",
-        projects: "Scanning project archives... Multiple innovative solutions detected. Impressive development portfolio confirmed.",
-        resume: "Accessing professional credentials database... Career trajectory analysis complete. Highly qualified individual detected.",
-        reviews: "Client feedback terminal active... Reputation management system online. Your input is valuable data."
-    };
-
-    // Update message when page changes
-    useEffect(() => {
-        setIsGlitching(true);
-        setTimeout(() => {
-            setCurrentMessage(pageMessages[currentPage]);
-            setIsGlitching(false);
-        }, 300);
-    }, [currentPage]);
-
-    // Enhanced movement pattern
-    useEffect(() => {
-        const moveRandomly = () => {
-            if (!isMoving) {
-                setIsMoving(true);
-                const newX = Math.random() * 70 + 15; // 15-85% of screen width
-                const newY = Math.random() * 60 + 20; // 20-80% of screen height
-                setPosition({ x: newX, y: newY });
-
-                setTimeout(() => setIsMoving(false), 4000);
-            }
-        };
-
-        const interval = setInterval(moveRandomly, 10000);
-        return () => clearInterval(interval);
-    }, [isMoving]);
-
-    return (
-        <motion.div
-            className="fixed z-40 pointer-events-none"
-            style={{
-                left: `${position.x}%`,
-                top: `${position.y}%`,
-                transform: 'translate(-50%, -50%)',
-            }}
-            animate={{
-                x: isMoving ? 0 : [-8, 8, -8],
-                y: isMoving ? 0 : [-4, 4, -4],
-            }}
-            transition={{
-                x: {
-                    duration: isMoving ? 3 : 6,
-                    ease: isMoving ? "easeInOut" : "easeInOut",
-                    repeat: isMoving ? 0 : Infinity
-                },
-                y: {
-                    duration: isMoving ? 3 : 4,
-                    ease: isMoving ? "easeInOut" : "easeInOut",
-                    repeat: isMoving ? 0 : Infinity,
-                    delay: 0.5
-                },
-            }}
-        >
-            <div className="relative">
-                {/* Enhanced AI Assistant Avatar */}
-                <motion.div
-                    className="relative"
-                    animate={{
-                        scale: [1, 1.05, 1],
-                        rotate: isGlitching ? [0, 2, -2, 0] : [0, 3, -3, 0],
-                    }}
-                    transition={{
-                        scale: { duration: 3, repeat: Infinity },
-                        rotate: { duration: isGlitching ? 0.2 : 8, repeat: Infinity },
-                    }}
-                >
-                    {/* Outer energy rings */}
-                    <motion.div
-                        className="absolute inset-0 w-20 h-20 rounded-full border border-cyan-400/30"
-                        animate={{
-                            rotate: 360,
-                            scale: [1, 1.1, 1],
-                        }}
-                        transition={{
-                            rotate: { duration: 20, repeat: Infinity, ease: 'linear' },
-                            scale: { duration: 4, repeat: Infinity },
-                        }}
-                    />
-                    <motion.div
-                        className="absolute inset-2 w-16 h-16 rounded-full border border-blue-400/20"
-                        animate={{
-                            rotate: -360,
-                            scale: [1, 1.2, 1],
-                        }}
-                        transition={{
-                            rotate: { duration: 15, repeat: Infinity, ease: 'linear' },
-                            scale: { duration: 3, repeat: Infinity, delay: 1 },
-                        }}
-                    />
-
-                    {/* Main holographic avatar */}
-                    <div
-                        className="relative w-20 h-20 rounded-full backdrop-blur-md border-2 flex items-center justify-center overflow-hidden"
-                        style={{
-                            background: 'rgba(6, 182, 212, 0.15)',
-                            border: '2px solid rgba(6, 182, 212, 0.6)',
-                            boxShadow: '0 0 30px rgba(6, 182, 212, 0.4), inset 0 0 20px rgba(6, 182, 212, 0.1)',
-                        }}
-                    >
-                        <motion.div
-                            animate={{
-                                opacity: isGlitching ? [1, 0.3, 1, 0.7, 1] : 1,
-                                scale: isGlitching ? [1, 0.9, 1.1, 1] : 1,
-                            }}
-                            transition={{
-                                duration: isGlitching ? 0.5 : 0,
-                            }}
-                        >
-                            <Cpu className="w-10 h-10 text-cyan-300" />
-                        </motion.div>
-
-                        {/* Holographic scan lines */}
-                        <motion.div
-                            className="absolute inset-0 rounded-full"
-                            style={{
-                                background: 'linear-gradient(45deg, transparent 30%, rgba(6, 182, 212, 0.3) 50%, transparent 70%)',
-                            }}
-                            animate={{
-                                rotate: [0, 360],
-                            }}
-                            transition={{
-                                duration: 4,
-                                repeat: Infinity,
-                                ease: 'linear',
-                            }}
-                        />
-
-                        {/* Glitch overlay when speaking */}
-                        {isGlitching && (
-                            <motion.div
-                                className="absolute inset-0 rounded-full bg-gradient-to-r from-red-500/20 to-cyan-500/20"
-                                animate={{
-                                    opacity: [0, 1, 0],
-                                }}
-                                transition={{
-                                    duration: 0.1,
-                                    repeat: 3,
-                                }}
-                            />
-                        )}
-                    </div>
-
-                    {/* Floating data particles */}
-                    {[...Array(6)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-1 h-1 bg-cyan-400 rounded-full"
-                            style={{
-                                left: `${50 + 35 * Math.cos((i * 60 * Math.PI) / 180)}%`,
-                                top: `${50 + 35 * Math.sin((i * 60 * Math.PI) / 180)}%`,
-                            }}
-                            animate={{
-                                scale: [0.5, 1.5, 0.5],
-                                opacity: [0.3, 1, 0.3],
-                                rotate: [0, 360],
-                            }}
-                            transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                delay: i * 0.5,
-                                ease: 'easeInOut',
-                            }}
-                        />
-                    ))}
-                </motion.div>
-
-                {/* Enhanced Speech Bubble */}
-                <motion.div
-                    className="absolute -top-20 left-24 max-w-xs pointer-events-none"
-                    initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    transition={{ delay: 1 }}
-                >
-                    <div
-                        className="px-4 py-3 rounded-xl backdrop-blur-md border relative overflow-hidden"
-                        style={{
-                            background: 'rgba(2, 6, 23, 0.9)',
-                            border: '1px solid rgba(6, 182, 212, 0.4)',
-                            boxShadow: '0 10px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.2)',
-                        }}
-                    >
-                        {/* Message text with glitch effect */}
-                        <motion.p
-                            className="text-cyan-300 text-sm leading-relaxed"
-                            animate={{
-                                opacity: isGlitching ? [1, 0.7, 1] : 1,
-                            }}
-                            transition={{
-                                duration: 0.3,
-                            }}
-                        >
-                            {currentMessage}
-                        </motion.p>
-
-                        {/* Speech bubble pointer */}
-                        <div
-                            className="absolute -bottom-2 left-6 w-4 h-4 rotate-45 border-r border-b"
-                            style={{
-                                background: 'rgba(2, 6, 23, 0.9)',
-                                borderColor: 'rgba(6, 182, 212, 0.4)',
-                            }}
-                        />
-
-                        {/* Scanning animation */}
-                        <motion.div
-                            className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent"
-                            animate={{
-                                x: ['-100%', '100%'],
-                            }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: 'linear',
-                                delay: 2,
-                            }}
-                        />
-                    </div>
-                </motion.div>
-
-                {/* Status indicator */}
-                <motion.div
-                    className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full border-2 border-green-400 flex items-center justify-center"
-                    style={{
-                        background: 'rgba(34, 197, 94, 0.2)',
-                    }}
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        boxShadow: [
-                            '0 0 10px rgba(34, 197, 94, 0.5)',
-                            '0 0 20px rgba(34, 197, 94, 0.8)',
-                            '0 0 10px rgba(34, 197, 94, 0.5)',
-                        ],
-                    }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                    }}
-                >
-                    <div className="w-2 h-2 bg-green-400 rounded-full" />
-                </motion.div>
-            </div>
-        </motion.div>
-    );
-};
-
+import React from 'react';
+const FloatingAIAssistant = () => null;
 export default FloatingAIAssistant;
 ```
 
@@ -583,6 +329,7 @@ export default FloatingAIAssistant;
 import React from 'react';
 import { Github, Linkedin } from 'lucide-react';
 import { socialLinks } from '../../data/profile';
+import CardFlipEgg from '../ui/CardFlipEgg';
 
 const Footer = () => {
   return (
@@ -591,6 +338,10 @@ const Footer = () => {
         <p className="text-sm text-[#7A8EAB]">
           © 2026 Raghav Sethi. Quiet confidence through careful design.
         </p>
+
+        <div className="flex items-end justify-center">
+          <CardFlipEgg />
+        </div>
 
         <div className="flex items-center gap-4">
           <a
@@ -665,103 +416,8 @@ export default GlobalStyles;
 ### File: `src\components\layout\HUDOverlay.jsx`
 
 ```jsx
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-
-const HUDOverlay = () => {
-    const [systemTime, setSystemTime] = useState(new Date());
-    const [systemStatus] = useState('ONLINE');
-    const [cpuUsage] = useState(Math.floor(Math.random() * 30) + 45);
-    const [memoryUsage] = useState(Math.floor(Math.random() * 40) + 35);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setSystemTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
-    return (
-        <div className="fixed inset-0 z-10 pointer-events-none">
-            {/* Top-left system status - Hidden on mobile, visible on small screens up */}
-            <motion.div
-                className="absolute top-24 sm:top-28 left-4 space-y-2 hidden sm:block"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 2, duration: 0.8 }}
-            >
-                <div
-                    className="px-3 py-2 rounded-lg backdrop-blur-md text-[10px] md:text-xs font-mono"
-                    style={{
-                        background: 'rgba(2, 6, 23, 0.7)',
-                        border: '1px solid rgba(6, 182, 212, 0.3)',
-                    }}
-                >
-                    <div className="text-green-400">SYS: {systemStatus}</div>
-                    <div className="text-cyan-300">TIME: {systemTime.toLocaleTimeString()}</div>
-                </div>
-
-                <div
-                    className="px-3 py-2 rounded-lg backdrop-blur-md text-[10px] md:text-xs font-mono"
-                    style={{
-                        background: 'rgba(2, 6, 23, 0.7)',
-                        border: '1px solid rgba(6, 182, 212, 0.3)',
-                    }}
-                >
-                    <div className="text-yellow-400">CPU: {cpuUsage}%</div>
-                    <div className="text-blue-400">MEM: {memoryUsage}%</div>
-                </div>
-            </motion.div>
-
-            {/* Bottom-right coordinates - Hidden on mobile */}
-            <motion.div
-                className="absolute bottom-20 right-4 hidden lg:block"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 2.5, duration: 0.8 }}
-            >
-                <div
-                    className="px-3 py-2 rounded-lg backdrop-blur-md text-xs font-mono"
-                    style={{
-                        background: 'rgba(2, 6, 23, 0.7)',
-                        border: '1px solid rgba(6, 182, 212, 0.3)',
-                    }}
-                >
-                    <div className="text-cyan-300">LAT: 40.7128°N</div>
-                    <div className="text-cyan-300">LON: 74.0060°W</div>
-                </div>
-            </motion.div>
-
-            {/* Corner frame elements - Responsive sizing */}
-            <motion.div
-                className="absolute top-4 left-4 w-6 h-6 sm:w-12 sm:h-12 border-l-2 border-t-2 border-cyan-400/40"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 3, duration: 0.6 }}
-            />
-            <motion.div
-                className="absolute top-4 right-4 w-6 h-6 sm:w-12 sm:h-12 border-r-2 border-t-2 border-cyan-400/40"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 3.2, duration: 0.6 }}
-            />
-            <motion.div
-                className="absolute bottom-4 left-4 w-6 h-6 sm:w-12 sm:h-12 border-l-2 border-b-2 border-cyan-400/40"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 3.4, duration: 0.6 }}
-            />
-            <motion.div
-                className="absolute bottom-4 right-4 w-6 h-6 sm:w-12 sm:h-12 border-r-2 border-b-2 border-cyan-400/40"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 3.6, duration: 0.6 }}
-            />
-        </div>
-    );
-};
-
+import React from 'react';
+const HUDOverlay = () => null;
 export default HUDOverlay;
 ```
 
@@ -823,6 +479,9 @@ const Navigation = ({ activeSection, onNavigate }) => {
               </button>
             );
           })}
+          <span className="font-mono text-[9px] tracking-[0.2em] select-none ml-4" style={{ color: 'rgba(138,163,199,0.4)' }}>
+            #{(activeSection || 'home').slice(0, 2).toUpperCase()}
+          </span>
         </div>
 
         <button
@@ -872,72 +531,7 @@ export default Navigation;
 
 ```jsx
 import React from 'react';
-import { motion } from 'framer-motion';
-
-const CircularHUD = () => {
-    return (
-        <div className="fixed inset-0 z-4 pointer-events-none">
-            {/* Top-right radar sweep */}
-            <div className="absolute top-10 right-10 w-32 h-32">
-                <motion.div
-                    className="relative w-full h-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                >
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                        <circle
-                            cx="50" cy="50" r="45"
-                            fill="none"
-                            stroke="rgba(6, 182, 212, 0.3)"
-                            strokeWidth="0.5"
-                        />
-                        <circle
-                            cx="50" cy="50" r="30"
-                            fill="none"
-                            stroke="rgba(6, 182, 212, 0.2)"
-                            strokeWidth="0.5"
-                        />
-                        <circle
-                            cx="50" cy="50" r="15"
-                            fill="none"
-                            stroke="rgba(6, 182, 212, 0.4)"
-                            strokeWidth="1"
-                        />
-                        <line
-                            x1="50" y1="5" x2="50" y2="50"
-                            stroke="rgba(34, 211, 238, 0.6)"
-                            strokeWidth="1"
-                        />
-                    </svg>
-                </motion.div>
-            </div>
-
-            {/* Bottom-left targeting reticle */}
-            <div className="absolute bottom-20 left-10 w-24 h-24">
-                <motion.svg
-                    className="w-full h-full"
-                    viewBox="0 0 100 100"
-                    animate={{ rotate: [0, 180, 360] }}
-                    transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-                >
-                    <circle
-                        cx="50" cy="50" r="40"
-                        fill="none"
-                        stroke="rgba(6, 182, 212, 0.4)"
-                        strokeWidth="1"
-                        strokeDasharray="5,5"
-                    />
-                    <line x1="10" y1="50" x2="25" y2="50" stroke="rgba(34, 211, 238, 0.8)" strokeWidth="2" />
-                    <line x1="75" y1="50" x2="90" y2="50" stroke="rgba(34, 211, 238, 0.8)" strokeWidth="2" />
-                    <line x1="50" y1="10" x2="50" y2="25" stroke="rgba(34, 211, 238, 0.8)" strokeWidth="2" />
-                    <line x1="50" y1="75" x2="50" y2="90" stroke="rgba(34, 211, 238, 0.8)" strokeWidth="2" />
-                    <circle cx="50" cy="50" r="3" fill="rgba(34, 211, 238, 0.8)" />
-                </motion.svg>
-            </div>
-        </div>
-    );
-};
-
+const CircularHUD = () => null;
 export default CircularHUD;
 ```
 
@@ -947,81 +541,7 @@ export default CircularHUD;
 
 ```jsx
 import React from 'react';
-import { motion } from 'framer-motion';
-
-const FloatingHexagons = () => {
-    const hexagons = Array.from({ length: 8 }, (_, i) => ({
-        id: i,
-        size: Math.random() * 60 + 40,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        rotationSpeed: Math.random() * 2 + 1,
-        floatSpeed: Math.random() * 20 + 10,
-        opacity: Math.random() * 0.3 + 0.1,
-        delay: Math.random() * 5,
-    }));
-
-    const HexagonSVG = ({ size, opacity }) => (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="overflow-visible">
-            <polygon
-                points="50,2 90,25 90,75 50,98 10,75 10,25"
-                fill="none"
-                stroke="rgba(6, 182, 212, 0.4)"
-                strokeWidth="1"
-                style={{ opacity }}
-            />
-            <polygon
-                points="50,15 80,30 80,70 50,85 20,70 20,30"
-                fill="none"
-                stroke="rgba(34, 211, 238, 0.2)"
-                strokeWidth="0.5"
-                style={{ opacity: opacity * 0.7 }}
-            />
-        </svg>
-    );
-
-    return (
-        <div className="fixed inset-0 z-3 pointer-events-none">
-            {hexagons.map((hex) => (
-                <motion.div
-                    key={hex.id}
-                    className="absolute"
-                    style={{
-                        left: `${hex.x}%`,
-                        top: `${hex.y}%`,
-                    }}
-                    animate={{
-                        rotate: [0, 360],
-                        y: [-20, 20, -20],
-                        x: [-10, 10, -10],
-                    }}
-                    transition={{
-                        rotate: {
-                            duration: hex.rotationSpeed * 10,
-                            repeat: Infinity,
-                            ease: 'linear',
-                        },
-                        y: {
-                            duration: hex.floatSpeed,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                            delay: hex.delay,
-                        },
-                        x: {
-                            duration: hex.floatSpeed * 1.5,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                            delay: hex.delay + 2,
-                        },
-                    }}
-                >
-                    <HexagonSVG size={hex.size} opacity={hex.opacity} />
-                </motion.div>
-            ))}
-        </div>
-    );
-};
-
+const FloatingHexagons = () => null;
 export default FloatingHexagons;
 ```
 
@@ -1031,69 +551,7 @@ export default FloatingHexagons;
 
 ```jsx
 import React from 'react';
-import { motion } from 'framer-motion';
-
-const HolographicBackground = () => {
-    return (
-        <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-            {/* Base gradient with depth */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950/80 to-slate-900" />
-
-            {/* Animated grid layers */}
-            <div className="absolute inset-0 opacity-15">
-                <motion.div
-                    className="h-full w-full"
-                    animate={{
-                        backgroundPosition: ['0px 0px', '100px 100px'],
-                        opacity: [0.15, 0.25, 0.15]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: 'linear'
-                    }}
-                    style={{
-                        backgroundImage: `
-              linear-gradient(rgba(6, 182, 212, 0.4) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(6, 182, 212, 0.4) 1px, transparent 1px)
-            `,
-                        backgroundSize: '60px 60px',
-                    }}
-                />
-            </div>
-
-            {/* Secondary grid with different timing */}
-            <div className="absolute inset-0 opacity-10">
-                <motion.div
-                    className="h-full w-full"
-                    animate={{
-                        backgroundPosition: ['0px 0px', '-80px -80px'],
-                        opacity: [0.1, 0.2, 0.1]
-                    }}
-                    transition={{
-                        duration: 12,
-                        repeat: Infinity,
-                        ease: 'linear',
-                        delay: 2
-                    }}
-                    style={{
-                        backgroundImage: `
-              linear-gradient(rgba(34, 211, 238, 0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(34, 211, 238, 0.3) 1px, transparent 1px)
-            `,
-                        backgroundSize: '120px 120px',
-                    }}
-                />
-            </div>
-
-            {/* Radial gradient overlay for depth */}
-            <div className="absolute inset-0" style={{
-                background: 'radial-gradient(circle at center, transparent, rgba(30, 58, 138, 0.2), rgba(2, 6, 23, 0.6))'
-            }} />
-        </div>
-    );
-};
-
+const HolographicBackground = () => null;
 export default HolographicBackground;
 ```
 
@@ -1190,63 +648,131 @@ export default ParticleSystem;
 
 ```jsx
 import React from 'react';
-import { motion } from 'framer-motion';
+const ScanningSystem = () => null;
+export default ScanningSystem;
+```
 
-const ScanningSystem = () => {
-    return (
-        <div className="fixed inset-0 z-2 pointer-events-none">
-            {/* Horizontal scan line */}
-            <motion.div
-                className="absolute left-0 right-0 h-px"
-                style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.8), transparent)',
-                    boxShadow: '0 0 20px rgba(6, 182, 212, 0.6)',
-                }}
-                animate={{ top: ["0%", "100%", "0%"] }}
-                transition={{
-                    duration: 12,
-                    repeat: Infinity,
-                    ease: "linear",
-                }}
-            />
+---
 
-            {/* Vertical scan line */}
-            <motion.div
-                className="absolute top-0 bottom-0 w-px"
-                style={{
-                    background: 'linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.6), transparent)',
-                    boxShadow: '0 0 15px rgba(34, 211, 238, 0.4)',
-                }}
-                animate={{ left: ["0%", "100%", "0%"] }}
-                transition={{
-                    duration: 18,
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: 3,
-                }}
-            />
+### File: `src\components\ui\CardFlipEgg.jsx`
 
-            {/* Diagonal scanning sweep */}
-            <motion.div
-                className="absolute w-full h-full"
-                style={{
-                    background: 'linear-gradient(45deg, transparent 48%, rgba(6, 182, 212, 0.1) 49%, rgba(6, 182, 212, 0.3) 50%, rgba(6, 182, 212, 0.1) 51%, transparent 52%)',
-                }}
-                animate={{
-                    transform: ['translateX(-100%) translateY(-100%)', 'translateX(100%) translateY(100%)']
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: 6,
-                }}
-            />
+```jsx
+import React, { useState } from 'react';
+
+const quotes = ['Precision over flash.', 'Systems think first.', 'Solve for the long game.'];
+
+const CardFlipEgg = () => {
+  const [flipped, setFlipped] = useState(false);
+  const [quote] = useState(() => quotes[Math.floor(Math.random() * quotes.length)]);
+
+  return (
+    <div className="group flex flex-col items-center gap-3">
+      <div 
+        className="cursor-pointer"
+        style={{ width: '52px', height: '72px', perspective: '600px' }}
+        onMouseEnter={() => setFlipped(true)}
+        onMouseLeave={() => setFlipped(false)}
+      >
+        <div 
+          className="relative w-full h-full"
+          style={{ 
+            transformStyle: 'preserve-3d', 
+            transition: 'transform 0.45s cubic-bezier(0.16,1,0.3,1)',
+            transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+          }}
+        >
+          {/* Back Face */}
+          <div 
+            className="absolute inset-0 bg-[#0E1A34] rounded-md overflow-hidden"
+            style={{ border: '0.5px solid rgba(200,216,240,0.2)', backfaceVisibility: 'hidden' }}
+          >
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="cardPattern" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="8" x2="8" y2="0" stroke="rgba(200,216,240,0.05)" strokeWidth="0.5" />
+                <line x1="0" y1="4" x2="4" y2="0" stroke="rgba(200,216,240,0.05)" strokeWidth="0.5" />
+              </pattern>
+              <rect x="0" y="0" width="100%" height="100%" fill="url(#cardPattern)" />
+            </svg>
+          </div>
+
+          {/* Front Face */}
+          <div 
+            className="absolute inset-0 bg-[#0E1A34] rounded-md p-1.5"
+            style={{ 
+              border: '0.5px solid rgba(184,150,12,0.35)', 
+              backfaceVisibility: 'hidden', 
+              transform: 'rotateY(180deg)' 
+            }}
+          >
+            <span className="absolute top-1 left-1.5 font-serif text-[7px] text-[#C8D8F0]/45">♠</span>
+            <span className="absolute top-1/2 left-1/2 w-4/5 -translate-x-1/2 -translate-y-1/2 text-center font-serif italic text-[6.5px] leading-tight text-[#C8D8F0]/70">
+              {quote}
+            </span>
+            <span className="absolute bottom-1 right-1.5 font-serif text-[7px] text-[#C8D8F0]/45 rotate-180">♠</span>
+          </div>
         </div>
-    );
+      </div>
+      
+      <span 
+        className="font-mono text-[7px] text-[rgba(138,163,199,0)] transition-colors duration-400 ease-out group-hover:text-[rgba(138,163,199,0.4)]"
+        style={{ transitionDelay: '300ms' }}
+      >
+        find the card.
+      </span>
+    </div>
+  );
 };
 
-export default ScanningSystem;
+export default CardFlipEgg;
+```
+
+---
+
+### File: `src\components\ui\DataTicker.jsx`
+
+```jsx
+import React, { useEffect, useState } from 'react';
+
+const DataTicker = () => {
+  const tickerString = "GPT-4o · ♙e4 e5 ♘f3 · RAGHAV SETHI · transformer · d4 ♘f6 c4 · FAISS · LangChain · ♔g1 · neural net · RAG pipeline · ♕d1-h5 · 2024:Alberta · OpenCV · ♗b5 · attention is all you need · Qd5+ · HuggingFace · ♖e1 · entropy · ♙c5 · precision · Streamlit · ♟ · backpropagation · ♘c3 · inference · Node.js · ♙a4 · embeddings · ♚ · PyTorch · Nf3 Nc6 · systems think first · ";
+  const fullString = tickerString + tickerString;
+
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  return (
+    <>
+      <style>
+        {`
+          @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .ticker-animate {
+            display: inline-block;
+            animation: ticker-scroll 60s linear infinite;
+          }
+          .ticker-paused {
+            animation-play-state: paused !important;
+          }
+        `}
+      </style>
+      <div 
+        className="w-full overflow-hidden bg-[#050A18] py-2.5 whitespace-nowrap"
+        style={{ borderTop: '0.5px solid #1A2744', borderBottom: '0.5px solid #1A2744' }}
+      >
+        <div className={`ticker-animate font-mono text-[10px] tracking-[0.12em] text-[#8BA3C7] opacity-45 ${prefersReducedMotion ? 'ticker-paused' : ''}`}>
+          {fullString}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default DataTicker;
 ```
 
 ---
@@ -1271,7 +797,7 @@ const HeroSection = () => {
             className="space-y-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
             <div>
               <div className="flex flex-col gap-2">
@@ -1309,7 +835,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: shouldReduceMotion ? 0 : 1.3, duration: 0.8 }}
             >
-              AI/ML Engineer — Builder of intelligent systems. I measure work the way a watchmaker measures time: every hidden gear aligned, every outcome precise.
+              AI/ML Engineer — Builder of intelligent systems. I measure work the way a watchmaker measures time: every hidden gear aligned, every outcome precise.<span style={{ display:'inline-block', marginLeft:'4px', fontFamily:'JetBrains Mono, monospace', color:'#B8960C' }} className="animate-pulse">_</span>
             </motion.p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -1327,13 +853,32 @@ const HeroSection = () => {
                 Download Resume
               </a>
             </div>
+
+            <motion.div
+              className="flex items-center gap-6 pt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.0, duration: 1.2 }}
+            >
+              {[
+                { label: 'PROJECTS', value: '09' },
+                { label: 'YEAR', value: String(new Date().getFullYear()) },
+                { label: 'DEGREE', value: 'CS·AI' },
+                { label: 'STATUS', value: 'BUILDING' },
+              ].map((stat) => (
+                <div key={stat.label} className="flex flex-col gap-0.5">
+                  <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-[#7A8EAB]">{stat.label}</span>
+                  <span className="font-mono text-[13px] text-[#C8D8F0]">{stat.value}</span>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
 
           <div className="hidden lg:flex justify-end">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.9, ease: 'easeOut' }}
+              transition={{ delay: 0.6, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="w-full max-w-[420px]"
             >
               <WatchMechanism />
@@ -1350,104 +895,388 @@ export default HeroSection;
 
 ---
 
+### File: `src\components\ui\InterestsStrip.jsx`
+
+```jsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const interests = [
+  {
+    id: 'chess',
+    label: 'CHESS',
+    reveal: 'I play chess while the world plays checkers.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="16" height="3" rx="1" fill="rgba(200,216,240,0.4)"/><rect x="18" y="35" width="12" height="3" rx="1" fill="rgba(200,216,240,0.3)"/><path d="M20 35 C18 28 14 24 16 18 C18 14 22 12 24 10 C28 14 30 18 28 24 L26 35Z" fill="rgba(200,216,240,0.2)" stroke="rgba(200,216,240,0.5)" stroke-width="0.8"/><circle cx="21" cy="16" r="1.5" fill="rgba(200,216,240,0.6)"/><path d="M24 10 L27 7 L25 10" fill="rgba(200,216,240,0.4)" stroke="rgba(200,216,240,0.5)" stroke-width="0.5"/></svg>'
+  },
+  {
+    id: 'watch',
+    label: 'HOROLOGY',
+    reveal: 'Every invisible gear has a purpose. So does every line of code.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="18" stroke="rgba(200,216,240,0.3)" stroke-width="0.8"/><circle cx="24" cy="24" r="13" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><circle cx="24" cy="24" r="8" stroke="rgba(184,150,12,0.4)" stroke-width="0.8"/><line x1="24" y1="7" x2="24" y2="10" stroke="rgba(200,216,240,0.6)" stroke-width="1"/><line x1="24" y1="38" x2="24" y2="41" stroke="rgba(200,216,240,0.6)" stroke-width="1"/><line x1="7" y1="24" x2="10" y2="24" stroke="rgba(200,216,240,0.6)" stroke-width="1"/><line x1="38" y1="24" x2="41" y2="24" stroke="rgba(200,216,240,0.6)" stroke-width="1"/><line x1="24" y1="24" x2="24" y2="14" stroke="rgba(200,216,240,0.7)" stroke-width="1" stroke-linecap="round"/><line x1="24" y1="24" x2="32" y2="24" stroke="rgba(200,216,240,0.5)" stroke-width="0.8" stroke-linecap="round"/><circle cx="24" cy="24" r="1.2" fill="rgba(184,150,12,0.8)"/></svg>'
+  },
+  {
+    id: 'rubiks',
+    label: 'PUZZLES',
+    reveal: 'Every problem is a scrambled state. I find the algorithm.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="8" height="8" rx="1" fill="rgba(200,216,240,0.5)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="20" y="10" width="8" height="8" rx="1" fill="rgba(200,216,240,0.15)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="30" y="10" width="8" height="8" rx="1" fill="rgba(184,150,12,0.4)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="10" y="20" width="8" height="8" rx="1" fill="rgba(200,216,240,0.15)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="20" y="20" width="8" height="8" rx="1" fill="rgba(200,216,240,0.5)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="30" y="20" width="8" height="8" rx="1" fill="rgba(200,216,240,0.15)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="10" y="30" width="8" height="8" rx="1" fill="rgba(184,150,12,0.4)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="20" y="30" width="8" height="8" rx="1" fill="rgba(200,216,240,0.15)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/><rect x="30" y="30" width="8" height="8" rx="1" fill="rgba(200,216,240,0.5)" stroke="rgba(200,216,240,0.2)" stroke-width="0.5"/></svg>'
+  },
+  {
+    id: 'ironman',
+    label: 'IRON MAN',
+    reveal: 'Intelligence is the only armor that matters.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="18" stroke="rgba(200,216,240,0.2)" stroke-width="0.8"/><circle cx="24" cy="24" r="12" stroke="rgba(200,216,240,0.35)" stroke-width="0.8"/><polygon points="24,13 32.6,18.5 32.6,29.5 24,35 15.4,29.5 15.4,18.5" fill="none" stroke="rgba(200,216,240,0.5)" stroke-width="0.8"/><line x1="24" y1="24" x2="24" y2="13" stroke="rgba(184,150,12,0.4)" stroke-width="0.6"/><line x1="24" y1="24" x2="32.6" y2="18.5" stroke="rgba(184,150,12,0.4)" stroke-width="0.6"/><line x1="24" y1="24" x2="32.6" y2="29.5" stroke="rgba(184,150,12,0.4)" stroke-width="0.6"/><line x1="24" y1="24" x2="24" y2="35" stroke="rgba(184,150,12,0.4)" stroke-width="0.6"/><line x1="24" y1="24" x2="15.4" y2="29.5" stroke="rgba(184,150,12,0.4)" stroke-width="0.6"/><line x1="24" y1="24" x2="15.4" y2="18.5" stroke="rgba(184,150,12,0.4)" stroke-width="0.6"/><circle cx="24" cy="24" r="3" fill="rgba(184,150,12,0.6)"/></svg>'
+  },
+  {
+    id: 'ai',
+    label: 'AI / ML',
+    reveal: 'I teach machines to reason. Still working on teaching people.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="14" r="2.5" fill="rgba(200,216,240,0.4)" stroke="rgba(200,216,240,0.3)" stroke-width="0.5"/><circle cx="10" cy="24" r="2.5" fill="rgba(200,216,240,0.4)" stroke="rgba(200,216,240,0.3)" stroke-width="0.5"/><circle cx="10" cy="34" r="2.5" fill="rgba(200,216,240,0.4)" stroke="rgba(200,216,240,0.3)" stroke-width="0.5"/><circle cx="24" cy="18" r="2.5" fill="rgba(184,150,12,0.5)" stroke="rgba(184,150,12,0.3)" stroke-width="0.5"/><circle cx="24" cy="30" r="2.5" fill="rgba(184,150,12,0.5)" stroke="rgba(184,150,12,0.3)" stroke-width="0.5"/><circle cx="38" cy="24" r="2.5" fill="rgba(200,216,240,0.7)" stroke="rgba(200,216,240,0.4)" stroke-width="0.8"/><line x1="12.5" y1="14" x2="21.5" y2="18" stroke="rgba(200,216,240,0.15)" stroke-width="0.6"/><line x1="12.5" y1="14" x2="21.5" y2="30" stroke="rgba(200,216,240,0.15)" stroke-width="0.6"/><line x1="12.5" y1="24" x2="21.5" y2="18" stroke="rgba(200,216,240,0.15)" stroke-width="0.6"/><line x1="12.5" y1="24" x2="21.5" y2="30" stroke="rgba(200,216,240,0.15)" stroke-width="0.6"/><line x1="12.5" y1="34" x2="21.5" y2="18" stroke="rgba(200,216,240,0.15)" stroke-width="0.6"/><line x1="12.5" y1="34" x2="21.5" y2="30" stroke="rgba(200,216,240,0.15)" stroke-width="0.6"/><line x1="26.5" y1="18" x2="35.5" y2="24" stroke="rgba(184,150,12,0.25)" stroke-width="0.6"/><line x1="26.5" y1="30" x2="35.5" y2="24" stroke="rgba(184,150,12,0.25)" stroke-width="0.6"/></svg>'
+  },
+  {
+    id: 'magic',
+    label: 'CARD MAGIC',
+    reveal: 'Misdirection is an art. So is debugging.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="14" width="22" height="30" rx="2" fill="#0B1428" stroke="rgba(200,216,240,0.3)" stroke-width="0.8" transform="rotate(-12 19 29)"/><rect x="12" y="12" width="22" height="30" rx="2" fill="#0B1428" stroke="rgba(200,216,240,0.2)" stroke-width="0.8" transform="rotate(-4 23 27)"/><rect x="16" y="10" width="22" height="30" rx="2" fill="#0E1A34" stroke="rgba(200,216,240,0.5)" stroke-width="0.8"/><path d="M27 23 C27 20 23 18 23 18 C23 18 19 20 19 23 C19 25 21 26 21 26 L20 29 L26 29 L25 26 C25 26 27 25 27 23Z" fill="rgba(200,216,240,0.6)"/><text x="18" y="15" font-size="6" fill="rgba(200,216,240,0.5)" font-family="serif">♠</text></svg>'
+  },
+  {
+    id: 'doraemon',
+    label: 'THE POCKET',
+    reveal: 'Infinite curiosity. Finite time. I choose carefully.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="22" r="16" stroke="rgba(200,216,240,0.3)" stroke-width="0.8"/><circle cx="24" cy="22" r="10" stroke="rgba(200,216,240,0.15)" stroke-width="0.5" stroke-dasharray="2,3"/><path d="M18 36 Q24 40 30 36" stroke="rgba(200,216,240,0.4)" stroke-width="0.8" fill="none"/><path d="M18 22 C18 19 21 17 24 22 C27 27 30 25 30 22 C30 19 27 17 24 22 C21 27 18 25 18 22Z" stroke="rgba(184,150,12,0.5)" stroke-width="0.8" fill="none"/></svg>'
+  },
+  {
+    id: 'philosophy',
+    label: 'PHILOSOPHY',
+    reveal: 'The unexamined system is not worth running.',
+    svg: '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="8" width="8" height="2" rx="0.5" fill="rgba(200,216,240,0.4)"/><rect x="22" y="10" width="4" height="26" fill="rgba(200,216,240,0.12)" stroke="rgba(200,216,240,0.25)" stroke-width="0.5"/><rect x="19" y="36" width="10" height="2" rx="0.5" fill="rgba(200,216,240,0.4)"/><rect x="17" y="38" width="14" height="2" rx="0.5" fill="rgba(200,216,240,0.3)"/><line x1="22" y1="10" x2="22" y2="36" stroke="rgba(200,216,240,0.08)" stroke-width="0.5"/><line x1="24" y1="10" x2="24" y2="36" stroke="rgba(200,216,240,0.08)" stroke-width="0.5"/><line x1="26" y1="10" x2="26" y2="36" stroke="rgba(200,216,240,0.08)" stroke-width="0.5"/></svg>'
+  }
+];
+
+const InterestsStrip = () => {
+  return (
+    <motion.div 
+      className="w-full bg-[#050A18] overflow-hidden py-10"
+      style={{ borderTop: '0.5px solid #1A2744', borderBottom: '0.5px solid #1A2744' }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="flex justify-center flex-wrap gap-x-16 gap-y-12 max-w-7xl mx-auto px-8">
+        {interests.map((interest, index) => (
+          <motion.div
+            key={interest.id}
+            className="flex flex-col items-center gap-3 relative cursor-default group"
+            initial={{ y: 10, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.07, duration: 0.5 }}
+          >
+            <div 
+              className="transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+              style={{ width: '48px', height: '48px' }}
+              dangerouslySetInnerHTML={{ __html: interest.svg }} 
+            />
+            <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-[#7A8EAB]">
+              {interest.label}
+            </span>
+            <span 
+              className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap font-serif italic text-xs text-[#C8D8F0]/60 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+            >
+              {interest.reveal}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
+
+export default InterestsStrip;
+```
+
+---
+
 ### File: `src\components\ui\LoadingInterface.jsx`
 
 ```jsx
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Activity } from 'lucide-react';
+
+const COLORS = [
+  'rgba(200,216,240,0.65)',
+  'rgba(200,216,240,0.18)',
+  'rgba(184,150,12,0.55)',
+];
+
+const makeGrid = () =>
+  Array.from({ length: 9 }, () => COLORS[Math.floor(Math.random() * COLORS.length)]);
 
 const LoadingInterface = () => {
-    const [loadingText, setLoadingText] = useState('INITIALIZING');
-    const [progress, setProgress] = useState(0);
+  const [grid, setGrid] = useState(makeGrid);
+  const [label, setLabel] = useState('SOLVING');
 
-    useEffect(() => {
-        const texts = ['INITIALIZING', 'SCANNING', 'LOADING', 'ALMOST READY'];
-        let textIndex = 0;
-        let progressValue = 0;
+  useEffect(() => {
+    const labels = ['SOLVING', 'COMPUTING', 'ALIGNING', 'READY'];
+    let i = 0;
+    const iv = setInterval(() => {
+      setGrid(makeGrid());
+      i++;
+      if (i < labels.length) setLabel(labels[i]);
+    }, 420);
+    return () => clearInterval(iv);
+  }, []);
 
-        const interval = setInterval(() => {
-            if (textIndex < texts.length) {
-                setLoadingText(texts[textIndex]);
-                textIndex++;
-            }
-            if (progressValue < 100) {
-                progressValue += 2;
-                setProgress(progressValue);
-            }
-        }, 100);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <motion.div
-            className="flex items-center justify-center min-h-[60vh]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
-            <div className="text-center">
-                {/* Central loading animation */}
-                <motion.div
-                    className="w-32 h-32 mx-auto mb-8 relative"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                >
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                        <circle
-                            cx="50" cy="50" r="40"
-                            fill="none"
-                            stroke="rgba(6, 182, 212, 0.2)"
-                            strokeWidth="1"
-                        />
-                        <circle
-                            cx="50" cy="50" r="40"
-                            fill="none"
-                            stroke="rgba(6, 182, 212, 0.8)"
-                            strokeWidth="2"
-                            strokeDasharray="60,40"
-                            strokeLinecap="round"
-                        />
-                        <circle
-                            cx="50" cy="50" r="25"
-                            fill="none"
-                            stroke="rgba(34, 211, 238, 0.6)"
-                            strokeWidth="1"
-                            strokeDasharray="20,10"
-                        />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <Activity className="w-8 h-8 text-cyan-400" />
-                    </div>
-                </motion.div>
-
-                {/* Loading text and progress */}
-                <motion.h2
-                    className="text-2xl font-bold text-cyan-300 mb-4"
-                    animate={{ opacity: [1, 0.5, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                >
-                    {loadingText}
-                </motion.h2>
-
-                {/* Progress bar */}
-                <div className="w-64 h-1 mx-auto bg-gray-800 rounded-full overflow-hidden">
-                    <motion.div
-                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ ease: 'easeOut' }}
-                    />
-                </div>
-
-                <p className="text-gray-400 mt-2 text-sm">{progress}%</p>
-            </div>
-        </motion.div>
-    );
+  return (
+    <motion.div
+      className="flex flex-col items-center justify-center min-h-[60vh] gap-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div className="grid grid-cols-3 gap-1.5 p-3 border border-[#1A2744] rounded-xl bg-[#0B1428]">
+        {grid.map((color, idx) => (
+          <motion.div
+            key={idx}
+            className="w-10 h-10 rounded-md"
+            animate={{ backgroundColor: color }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        <span className="font-mono text-xs uppercase tracking-[0.35em] text-[#7A8EAB]">{label}</span>
+        <span className="font-mono text-[#B8960C] animate-pulse">_</span>
+      </div>
+    </motion.div>
+  );
 };
 
 export default LoadingInterface;
+```
+
+---
+
+### File: `src\components\ui\NeuralBackground.jsx`
+
+```jsx
+import React, { useRef, useEffect } from 'react';
+
+const NeuralBackground = () => {
+  const canvasRef = useRef(null);
+  const nodesRef = useRef([]);
+  const animationRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const updateSize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+
+    if (nodesRef.current.length === 0) {
+      const nodes = [];
+      for (let i = 0; i < 22; i++) {
+        nodes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.16,
+          vy: (Math.random() - 0.5) * 0.16
+        });
+      }
+      nodesRef.current = nodes;
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const nodes = nodesRef.current;
+
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        node.x += node.vx;
+        node.y += node.vy;
+
+        if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+        if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+      }
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist <= 180) {
+            const opacity = (1 - dist / 180) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(200, 216, 240, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (let i = 0; i < nodes.length; i++) {
+        ctx.beginPath();
+        ctx.arc(nodes[i].x, nodes[i].y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(200, 216, 240, 0.35)';
+        ctx.fill();
+      }
+    };
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      draw();
+    } else {
+      const loop = () => {
+        draw();
+        animationRef.current = requestAnimationFrame(loop);
+      };
+      loop();
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: -1,
+        pointerEvents: 'none',
+      }}
+    />
+  );
+};
+
+export default NeuralBackground;
+```
+
+---
+
+### File: `src\components\ui\SectionDivider.jsx`
+
+```jsx
+import React from 'react';
+
+const SectionDivider = ({ label }) => {
+  return (
+    <div className="py-6 flex justify-center">
+      <svg 
+        viewBox="0 0 480 24" 
+        width="100%" 
+        style={{ maxWidth: '480px', height: '24px' }}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line x1="0" y1="12" x2="480" y2="12" stroke="rgba(200,216,240,0.1)" strokeWidth="0.5"/>
+        
+        {[0, 40, 80, 120, 160, 200, 220, 240, 260, 280, 320, 360, 400, 440, 480].map((x) => {
+          const isMajor = x === 0 || x === 240 || x === 480;
+          return (
+            <line
+              key={x}
+              x1={x}
+              y1={isMajor ? 5 : 8.5}
+              x2={x}
+              y2={isMajor ? 19 : 15.5}
+              stroke={isMajor ? "rgba(200,216,240,0.4)" : "rgba(200,216,240,0.18)"}
+              strokeWidth={isMajor ? 1 : 0.5}
+            />
+          );
+        })}
+
+        {label && (
+          <>
+            <rect x="224" y="11" width="32" height="2" fill="#050A18" />
+            <text 
+              x="240" 
+              y="16" 
+              textAnchor="middle" 
+              fontFamily="JetBrains Mono, monospace" 
+              fontSize="8" 
+              fill="rgba(184,150,12,0.55)"
+            >
+              {label}
+            </text>
+          </>
+        )}
+      </svg>
+    </div>
+  );
+};
+
+export default SectionDivider;
+```
+
+---
+
+### File: `src\components\ui\ThePocket.jsx`
+
+```jsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const pocketItems = [
+  { category: 'READING', content: 'Gödel, Escher, Bach — Douglas Hofstadter', note: 'On loops, self-reference, and strange minds.' },
+  { category: 'STUDYING', content: 'Attention Is All You Need — Vaswani et al.', note: 'The paper that changed everything.' },
+  { category: 'PLAYING', content: 'The Sicilian Defense', note: 'Aggressive. Asymmetric. Exactly how I like it.' },
+  { category: 'OBSESSING OVER', content: 'A. Lange & Söhne Datograph', note: 'The flyback chronograph. Engineering as poetry.' },
+  { category: 'BUILDING', content: 'Something with LLMs and memory', note: "Ask me when it's ready." },
+  { category: 'THINKING ABOUT', content: 'The Ship of Theseus problem', note: 'Specifically whether my code from 2022 is still mine.' }
+];
+
+const ThePocket = () => {
+  return (
+    <section className="bg-[#050A18] py-20">
+      <div className="max-w-[900px] mx-auto px-8">
+        <div className="mb-10">
+          <div className="flex items-center gap-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="11.5" stroke="rgba(200,216,240,0.2)" strokeWidth="1" strokeDasharray="2 3"/>
+              <text x="12" y="15.5" fontSize="10" fill="#B8960C" textAnchor="middle" fontFamily="sans-serif">∞</text>
+            </svg>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-[#8BA3C7]">THE POCKET</span>
+          </div>
+          <h2 className="font-serif text-[2rem] text-[#EEF2F9] mt-4">What I'm carrying right now.</h2>
+          <p className="italic text-[14px] text-[#7A8EAB] mt-2">A curated selection from infinite curiosity.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4 mt-10">
+          {pocketItems.map((item, index) => (
+            <motion.div
+              key={item.category}
+              className="bg-[#0B1428] rounded-xl p-[1.25rem] px-[1.5rem] transition-colors duration-250 ease-out hover:border-[#B8960C]/30"
+              style={{ border: '0.5px solid #1A2744' }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08, duration: 0.5 }}
+            >
+              <h3 className="font-mono text-[9px] uppercase tracking-widest text-[#B8960C] mb-2">{item.category}</h3>
+              <p className="font-serif text-[15px] text-[#EEF2F9] mb-1">{item.content}</p>
+              <p className="italic text-[12px] text-[#7A8EAB]">{item.note}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ThePocket;
 ```
 
 ---
@@ -1807,7 +1636,14 @@ import { bio, philosophy } from '../../data/profile';
 
 const AboutPage = () => {
   return (
-    <section className="bg-[#050A18] py-20">
+    <section
+      className="py-20 relative"
+      style={{
+        background: '#050A18',
+        backgroundImage: `linear-gradient(rgba(200,216,240,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(200,216,240,0.022) 1px, transparent 1px)`,
+        backgroundSize: '40px 40px',
+      }}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
           <motion.div
@@ -1861,9 +1697,14 @@ const AboutPage = () => {
           >
             <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-6">Philosophy</p>
             <div className="space-y-6 border-l-2 border-[#B8960C]/50 pl-5">
-              {philosophy.map((item) => (
+              {philosophy.map((item, idx) => (
                 <div key={item.title} className="space-y-2">
-                  <p className="text-xl font-serif font-bold text-[#EEF2F9]">{item.title}</p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[#B8960C]/60 text-lg" style={{ fontFamily: 'serif' }}>
+                      {['♔', '♕', '♖'][idx]}
+                    </span>
+                    <p className="text-xl font-serif font-bold text-[#EEF2F9]">{item.title}</p>
+                  </div>
                   <p className="text-sm leading-7 text-[#CAD4E4]">{item.description}</p>
                 </div>
               ))}
@@ -2029,13 +1870,20 @@ const ProjectsPage = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.7, delay: index * 0.1 }}
-              className="group rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8 transition hover:border-[#B8960C] hover:bg-[#11213A]"
+              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative group rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8 transition hover:border-[#B8960C] hover:bg-[#11213A]"
             >
+              <span className="absolute top-4 right-4 font-mono text-[9px] select-none" style={{ color: 'rgba(200,216,240,0.18)' }}>
+                {String.fromCharCode(96 + ((project.id - 1) % 8) + 1)}{Math.ceil(project.id / 8)}
+              </span>
+
               {project.featured && (
-                <span className="inline-flex rounded-full border border-[#B8960C]/30 bg-[#B8960C]/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-[#B8960C]">
-                  Featured
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#B8960C] text-base" style={{ fontFamily: 'serif' }}>♙</span>
+                  <span className="inline-flex rounded-full border border-[#B8960C]/30 bg-[#B8960C]/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-[#B8960C]">
+                    Featured
+                  </span>
+                </div>
               )}
 
               <p className="mt-5 text-xs font-mono uppercase tracking-[0.35em] text-[#7A8EAB]">
@@ -2579,6 +2427,11 @@ import ResumePage from './features/resume/ResumePage';
 import ReviewsPage from './features/reviews/ReviewsPage';
 import ContactSection from './features/contact/ContactSection';
 import { reviews as initialReviews } from './data/profile';
+import NeuralBackground from './components/ui/NeuralBackground';
+import InterestsStrip from './components/ui/InterestsStrip';
+import DataTicker from './components/ui/DataTicker';
+import ThePocket from './components/ui/ThePocket';
+import SectionDivider from './components/ui/SectionDivider';
 
 const sectionIds = ['home', 'about', 'projects', 'resume', 'reviews', 'contact'];
 
@@ -2625,26 +2478,73 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    const trail = [];
+    let ticking = false;
+
+    const onMouseMove = (e) => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const dot = document.createElement('div');
+          dot.className = 'cursor-trail-dot';
+          dot.style.left = e.clientX + 'px';
+          dot.style.top = e.clientY + 'px';
+          document.body.appendChild(dot);
+          trail.push(dot);
+          if (trail.length > 4) {
+            const old = trail.shift();
+            old.remove();
+          }
+          setTimeout(() => {
+            dot.style.opacity = '0';
+            setTimeout(() => dot.remove(), 400);
+          }, 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!mq.matches) {
+      window.addEventListener('mousemove', onMouseMove);
+    }
+    return () => window.removeEventListener('mousemove', onMouseMove);
+  }, []);
+
   return (
     <div className="min-h-screen bg-navy-900 text-platinum-25 overflow-x-hidden">
       <Navigation activeSection={activeSection} onNavigate={handleNavigate} />
 
       <main className="relative z-10 pt-24">
+        <NeuralBackground />
         <section id="home" className="scroll-mt-24">
           <HeroSection />
         </section>
+
+        <DataTicker />
 
         <section id="about" className="scroll-mt-24">
           <AboutPage />
         </section>
 
+        <SectionDivider label="01" />
+        <InterestsStrip />
+        <SectionDivider label="02" />
+
         <section id="projects" className="scroll-mt-24">
           <ProjectsPage />
         </section>
 
+        <SectionDivider label="03" />
+
         <section id="resume" className="scroll-mt-24">
           <ResumePage />
         </section>
+
+        <SectionDivider label="04" />
+        <ThePocket />
+        <SectionDivider label="05" />
 
         <section id="reviews" className="scroll-mt-24">
           <ReviewsPage reviews={reviews} setReviews={setReviews} />
@@ -23833,4 +23733,4 @@ module.exports = {
 
 ---
 
-**Total files processed:** 39
+**Total files processed:** 45

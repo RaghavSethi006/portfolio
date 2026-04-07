@@ -103,7 +103,7 @@ export const socialLinks = {
   linkedin: 'https://www.linkedin.com/in/raghav-sethi-a08501319/'
 };
 
-export const email = 'hello@raghavsethi.ai';
+export const email = 'sethi.raghav006@gmail.com';
 
 export const reviews = [
   {

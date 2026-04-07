@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import { loadProjectsData } from '../../utils/excelLoader';
+import SplitHeading from '../../components/ui/SplitHeading';
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
@@ -41,7 +42,7 @@ const ProjectsPage = () => {
           className="mb-12"
         >
           <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Selected Work</p>
-          <h2 className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Projects that move systems forward.</h2>
+          <SplitHeading className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Projects that move systems forward.</SplitHeading>
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
@@ -51,13 +52,20 @@ const ProjectsPage = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.7, delay: index * 0.1 }}
-              className="group rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8 transition hover:border-[#B8960C] hover:bg-[#11213A]"
+              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative group rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8 transition hover:border-[#B8960C] hover:bg-[#11213A]"
             >
+              <span className="absolute top-4 right-4 font-mono text-[9px] select-none" style={{ color: 'rgba(200,216,240,0.18)' }}>
+                {String.fromCharCode(96 + ((project.id - 1) % 8) + 1)}{Math.ceil(project.id / 8)}
+              </span>
+
               {project.featured && (
-                <span className="inline-flex rounded-full border border-[#B8960C]/30 bg-[#B8960C]/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-[#B8960C]">
-                  Featured
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#B8960C] text-base" style={{ fontFamily: 'serif' }}>♙</span>
+                  <span className="inline-flex rounded-full border border-[#B8960C]/30 bg-[#B8960C]/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-[#B8960C]">
+                    Featured
+                  </span>
+                </div>
               )}
 
               <p className="mt-5 text-xs font-mono uppercase tracking-[0.35em] text-[#7A8EAB]">
