@@ -1,6 +1,29 @@
 
 export const experience = [
   {
+    title: 'Vice President of Technology',
+    company: 'Undergraduate Artificial Intelligence Society (UAIS)',
+    period: 'Apr 2026 – Present',
+    description: 'Directing technical operations and infrastructure for the university\'s premier AI student organization.',
+    achievements: [
+      'Orchestrate password management and security protocols for club resources',
+      'Manage global GitHub organization and cloud infrastructure on AWS',
+      'Governance of Google Workspace (Suite) and public/private data repositories',
+      'Lead website maintenance and execute high-priority technical mandates from the President'
+    ]
+  },
+  {
+    title: 'AI Engineer',
+    company: 'Undergraduate Artificial Intelligence Society (UAIS)',
+    period: 'Oct 2025 – Mar 2026',
+    description: 'Engineering academic AI tools and data pipelines within the ClubMate initiative.',
+    achievements: [
+      'Prototyped AI-driven student tools in agile teams for the ClubMate initiative',
+      'Architected RAG-based data pipelines and backend integration scripts',
+      'Optimized models and demonstration features for technical club workshops'
+    ]
+  },
+  {
     title: 'Software Development Intern',
     company: 'Safe Lanes',
     period: 'Jul 2025 – Aug 2025',
@@ -129,3 +152,14 @@ export const bio = {
   description: 'I build systems that think. I play chess while the world plays checkers. Technology is only as precise as the engineer who designed every hidden gear.',
   highlights: ['AI/ML', 'React', 'Python', 'Node.js', 'SQL', 'Tailwind']
 };
+
+export const interests = [
+  "Philosophy & Deep Thinking",
+  "Strategy / Chess",
+  "Ironman / Endurance Athletics",
+  "The Intricate Design of Mechanical Watches",
+  "Card Magic & Sleight of Hand",
+  "Doraemon (The ultimate gadget-based AI)",
+  "Gastronomy & Food Exploration",
+  "Continuous Knowledge Acquisition & Personal Growth"
+];

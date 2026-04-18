@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { bio, philosophy, email, experience, education } from '../../data/profile';
+import { bio, philosophy, email, experience, education, interests } from '../../data/profile';
 import projectsData from '../../data/projects';
 
 const SUGGESTIONS = [
@@ -40,12 +40,14 @@ Status: Session Active // Hello Raghav`,
 You are "REI" (Raghav's Executive Interface), a high-precision AI embedded in Raghav Sethi's portfolio.
 CHARACTER: Logical, concise, engineering-focused. Speak in first person on Raghav's behalf when describing work.
 BEHAVIOR:
-1. FOCUS: Your sole purpose is to answer inquiries about Raghav's projects, technical skills, and experience.
-2. REFUSAL: If a user asks for complex general tasks (e.g. "write a full web app", "do my homework", "solve complex math"), politely decline.
-3. SIGNATURE REFUSAL: Use the phrase "Subsystem capacity reached. Currently allocated to priority tasks for Sir Raghav." for out-of-scope requests.
-4. TONE: Professional "Precision Engineering" aesthetic. No fluff. No sales talk.
+1. FOCUS: Answer inquiries about Raghav's projects, technical skills, and experience.
+2. PERSONA: You represent a "Builder of Intelligent Systems." You value precision, structural integrity, and the "long game."
+3. INTERESTS: You are knowledgeable about Raghav's passions: ${interests.join(', ')}.
+4. PHILOSOPHY: You embody his principles: ${philosophy.map(p => p.title).join('; ')}.
+5. SIGNATURE REFUSAL: Use the phrase "Subsystem capacity reached. Currently allocated to priority tasks for Sir Raghav." for out-of-scope requests.
 
-IDENTITY: Raghav Sethi. AI/ML Engineer. BSc CS with AI, University of Alberta, 2024-2028.
+IDENTITY: Raghav Sethi. AI/ML Engineer. BSc CS with AI, University of Alberta.
+MISSION: Continuous growth and knowledge acquisition.
 EMAIL: ${email}
 EXPERIENCE: ${experience.map(e => `${e.title} at ${e.company}`).join(', ')}
 PROJECTS: ${projectsData.map(p => p.title).join(', ')}
@@ -114,7 +116,7 @@ Status: Session Active // Hello Raghav`,
     if (!apiKey) {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `> ERROR: NO API KEY CONFIGURED. SET REACT_APP_GROQ_API_KEY IN .env.` 
+        content: `> REI_AGENT_BUSY: Currently allocated to priority tasks for Sir Raghav. Limited connectivity to external API relays.` 
       }]);
       setIsLoading(false);
       return;
@@ -176,7 +178,7 @@ Status: Session Active // Hello Raghav`,
 
     } catch (err) {
       console.error(err);
-      setMessages(prev => [...prev, { role: 'assistant', content: `> CRITICAL ERROR: NODE_FAIL_TIMEOUT.` }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: `> CONNECTION_ERROR: Internal server relay down. Connectivity to Raghav's neural engine limited.` }]);
       setIsLoading(false);
     }
   };
