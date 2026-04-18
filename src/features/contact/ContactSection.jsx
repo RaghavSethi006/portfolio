@@ -1,8 +1,10 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { socialLinks, email } from '../../data/profile';
 
 const ContactSection = () => {
+  const [copied, setCopied] = useState(false);
+
   return (
     <section
       id="contact"
@@ -48,17 +50,34 @@ const ContactSection = () => {
       </motion.h2>
 
       {/* Email — the primary CTA */}
-      <motion.a
-        href={`mailto:${email}`}
-        className="font-mono text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-300 mb-12"
+      <motion.button
+        onClick={() => {
+          navigator.clipboard.writeText(email);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }}
+        className="font-mono text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-300 mb-12 relative"
         style={{ fontSize: 'clamp(0.8rem, 1.8vw, 1.1rem)', letterSpacing: '0.15em' }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.35 }}
       >
-        {email} →
-      </motion.a>
+        {email} {copied ? '✓' : '→'}
+      </motion.button>
+      
+      <AnimatePresence>
+        {copied && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 rounded-full border border-[#B8960C]/30 bg-[#0B1428]/90 px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#B8960C] backdrop-blur-md shadow-2xl"
+          >
+            Email copied to clipboard
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Divider */}
       <motion.div

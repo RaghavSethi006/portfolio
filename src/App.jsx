@@ -15,8 +15,10 @@ import DataTicker from './components/ui/DataTicker';
 import ThePocket from './components/ui/ThePocket';
 import SectionDivider from './components/ui/SectionDivider';
 import StatementBand from './components/ui/StatementBand';
+import AITerminal from './components/layout/AITerminal';
+import CustomCursor from './components/ui/CustomCursor';
 
-const sectionIds = ['home', 'about', 'projects', 'resume', 'reviews', 'contact'];
+const sectionIds = ['home', 'about', 'projects', 'resume', 'skills', 'reviews', 'contact'];
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -53,41 +55,9 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const trail = [];
-    let ticking = false;
-
-    const onMouseMove = (e) => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const dot = document.createElement('div');
-          dot.className = 'cursor-trail-dot';
-          dot.style.left = e.clientX + 'px';
-          dot.style.top = e.clientY + 'px';
-          document.body.appendChild(dot);
-          trail.push(dot);
-          if (trail.length > 4) {
-            const old = trail.shift();
-            old.remove();
-          }
-          setTimeout(() => {
-            dot.style.opacity = '0';
-            setTimeout(() => dot.remove(), 400);
-          }, 60);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!mq.matches) {
-      window.addEventListener('mousemove', onMouseMove);
-    }
-    return () => window.removeEventListener('mousemove', onMouseMove);
-  }, []);
-
   return (
+    <>
+    <CustomCursor />
     <div className="min-h-screen bg-navy-900 text-platinum-25 overflow-x-hidden">
       <NeuralBackground />
       <Navigation activeSection={activeSection} onNavigate={handleNavigate} />
@@ -136,6 +106,8 @@ const App = () => {
 
       <Footer />
     </div>
+    <AITerminal />
+    </>
   );
 };
 
