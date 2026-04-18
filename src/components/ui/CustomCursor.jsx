@@ -145,6 +145,7 @@ const CustomCursor = () => {
     }
   };
 
+  // Primary inner point: Zero-latency tracking
   return (
     <div className="custom-cursor-wrapper">
       {/* Outer physics-based trailing ring */}
@@ -157,9 +158,8 @@ const CustomCursor = () => {
         }}
         variants={variantsOuter}
         animate={cursorState}
-        transition={{ type: 'spring', stiffness: 300, damping: 25, mass: 0.5 }}
+        transition={{ type: 'spring', stiffness: 450, damping: 30, mass: 0.4 }}
       >
-        {/* Intersection sight for target pointer */}
         <AnimatePresence>
           {cursorState === 'pointer' && (
              <motion.div 
@@ -172,7 +172,7 @@ const CustomCursor = () => {
         </AnimatePresence>
       </motion.div>
 
-      {/* Inner precise dot tracking strictly to native coordinates */}
+      {/* Primary inner point: Zero-latency tracking */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[10000] flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2"
         style={{
@@ -182,7 +182,7 @@ const CustomCursor = () => {
         }}
         variants={variantsInner}
         animate={cursorState}
-        transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+        transition={{ type: 'tween', ease: 'linear', duration: 0 }}
       />
     </div>
   );
