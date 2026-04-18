@@ -1,36 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
-import { loadProjectsData } from '../../utils/excelLoader';
+import projectsData from '../../data/projects';
 import SplitHeading from '../../components/ui/SplitHeading';
+import ProjectModal from '../../components/ui/ProjectModal';
 
 const ProjectsPage = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState(projectsData);
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await loadProjectsData();
-        setProjects(data);
-      } catch (error) {
-        console.error('Failed to load projects', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-[24rem] items-center justify-center py-20">
-        <div className="h-14 w-14 animate-spin rounded-full border-t-2 border-[#C8D8F0]" />
-      </div>
-    );
-  }
-
+  // Loading state removed as we are using direct import now
   return (
     <section className="bg-[#050A18] py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -49,11 +28,12 @@ const ProjectsPage = () => {
           {projects.map((project, index) => (
             <motion.article
               key={project.id}
+              onClick={() => setSelectedProject(project)}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative group rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8 transition hover:border-[#B8960C] hover:bg-[#11213A]"
+              className="relative group rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8 transition hover:border-[#B8960C] hover:bg-[#11213A] cursor-pointer flex flex-col h-full"
             >
               <span className="absolute top-4 right-4 font-mono text-[9px] select-none" style={{ color: 'rgba(200,216,240,0.18)' }}>
                 {String.fromCharCode(96 + ((project.id - 1) % 8) + 1)}{Math.ceil(project.id / 8)}
@@ -87,33 +67,28 @@ const ProjectsPage = () => {
                 ))}
               </div>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                {project.demo && (
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full border border-[#C8D8F0]/25 bg-[#0B1428] px-5 py-3 text-sm uppercase tracking-[0.3em] text-[#EEF2F9] transition hover:border-[#B8960C] hover:bg-[#13213F]"
-                  >
-                    View Project
-                  </a>
-                )}
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#1A2744] bg-[#050A18] px-5 py-3 text-sm uppercase tracking-[0.3em] text-[#7A8EAB] transition hover:border-[#B8960C] hover:text-[#EEF2F9]"
-                  >
-                    <Github className="h-4 w-4" />
-                    GitHub
-                  </a>
-                )}
+              <div className="mt-auto pt-8 flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-70 group-hover:opacity-100 transition-opacity">
+                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#C8D8F0] group-hover:text-[#B8960C] transition-colors">
+                   Inspect Architecture →
+                 </span>
+                 {project.github && (
+                   <a
+                     href={project.github}
+                     target="_blank"
+                     rel="noreferrer"
+                     onClick={(e) => e.stopPropagation()}
+                     className="inline-flex items-center justify-center gap-2 rounded-full border border-[#1A2744] bg-[#050A18] px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] transition hover:border-[#B8960C] hover:text-[#EEF2F9] self-start"
+                   >
+                     <Github className="h-3 w-3" />
+                     Source Code
+                   </a>
+                 )}
               </div>
             </motion.article>
           ))}
         </div>
       </div>
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </section>
   );
 };

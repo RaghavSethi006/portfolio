@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
-import { loadResumeData } from '../../utils/excelLoader';
+import { experience, education } from '../../data/profile';
 import SplitHeading from '../../components/ui/SplitHeading';
 
 const technicalSkills = [
   {
     category: 'Languages',
     skills: [
-      { type: 'skillicon', icons: ['py', 'js', 'cpp', 'cs', 'c', 'rust'] },
+      { type: 'skillicon', icons: ['py', 'js', 'ts', 'cpp', 'cs', 'c', 'rust'] },
       { type: 'shield', url: 'https://img.shields.io/badge/RISC--V%20Assembly-283272?style=flat-square&logo=riscv&logoColor=white' },
     ]
   },
@@ -42,7 +42,7 @@ const technicalSkills = [
   {
     category: 'Databases & Cloud',
     skills: [
-      { type: 'skillicon', icons: ['mongodb', 'mysql', 'sqlite', 'firebase'] }
+      { type: 'skillicon', icons: ['mongodb', 'mysql', 'postgres', 'sqlite', 'firebase', 'supabase'] }
     ]
   },
   {
@@ -54,34 +54,6 @@ const technicalSkills = [
 ];
 
 const ResumePage = () => {
-  const [profileData, setProfileData] = useState({ experience: [], education: {}, skills: [] });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchResumeData = async () => {
-      try {
-        const data = await loadResumeData();
-        setProfileData(data);
-      } catch (error) {
-        console.error('Failed to load resume data', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchResumeData();
-  }, []);
-
-  const { experience, education } = profileData;
-
-  if (loading) {
-    return (
-      <div className="flex min-h-[24rem] items-center justify-center py-20">
-        <div className="h-14 w-14 animate-spin rounded-full border-t-2 border-[#C8D8F0]" />
-      </div>
-    );
-  }
-
   return (
     <section className="py-20" id="resume">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -156,6 +128,7 @@ const ResumePage = () => {
 
           <motion.div
             id="skills"
+            className="scroll-mt-24"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -174,12 +147,16 @@ const ResumePage = () => {
                       <React.Fragment key={idx}>
                         {skillGroup.type === 'skillicon' ? (
                           skillGroup.icons.map(icon => {
+                            const skipAnimated = ['github', 'gitlab', 'supabase'];
                             const tsMap = { py: 'python', js: 'js', cs: 'csharp', html: 'html5', css: 'css3', tailwind: 'tailwindcss' };
                             const tsIcon = tsMap[icon] || icon;
+                            const src = skipAnimated.includes(icon)
+                              ? `https://skillicons.dev/icons?i=${icon}&theme=dark`
+                              : `https://techstack-generator.vercel.app/${tsIcon}-icon.svg`;
                             return (
                               <img 
                                 key={icon} 
-                                src={`https://techstack-generator.vercel.app/${tsIcon}-icon.svg`} 
+                                src={src}
                                 onError={(e) => { e.target.onerror = null; e.target.src = `https://skillicons.dev/icons?i=${icon}&theme=dark`; }}
                                 alt={icon} 
                                 title={icon}
