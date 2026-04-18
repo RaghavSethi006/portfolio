@@ -36,8 +36,8 @@ const App = () => {
         });
       },
       {
-        rootMargin: '-35% 0px -55% 0px',
-        threshold: 0.2,
+        rootMargin: '-20% 0px -75% 0px',
+        threshold: 0,
       }
     );
 
@@ -46,6 +46,7 @@ const App = () => {
   }, []);
 
   const handleNavigate = (sectionId) => {
+    setActiveSection(sectionId);
     const target = document.getElementById(sectionId);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });

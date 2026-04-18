@@ -8,9 +8,9 @@ const HeroSection = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid gap-12 lg:grid-cols-[1fr_minmax(320px,420px)] items-center">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
+        <div className="grid gap-12 lg:grid-cols-[1fr_minmax(320px,420px)] items-center relative z-10 w-full">
           <motion.div
             className="space-y-8"
             initial={{ opacity: 0, y: 20 }}
@@ -92,12 +92,22 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          <div className="hidden lg:flex justify-end">
+          <div className="
+            absolute lg:static 
+            right-[-75vw] sm:right-[-60vw] md:right-[-50vw] lg:right-auto 
+            top-[45%] lg:top-auto 
+            -translate-y-1/2 lg:translate-y-0 
+            opacity-60 lg:opacity-100 
+            w-[150vw] sm:w-[120vw] md:w-[100vw] lg:w-full lg:max-w-[420px] 
+            -z-10 lg:z-10 
+            pointer-events-none lg:pointer-events-auto 
+            flex justify-end
+          ">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-[420px]"
+              className="w-full"
             >
               <WatchMechanism />
             </motion.div>
