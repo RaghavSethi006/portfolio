@@ -14,6 +14,7 @@ portfolio/
 │   │   │   ├── projects.xlsx
 │   │   │   └── resume.xlsx
 │   │   └── Raghav_Sethi_Resume.pdf
+│   ├── .nojekyll
 │   ├── favicon.ico
 │   ├── index.html
 │   ├── logo192.png
@@ -44,6 +45,8 @@ portfolio/
 │   │       ├── LoadingInterface.jsx
 │   │       ├── NeuralBackground.jsx
 │   │       ├── SectionDivider.jsx
+│   │       ├── SplitHeading.jsx
+│   │       ├── StatementBand.jsx
 │   │       ├── ThePocket.jsx
 │   │       └── WatchMechanism.jsx
 │   ├── data/
@@ -80,7 +83,7 @@ portfolio/
 └── tailwind.config.js
 ```
 
-## File Contents (45 files)
+## File Contents (47 files)
 
 ---
 
@@ -496,19 +499,24 @@ const Navigation = ({ activeSection, onNavigate }) => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden border-t border-[#1A2744] bg-[#050A18]/95"
+            key="mobile-nav"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="md:hidden absolute w-full left-0 border-b border-[#1A2744] bg-[#050A18]/95 backdrop-blur-xl shadow-2xl"
           >
-            <div className="space-y-2 px-4 py-4">
+            <div className="flex flex-col px-4 py-6 gap-2">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
-                    className={`block w-full rounded-xl border px-4 py-3 text-left text-sm uppercase tracking-[0.35em] transition ${isActive ? 'border-[#B8960C] text-[#EEF2F9]' : 'border-[#1A2744] text-[#7A8EAB] hover:border-[#B8960C] hover:text-[#EEF2F9]'}`}
+                    className={`block w-full rounded-xl border px-4 py-4 text-left text-sm uppercase tracking-[0.35em] transition-all ${
+                      isActive 
+                        ? 'border-[#B8960C] text-[#EEF2F9] bg-[#B8960C]/5' 
+                        : 'border-[#1A2744] text-[#7A8EAB] hover:border-[#B8960C]/50 hover:text-[#EEF2F9]'
+                    }`}
                   >
                     {item.label}
                   </button>
@@ -955,14 +963,18 @@ const interests = [
 const InterestsStrip = () => {
   return (
     <motion.div 
-      className="w-full bg-[#050A18] overflow-hidden py-10"
-      style={{ borderTop: '0.5px solid #1A2744', borderBottom: '0.5px solid #1A2744' }}
+      className="w-full bg-[#050A18]"
+      style={{ overflow: 'visible', paddingBottom: '48px' }}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="flex justify-center flex-wrap gap-x-16 gap-y-12 max-w-7xl mx-auto px-8">
+      <div className="w-full py-10">
+        <div className="max-w-7xl mx-auto px-8 mb-10 text-center">
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#8BA3C7] opacity-60">Personal Interests</h3>
+        </div>
+        <div className="flex justify-center flex-wrap gap-x-16 gap-y-12 max-w-7xl mx-auto px-8">
         {interests.map((interest, index) => (
           <motion.div
             key={interest.id}
@@ -987,6 +999,7 @@ const InterestsStrip = () => {
             </span>
           </motion.div>
         ))}
+        </div>
       </div>
     </motion.div>
   );
@@ -1223,6 +1236,113 @@ export default SectionDivider;
 
 ---
 
+### File: `src\components\ui\SplitHeading.jsx`
+
+```jsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const wordVariants = {
+  hidden: { y: '110%', opacity: 0 },
+  visible: (i) => ({
+    y: '0%',
+    opacity: 1,
+    transition: {
+      delay: i * 0.08,
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  }),
+};
+
+const SplitHeading = ({ children, className = '', as: Tag = 'h2' }) => {
+  const words = children.split(' ');
+  const MotionTag = motion(Tag);
+
+  return (
+    <MotionTag
+      className={className} 
+      aria-label={children} 
+      style={{ overflow: 'visible' }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+    >
+      {words.map((word, i) => (
+        <span
+          key={i}
+          style={{ 
+            display: 'inline-block', 
+            overflow: 'hidden', 
+            marginRight: '0.3em', 
+            verticalAlign: 'bottom',
+            paddingBottom: '0.2em',
+            marginBottom: '-0.2em'
+          }}
+        >
+          <motion.span
+            style={{ display: 'inline-block', transformOrigin: 'bottom' }}
+            variants={wordVariants}
+            custom={i}
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </MotionTag>
+  );
+};
+
+export default SplitHeading;
+```
+
+---
+
+### File: `src\components\ui\StatementBand.jsx`
+
+```jsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const StatementBand = ({ text, sub }) => {
+  return (
+    <div className="relative w-full overflow-hidden py-6 select-none pointer-events-none">
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6"
+      >
+        <span
+          className="font-serif leading-none tracking-tight"
+          style={{
+            fontSize: 'clamp(2.5rem, 10vw, 9rem)',
+            color: 'rgba(200,216,240,0.07)',
+            letterSpacing: '-0.02em',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {text}
+        </span>
+        {sub && (
+          <span
+            className="font-mono text-[10px] uppercase tracking-[0.3em] md:self-center"
+            style={{ color: 'rgba(184,150,12,0.5)', whiteSpace: 'normal', paddingLeft: '4px' }}
+          >
+            {sub}
+          </span>
+        )}
+      </motion.div>
+    </div>
+  );
+};
+
+export default StatementBand;
+```
+
+---
+
 ### File: `src\components\ui\ThePocket.jsx`
 
 ```jsx
@@ -1293,7 +1413,7 @@ const WatchMechanism = () => {
   );
 
   return (
-    <div className="relative aspect-square w-full opacity-30 select-none pointer-events-none">
+    <div className="relative aspect-square w-full opacity-85 select-none pointer-events-none">
 
       {/* Outermost faint boundary ring */}
       <div className="absolute inset-0 rounded-full border border-[#C8D8F0]/10" />
@@ -1487,7 +1607,7 @@ export const socialLinks = {
   linkedin: 'https://www.linkedin.com/in/raghav-sethi-a08501319/'
 };
 
-export const email = 'hello@raghavsethi.ai';
+export const email = 'sethi.raghav006@gmail.com';
 
 export const reviews = [
   {
@@ -1633,6 +1753,7 @@ export default projects;
 import React from 'react';
 import { motion } from 'framer-motion';
 import { bio, philosophy } from '../../data/profile';
+import SplitHeading from '../../components/ui/SplitHeading';
 
 const AboutPage = () => {
   return (
@@ -1647,16 +1768,16 @@ const AboutPage = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
           <motion.div
-            className="space-y-8"
+            className="flex flex-col gap-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8 }}
           >
             <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">About</p>
-            <h2 className="max-w-3xl text-4xl font-serif text-[#EEF2F9] leading-tight sm:text-5xl">
+            <SplitHeading className="max-w-3xl text-4xl font-serif text-[#EEF2F9] leading-tight sm:text-5xl">
               I build systems that think. I play chess while the world plays checkers.
-            </h2>
+            </SplitHeading>
             <div className="max-w-2xl text-base leading-8 text-[#CAD4E4] space-y-4">
               <p>
                 I build systems that think. Not tools that perform — systems that reason.
@@ -1745,67 +1866,119 @@ export default AboutPage;
 
 ```jsx
 import React from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { socialLinks, email } from '../../data/profile';
 
 const ContactSection = () => {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-      <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr] items-start">
-        <div>
-          <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Let’s Talk</p>
-          <h2 className="text-3xl sm:text-4xl font-serif text-[#EEF2F9] leading-tight">
-            Precision in code. Clarity in collaboration.
-          </h2>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-[#CAD4E4]">
-            If you want work that is deliberate, readable, and engineered to last, send a note. I respond like a well-designed system: quickly, clearly, and with purpose.
-          </p>
-        </div>
+    <section
+      id="contact"
+      className="relative flex min-h-screen flex-col items-center justify-center text-center px-6 py-32 overflow-hidden"
+      style={{ background: '#050A18' }}
+    >
+      {/* Radial glow behind the text */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '600px',
+          height: '600px',
+          background: 'radial-gradient(circle, rgba(184,150,12,0.04) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
 
-        <div className="rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8">
-          <div className="space-y-6">
-            <a
-              href={`mailto:${email}`}
-              className="flex items-center gap-3 rounded-xl border border-[#C8D8F0]/20 bg-[#050A18] px-5 py-4 text-sm font-medium text-[#EEF2F9] transition hover:border-[#B8960C] hover:text-[#EEF2F9]"
-            >
-              <Mail className="w-5 h-5 text-[#B8960C]" />
-              {email}
-            </a>
+      {/* Eyebrow */}
+      <motion.p
+        className="font-mono text-[10px] uppercase tracking-[0.45em] text-[#8BA3C7] mb-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        Contact
+      </motion.p>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-sm text-[#7A8EAB]">
-                <Github className="w-5 h-5 text-[#C8D8F0]" />
-                <a
-                  href={socialLinks.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="transition hover:text-[#EEF2F9]"
-                >
-                  GitHub
-                </a>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-[#7A8EAB]">
-                <Linkedin className="w-5 h-5 text-[#C8D8F0]" />
-                <a
-                  href={socialLinks.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="transition hover:text-[#EEF2F9]"
-                >
-                  LinkedIn
-                </a>
-              </div>
-            </div>
+      {/* Main statement */}
+      <motion.h2
+        className="font-serif text-[#EEF2F9] leading-[0.95] tracking-tight mb-16"
+        style={{ fontSize: 'clamp(2.8rem, 8vw, 7rem)' }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+      >
+        Let's build something<br />
+        <span style={{ color: 'rgba(200,216,240,0.4)' }}>that matters.</span>
+      </motion.h2>
 
-            <div className="rounded-xl border border-[#C8D8F0]/10 bg-[#050A18]/60 px-5 py-4 text-sm text-[#CAD4E4]">
-              <p>
-                I keep conversations direct. No long forms. No confusing tiers. If you have a challenge that needs smarter systems, this is the right place.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      {/* Email — the primary CTA */}
+      <motion.a
+        href={`mailto:${email}`}
+        className="font-mono text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-300 mb-12"
+        style={{ fontSize: 'clamp(0.8rem, 1.8vw, 1.1rem)', letterSpacing: '0.15em' }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.35 }}
+      >
+        {email} →
+      </motion.a>
+
+      {/* Divider */}
+      <motion.div
+        className="h-px bg-[#1A2744] mb-10"
+        style={{ width: '48px' }}
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      />
+
+      {/* Social links */}
+      <motion.div
+        className="flex items-center gap-10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+      >
+        
+        <a
+          href={socialLinks.github}
+          target="_blank"
+          rel="noreferrer"
+          className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#7A8EAB] hover:text-[#EEF2F9] transition-colors duration-200"
+        >
+          GitHub
+        </a>
+        <span className="text-[#1A2744] font-mono text-xs">·</span>
+        
+        <a
+          href={socialLinks.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#7A8EAB] hover:text-[#EEF2F9] transition-colors duration-200"
+        >
+          LinkedIn
+        </a>
+      </motion.div>
+
+      {/* Bottom coordinate — a quiet personal detail */}
+      <motion.p
+        className="absolute bottom-10 font-mono text-[9px] tracking-[0.2em]"
+        style={{ color: 'rgba(200,216,240,0.12)' }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: 0.9 }}
+      >
+        53.5461° N, 113.4938° W · Edmonton, Alberta
+      </motion.p>
+
+    </section>
   );
 };
 
@@ -1821,6 +1994,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import { loadProjectsData } from '../../utils/excelLoader';
+import SplitHeading from '../../components/ui/SplitHeading';
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
@@ -1860,7 +2034,7 @@ const ProjectsPage = () => {
           className="mb-12"
         >
           <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Selected Work</p>
-          <h2 className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Projects that move systems forward.</h2>
+          <SplitHeading className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Projects that move systems forward.</SplitHeading>
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
@@ -1948,6 +2122,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { loadResumeData } from '../../utils/excelLoader';
+import SplitHeading from '../../components/ui/SplitHeading';
 
 const technicalSkills = [
   {
@@ -2038,7 +2213,7 @@ const ResumePage = () => {
           className="text-center mb-12"
         >
           <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Resume</p>
-          <h2 className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Professional Experience</h2>
+          <SplitHeading className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Professional Experience</SplitHeading>
           <a
             href={`${process.env.PUBLIC_URL}/assets/Raghav_Sethi_Resume.pdf`}
             download="Raghav_Sethi_Resume.pdf"
@@ -2160,155 +2335,200 @@ export default ResumePage;
 ### File: `src\features\reviews\ReviewsPage.jsx`
 
 ```jsx
-﻿import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MessageCircle, Star, Shield } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { reviews as staticReviews } from '../../data/profile';
+
+const chessNav = [
+  { prev: '← Qb6', next: 'Nf3 →' },
+  { prev: '← d4',  next: 'Bc4 →' },
+  { prev: '← Bb5', next: 'O-O →' },
+  { prev: '← c4',  next: 'e5 →' },
+  { prev: '← Nd2', next: 'O-O-O →' },
+];
 
 const ReviewsPage = ({ reviews, setReviews }) => {
-  const [reviewForm, setReviewForm] = useState({
-    name: '',
-    review: '',
-    rating: 5,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isComposing, setIsComposing] = useState(false);
+  const [formData, setFormData] = useState({ quote: '', author: '', role: '' });
 
-  const handleSubmitReview = async (e) => {
+  const current = reviews[index] || reviews[0];
+  const nav = chessNav[index % chessNav.length];
+
+  const paginate = (dir) => {
+    setDirection(dir);
+    setIndex((prev) => (prev + dir + reviews.length) % reviews.length);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!reviewForm.name || !reviewForm.review) return;
+    if (!formData.quote.trim() || !formData.author.trim()) return;
+    
+    setReviews(prev => [...prev, { ...formData }]);
+    setFormData({ quote: '', author: '', role: '' });
+    setIsComposing(false);
+    
+    setDirection(1);
+    setIndex(reviews.length);
+  };
 
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
-    const newReview = {
-      id: Date.now(),
-      ...reviewForm,
-      date: new Date().toLocaleDateString(),
-      verified: Math.random() > 0.5,
-    };
-
-    setReviews([newReview, ...reviews]);
-    setReviewForm({ name: '', review: '', rating: 5 });
-    setIsSubmitting(false);
+  const variants = {
+    enter: (d) => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
+    center: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+    exit: (d) => ({ opacity: 0, x: d > 0 ? -40 : 40, transition: { duration: 0.3 } }),
   };
 
   return (
-    <section className="py-20" id="reviews">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-4">Testimonials</p>
-          <h2 className="text-4xl font-serif text-[#EEF2F9] sm:text-5xl">Client Reviews</h2>
-        </motion.div>
+    <section className="py-28 bg-[#050A18]" id="reviews">
+      <div className="mx-auto max-w-4xl px-6 text-center">
 
-        <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr] items-start">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-            className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="h-10 w-1 rounded-full bg-[#B8960C]" />
-              <h3 className="text-2xl font-serif text-[#EEF2F9]">Share a Review</h3>
-            </div>
-            <form className="space-y-6" onSubmit={handleSubmitReview}>
-              <div>
-                <label className="block text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-3">Name</label>
-                <input
-                  type="text"
-                  value={reviewForm.name}
-                  onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
-                  className="w-full rounded-xl border border-[#1E2D4D] bg-[#0E1A34] px-4 py-3 text-sm text-[#EEF2F9] outline-none transition focus:border-[#B8960C]"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-3">Rating</label>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setReviewForm({ ...reviewForm, rating: star })}
-                      className="rounded-full p-3 transition hover:scale-105"
-                    >
-                      <Star
-                        className={star <= reviewForm.rating ? 'h-6 w-6 text-[#F5C451]' : 'h-6 w-6 text-[#4A5568]'}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-3">Review</label>
-                <textarea
-                  value={reviewForm.review}
-                  onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })}
-                  rows={5}
-                  className="w-full rounded-[24px] border border-[#1E2D4D] bg-[#0E1A34] px-4 py-3 text-sm text-[#EEF2F9] outline-none transition focus:border-[#B8960C] resize-none"
-                  placeholder="Share your experience working with me..."
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isSubmitting || !reviewForm.name || !reviewForm.review}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#B8960C] px-6 py-3 text-sm uppercase tracking-[0.35em] text-[#0B1428] transition disabled:opacity-50"
+        <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#8BA3C7] mb-16">
+          Testimonials
+        </p>
+
+        <div style={{ minHeight: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+          <AnimatePresence custom={direction} mode="wait">
+            <motion.div
+              key={index}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              style={{ position: 'absolute', width: '100%' }}
+            >
+              <p
+                className="font-serif text-[#EEF2F9] leading-relaxed"
+                style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)', fontStyle: 'italic' }}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Review'}
-              </button>
-            </form>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="space-y-6"
-          >
-            {reviews.length === 0 ? (
-              <div className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8 text-center text-[#7A8EAB]">
-                <p className="text-sm">No reviews yet.</p>
-                <p className="mt-3 text-[#CED9EB]">Be the first to share your experience.</p>
+                "{current.quote}"
+              </p>
+              <div className="mt-8 flex flex-col items-center gap-1">
+                <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0]">
+                  {current.author}
+                </span>
+                <span className="font-mono text-[10px] tracking-[0.2em] text-[#7A8EAB]">
+                  {current.role}
+                </span>
               </div>
-            ) : (
-              reviews.map((review, index) => (
-                <div
-                  key={review.id}
-                  className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8 shadow-[0_0_40px_rgba(0,0,0,0.25)]"
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="mt-20 flex items-center justify-center gap-12">
+          <button
+            onClick={() => paginate(-1)}
+            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200"
+          >
+            {nav.prev}
+          </button>
+
+          <div className="flex gap-2">
+            {reviews.map((_, i) => (
+              <div
+                key={i}
+                onClick={() => { setDirection(i > index ? 1 : -1); setIndex(i); }}
+                style={{
+                  width: i === index ? '20px' : '4px',
+                  height: '4px',
+                  borderRadius: '2px',
+                  background: i === index ? '#B8960C' : 'rgba(200,216,240,0.2)',
+                  transition: 'all 0.4s ease',
+                  cursor: 'pointer',
+                }}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={() => paginate(1)}
+            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200"
+          >
+            {nav.next}
+          </button>
+        </div>
+
+        <div className="mt-16 pt-10 border-t border-[#1A2744] relative z-50 flex flex-col items-center">
+          <AnimatePresence mode="wait">
+            {!isComposing ? (
+              <motion.div
+                key="prompt"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#7A8EAB] mb-3">
+                  Worked with me?
+                </p>
+                <button
+                  onClick={() => setIsComposing(true)}
+                  className="inline-block px-4 py-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-200"
                 >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-4">
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">{review.name}</p>
-                      <p className="mt-2 text-[#EEF2F9]">{review.review}</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={star <= review.rating ? 'h-4 w-4 text-[#F5C451]' : 'h-4 w-4 text-[#4A5568]'}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-[#7A8EAB]">{review.date}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-[#A7B5D1]">
-                    <Shield className="h-4 w-4 text-[#7ED8A1]" />
-                    <span>{review.verified ? 'Verified client' : 'Verified completion'}</span>
+                  Leave a note →
+                </button>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="form"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                onSubmit={handleSubmit}
+                className="w-full max-w-lg text-left"
+              >
+                <div className="space-y-4">
+                  <textarea
+                    autoFocus
+                    required
+                    rows="3"
+                    placeholder="Your note..."
+                    value={formData.quote}
+                    onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
+                    className="w-full bg-transparent border border-[#1A2744] rounded-lg p-4 font-serif text-[#EEF2F9] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors resize-none"
+                    style={{ fontSize: '1.2rem', fontStyle: 'italic' }}
+                  />
+                  <div className="flex gap-4">
+                    <input
+                      required
+                      type="text"
+                      placeholder="Name"
+                      value={formData.author}
+                      onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Role (Optional)"
+                      value={formData.role}
+                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                    />
                   </div>
                 </div>
-              ))
+                
+                <div className="mt-6 flex justify-between items-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsComposing(false)}
+                    className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] hover:text-[#EEF2F9] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-[#1A2744] hover:bg-[#B8960C] text-[#EEF2F9] hover:text-[#050A18] px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300"
+                  >
+                    Sign & Attach
+                  </button>
+                </div>
+              </motion.form>
             )}
-          </motion.div>
+          </AnimatePresence>
         </div>
+
       </div>
     </section>
   );
@@ -2432,21 +2652,13 @@ import InterestsStrip from './components/ui/InterestsStrip';
 import DataTicker from './components/ui/DataTicker';
 import ThePocket from './components/ui/ThePocket';
 import SectionDivider from './components/ui/SectionDivider';
+import StatementBand from './components/ui/StatementBand';
 
 const sectionIds = ['home', 'about', 'projects', 'resume', 'reviews', 'contact'];
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [reviews, setReviews] = useState(
-    initialReviews.map((review, index) => ({
-      id: Date.now() + index,
-      name: review.author,
-      review: review.quote,
-      rating: 5,
-      date: new Date().toLocaleDateString(),
-      verified: true,
-    }))
-  );
+  const [reviews, setReviews] = useState(initialReviews);
 
   useEffect(() => {
     const sections = sectionIds
@@ -2514,15 +2726,16 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-navy-900 text-platinum-25 overflow-x-hidden">
+      <NeuralBackground />
       <Navigation activeSection={activeSection} onNavigate={handleNavigate} />
 
       <main className="relative z-10 pt-24">
-        <NeuralBackground />
         <section id="home" className="scroll-mt-24">
           <HeroSection />
         </section>
 
         <DataTicker />
+        <StatementBand text="RAGHAV SETHI" sub="AI · ML · Systems" />
 
         <section id="about" className="scroll-mt-24">
           <AboutPage />
@@ -2537,6 +2750,7 @@ const App = () => {
         </section>
 
         <SectionDivider label="03" />
+        <StatementBand text="EXPERIENCE" sub="Four roles. One direction." />
 
         <section id="resume" className="scroll-mt-24">
           <ResumePage />
@@ -2549,6 +2763,8 @@ const App = () => {
         <section id="reviews" className="scroll-mt-24">
           <ReviewsPage reviews={reviews} setReviews={setReviews} />
         </section>
+        
+        <StatementBand text="LET'S TALK" sub="Precision in every exchange." />
 
         <section id="contact" className="scroll-mt-24">
           <ContactSection />
@@ -22971,7 +23187,7 @@ import '@testing-library/jest-dom';
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -t -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -23733,4 +23949,4 @@ module.exports = {
 
 ---
 
-**Total files processed:** 45
+**Total files processed:** 47
