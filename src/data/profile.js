@@ -108,16 +108,16 @@ export const skills = [
 
 export const philosophy = [
   {
-    title: 'Precision over flash',
-    description: 'Every interface and system should earn its existence. If it does not add clarity, it does not belong.'
+    title: 'Precision in Engineering',
+    description: 'Every interface and system should serve a clear functional purpose. If it does not add clarity, it does not belong.'
   },
   {
-    title: 'Systems think first',
-    description: 'I design for structure, not for spectacle. Complexity is hidden; the result is effortless.'
+    title: 'Structure-First Design',
+    description: 'I prioritize structural integrity over superficial complexity. The result is software that is robust, maintainable, and predictable.'
   },
   {
-    title: 'Solve for the long game',
-    description: 'Good work is durable. I make decisions that hold up under scrutiny and time.'
+    title: 'Durable Solutions',
+    description: 'I make technical decisions that hold up under scrutiny and time, focusing on scalability and long-term reliability.'
   }
 ];
 
@@ -148,8 +148,8 @@ export const reviews = [
 
 export const bio = {
   name: 'Raghav Sethi',
-  title: 'AI/ML Engineer — Builder of Intelligent Systems',
-  description: 'I build systems that think. I play chess while the world plays checkers. Technology is only as precise as the engineer who designed every hidden gear.',
+  title: 'Software Engineer specializing in AI and Systems Architecture',
+  description: 'Specializing in RAG pipelines, full-stack development, and technical infrastructure.',
   highlights: ['AI/ML', 'React', 'Python', 'Node.js', 'SQL', 'Tailwind']
 };
 

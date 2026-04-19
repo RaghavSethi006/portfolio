@@ -24,35 +24,24 @@ const AboutPage = () => {
           >
             <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">About</p>
             <SplitHeading className="max-w-3xl text-4xl font-serif text-[#EEF2F9] leading-tight sm:text-5xl">
-              I build systems that think. I play chess while the world plays checkers.
+              Engineering intelligent systems with structural integrity and precision.
             </SplitHeading>
             <div className="max-w-2xl text-base leading-8 text-[#CAD4E4] space-y-4">
               <p>
-                I build systems that think. Not tools that perform — systems that reason.
-                I approach every problem the way a chess player reads a board: three moves ahead,
-                accounting for what the opponent hasn't done yet.
+                I am a Computer Science Honours student at the University of Alberta, specializing in Artificial Intelligence. Currently, I serve as the Vice President of Technology for the Undergraduate Artificial Intelligence Society (UAIS), overseeing technical operations and cloud infrastructure.
               </p>
               <p>
-                I am obsessed with mechanical watches — not for status, but because they represent
-                the highest form of engineering philosophy: every invisible gear has a purpose,
-                and precision is the only aesthetic that matters. That philosophy runs through everything I build.
+                My work involves architecting retrieval-augmented generation (RAG) pipelines, building secure enterprise features, and designing scalable full-stack applications. I work primarily with Python, React, and Node.js, focusing on creating robust systems where every component serves a clear functional purpose.
               </p>
               <p>
-                There is also the Doraemon in me — the part that believes technology should feel like
-                a pocket of infinite possibility. That wonder doesn't leave; it just learns to wear a sharper suit.
-                I read philosophy. I do card magic. I eat everything. I learn without stopping.
-              </p>
-              <p>
-                This portfolio is built the same way I build systems: nothing decorative without purpose,
-                nothing powerful without elegance.
+                I am currently exploring autonomous agent workflows and optimizations for large-scale data retrieval. My goal is to engineer high-performance software that integrates sophisticated AI logic into stable, production-ready environments.
               </p>
             </div>
 
             <div>
-              <p className="text-xs font-mono uppercase tracking-[0.35em] text-[#8BA3C7] mt-8 mb-3">Currently</p>
+              <p className="text-xs font-mono uppercase tracking-[0.35em] text-[#8BA3C7] mt-8 mb-3">Education</p>
               <p className="text-sm text-[#CAD4E4] leading-7">
                 BSc Honours in Computer Science with AI — University of Alberta, 2024–2028.
-                Building systems at the intersection of intelligence and craft.
               </p>
             </div>
           </motion.div>

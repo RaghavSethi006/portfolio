@@ -53,7 +53,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: shouldReduceMotion ? 0 : 1.3, duration: 0.8 }}
             >
-              AI/ML Engineer — Builder of intelligent systems. I measure work the way a watchmaker measures time: every hidden gear aligned, every outcome precise.<span style={{ display:'inline-block', marginLeft:'4px', fontFamily:'JetBrains Mono, monospace', color:'#B8960C' }} className="animate-pulse">_</span>
+              Software Engineer specializing in AI and systems architecture. I build high-performance applications with a focus on RAG pipelines, full-stack development, and technical infrastructure.<span style={{ display:'inline-block', marginLeft:'4px', fontFamily:'JetBrains Mono, monospace', color:'#B8960C' }} className="animate-pulse">_</span>
             </motion.p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
