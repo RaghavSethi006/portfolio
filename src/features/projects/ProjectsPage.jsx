@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github } from 'lucide-react';
 import projectsData from '../../data/projects';
 import SplitHeading from '../../components/ui/SplitHeading';
 import ProjectModal from '../../components/ui/ProjectModal';
 
 const ProjectsPage = () => {
-  const [projects, setProjects] = useState(projectsData);
+  const [projects] = useState(projectsData);
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Loading state removed as we are using direct import now

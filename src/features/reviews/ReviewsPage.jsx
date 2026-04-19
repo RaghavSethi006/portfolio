@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { reviews as staticReviews } from '../../data/profile';
 
 const chessNav = [
   { prev: '← Qb6', next: 'Nf3 →' },
