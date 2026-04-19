@@ -51,7 +51,7 @@ const HeroSection = () => {
               className="max-w-2xl text-lg sm:text-xl leading-8 text-[#CAD4E4]"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: shouldReduceMotion ? 0 : 1.3, duration: 0.8 }}
+              transition={{ delay: shouldReduceMotion ? 0 : 0.5, duration: 0.8 }}
             >
               Software Engineer specializing in AI and systems architecture. I build high-performance applications with a focus on RAG pipelines, full-stack development, and technical infrastructure.<span style={{ display:'inline-block', marginLeft:'4px', fontFamily:'JetBrains Mono, monospace', color:'#B8960C' }} className="animate-pulse">_</span>
             </motion.p>
@@ -76,7 +76,7 @@ const HeroSection = () => {
               className="flex items-center gap-6 pt-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.0, duration: 1.2 }}
+              transition={{ delay: 0.8, duration: 1.2 }}
             >
               {[
                 { label: 'PROJECTS', value: '09' },
@@ -106,7 +106,7 @@ const HeroSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="w-full"
             >
               <WatchMechanism />

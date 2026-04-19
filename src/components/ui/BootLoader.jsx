@@ -16,12 +16,12 @@ const BootLoader = ({ onComplete }) => {
     if (currentLine < statements.length) {
       const timeout = setTimeout(() => {
         setCurrentLine(prev => prev + 1);
-      }, currentLine === statements.length - 1 ? 600 : 350); // Final line stays a bit longer
+      }, currentLine === statements.length - 1 ? 400 : 250); // Speed up transition
       return () => clearTimeout(timeout);
     } else {
       const finalTimeout = setTimeout(() => {
         onComplete();
-      }, 500);
+      }, 300); // Speed up exit
       return () => clearTimeout(finalTimeout);
     }
   }, [currentLine, onComplete]);
@@ -30,7 +30,7 @@ const BootLoader = ({ onComplete }) => {
     <motion.div
       className="fixed inset-0 z-[100] flex flex-col justify-end bg-[#050A18] px-8 py-12 md:px-16 md:py-24"
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.8, ease: 'easeInOut' } }}
+      exit={{ opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } }}
     >
       <div className="flex flex-col gap-2 font-mono text-sm tracking-wider text-[#C8D8F0]">
         <AnimatePresence>
