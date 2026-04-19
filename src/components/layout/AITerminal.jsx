@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { bio, philosophy, email, experience, education, interests } from '../../data/profile';
+import { bio, philosophy, email, experience, interests } from '../../data/profile';
 import projectsData from '../../data/projects';
 
 const SUGGESTIONS = [
@@ -33,6 +33,15 @@ Status: Session Active // Hello Raghav`,
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Helper to update streaming content safely
+  const updateStreamingContent = (content) => {
+    setMessages(prev => {
+      const updated = [...prev];
+      updated[updated.length - 1].content = content;
+      return updated;
+    });
+  };
 
   useEffect(() => {
     // Generate context data directly from JS imports
@@ -163,11 +172,7 @@ Status: Session Active // Hello Raghav`,
               if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
                 const content = data.choices[0].delta.content;
                 fullContent += content;
-                setMessages(prev => {
-                  const updated = [...prev];
-                  updated[updated.length - 1].content = fullContent;
-                  return updated;
-                });
+                updateStreamingContent(fullContent);
               }
             } catch (e) {
               // ignore parse errors for partial chunks
