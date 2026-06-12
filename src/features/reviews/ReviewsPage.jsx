@@ -42,7 +42,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
   };
 
   return (
-    <section className="py-28 bg-[#050A18]" id="reviews">
+    <section className="py-28 bg-[#050A18]">
       <div className="mx-auto max-w-4xl px-6 text-center">
 
         <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#8BA3C7] mb-16">
@@ -81,16 +81,21 @@ const ReviewsPage = ({ reviews, setReviews }) => {
         <div className="mt-20 flex items-center justify-center gap-12">
           <button
             onClick={() => paginate(-1)}
-            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200"
+            aria-label="Previous testimonial"
+            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18] rounded px-1"
           >
             {nav.prev}
           </button>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="tablist" aria-label="Testimonial pagination">
             {reviews.map((_, i) => (
-              <div
+              <button
                 key={i}
+                role="tab"
+                aria-selected={i === index}
+                aria-label={`Go to testimonial ${i + 1}`}
                 onClick={() => { setDirection(i > index ? 1 : -1); setIndex(i); }}
+                className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
                 style={{
                   width: i === index ? '20px' : '4px',
                   height: '4px',
@@ -98,6 +103,8 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                   background: i === index ? '#B8960C' : 'rgba(200,216,240,0.2)',
                   transition: 'all 0.4s ease',
                   cursor: 'pointer',
+                  border: 'none',
+                  padding: 0,
                 }}
               />
             ))}
@@ -105,7 +112,8 @@ const ReviewsPage = ({ reviews, setReviews }) => {
 
           <button
             onClick={() => paginate(1)}
-            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200"
+            aria-label="Next testimonial"
+            className="font-mono text-[11px] tracking-[0.25em] text-[#7A8EAB] hover:text-[#B8960C] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18] rounded px-1"
           >
             {nav.next}
           </button>
@@ -126,7 +134,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                 </p>
                 <button
                   onClick={() => setIsComposing(true)}
-                  className="inline-block px-4 py-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-200"
+                  className="inline-block px-4 py-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18] rounded"
                 >
                   Leave a note →
                 </button>
@@ -175,13 +183,13 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                   <button
                     type="button"
                     onClick={() => setIsComposing(false)}
-                    className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] hover:text-[#EEF2F9] transition-colors"
+                    className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] hover:text-[#EEF2F9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18] rounded px-1"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="bg-[#1A2744] hover:bg-[#B8960C] text-[#EEF2F9] hover:text-[#050A18] px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300"
+                    className="bg-[#1A2744] hover:bg-[#B8960C] text-[#EEF2F9] hover:text-[#050A18] px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
                   >
                     Sign & Attach
                   </button>
@@ -196,4 +204,4 @@ const ReviewsPage = ({ reviews, setReviews }) => {
   );
 };
 
-export default ReviewsPage;
+export default React.memo(ReviewsPage);

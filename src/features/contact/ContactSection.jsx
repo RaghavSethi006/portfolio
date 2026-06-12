@@ -7,7 +7,6 @@ const ContactSection = () => {
 
   return (
     <section
-      id="contact"
       className="relative flex min-h-screen flex-col items-center justify-center text-center px-6 py-32 overflow-hidden"
       style={{ background: '#050A18' }}
     >
@@ -134,4 +133,4 @@ const ContactSection = () => {
   );
 };
 
-export default ContactSection;
+export default React.memo(ContactSection);
