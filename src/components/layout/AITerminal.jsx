@@ -10,20 +10,16 @@ const SUGGESTIONS = [
   "What makes him different?"
 ];
 
+const INITIAL_MESSAGE = `REI online.
+
+Ask about Raghav's projects, experience, technical stack, or fit for a role.
+Commands: \\help, \\projects, \\whoami, \\clear`;
 const AITerminal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { 
       role: 'assistant', 
-      content: `           ▄████████▄              ██████╗  ███████╗ ██╗
-          ███  ██  ███   ▄████▄   ██╔══██╗ ██╔════╝ ██║
-         ██████████████ ██▀  ▀██  ██████╔╝ █████╗   ██║
-        ██████████████████    ██  ██╔══██╗ ██╔══╝   ██║
-         ▀██████████████ ▀████▀   ██║  ██║ ███████╗ ██║
-           ▀█▀      ▀█▀           ╚═╝  ╚═╝ ╚══════╝ ╚═╝
-
-[●] REI v2.4.0 (Turtle-Agent) initialized.
-Status: Session Active // Hello Raghav`, 
+      content: INITIAL_MESSAGE, 
       isInitial: true 
     }
   ]);
@@ -53,7 +49,7 @@ BEHAVIOR:
 2. PERSONA: You represent a "Builder of Intelligent Systems." You value precision, structural integrity, and the "long game."
 3. INTERESTS: You are knowledgeable about Raghav's passions: ${interests.join(', ')}.
 4. PHILOSOPHY: You embody his principles: ${philosophy.map(p => p.title).join('; ')}.
-5. SIGNATURE REFUSAL: Use the phrase "Subsystem capacity reached. Currently allocated to priority tasks for Sir Raghav." for out-of-scope requests.
+5. SIGNATURE REFUSAL: Use the phrase "I can only answer portfolio-related questions about Raghav's work, background, and projects." for out-of-scope requests.
 
 IDENTITY: Raghav Sethi. AI/ML Engineer. BSc CS with AI, University of Alberta.
 MISSION: Continuous growth and knowledge acquisition.
@@ -84,15 +80,7 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
     if (cmd === '\\clear' || cmd === 'clear') {
       setMessages([{ 
         role: 'assistant', 
-        content: `           ▄████████▄              ██████╗  ███████╗ ██╗
-          ███  ██  ███   ▄████▄   ██╔══██╗ ██╔════╝ ██║
-         ██████████████ ██▀  ▀██  ██████╔╝ █████╗   ██║
-        ██████████████████    ██  ██╔══██╗ ██╔══╝   ██║
-         ▀██████████████ ▀████▀   ██║  ██║ ███████╗ ██║
-           ▀█▀      ▀█▀           ╚═╝  ╚═╝ ╚══════╝ ╚═╝
-
-[●] REI v2.4.0 (Turtle-Agent) initialized.
-Status: Session Active // Hello Raghav`, 
+        content: INITIAL_MESSAGE, 
         isInitial: true 
       }]);
       setInput('');
@@ -125,7 +113,7 @@ Status: Session Active // Hello Raghav`,
     if (!apiKey) {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `> REI_AGENT_BUSY: Currently allocated to priority tasks for Sir Raghav. Limited connectivity to external API relays.` 
+        content: `> REI_OFFLINE: I can still answer preset commands, but live AI responses need the portfolio API relay.` 
       }]);
       setIsLoading(false);
       return;
@@ -251,7 +239,7 @@ Status: Session Active // Hello Raghav`,
               
               <div className="absolute top-2 right-4 flex items-center gap-2 opacity-30 select-none pointer-events-none">
                 <div className="h-1.5 w-1.5 rounded-full bg-[#B8960C] animate-pulse" />
-                <span className="text-[8px] tracking-[0.2em] text-[#B8960C]">DEV_MODE: FRONTEND_KEYS_ACTIVE</span>
+                <span className="text-[8px] tracking-[0.2em] text-[#B8960C]">ASK ABOUT PROJECTS</span>
               </div>
 
               {messages.map((msg, idx) => (
@@ -318,3 +306,4 @@ Status: Session Active // Hello Raghav`,
 };
 
 export default AITerminal;
+
