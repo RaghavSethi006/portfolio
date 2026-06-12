@@ -56,17 +56,28 @@ const HeroSection = () => {
               Software Engineer specializing in AI and systems architecture. I build high-performance applications with a focus on RAG pipelines, full-stack development, and technical infrastructure.<span style={{ display:'inline-block', marginLeft:'4px', fontFamily:'JetBrains Mono, monospace', color:'#B8960C' }} className="animate-pulse">_</span>
             </motion.p>
 
+            <div className="flex flex-wrap gap-3">
+              {['Multi-agent AI', 'RAG systems', 'Local-first apps'].map((item) => (
+                <span
+                  key={item}
+                  className="border border-[#1A2744] bg-[#0B1428]/80 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#C8D8F0]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <a
                 href="#projects"
-                className="inline-flex items-center justify-center rounded-full border border-[#B8960C] bg-transparent px-6 py-3 text-sm font-medium uppercase tracking-[0.3em] text-[#EEF2F9] transition hover:bg-[#B8960C]/10"
+                className="inline-flex items-center justify-center rounded-full border border-[#B8960C] bg-transparent px-6 py-3 text-sm font-medium uppercase tracking-[0.2em] text-[#EEF2F9] transition hover:bg-[#B8960C]/10"
               >
                 View My Work
               </a>
               <a
                 href={`${process.env.PUBLIC_URL}/assets/Raghav_Sethi_Resume.pdf`}
                 download="Raghav_Sethi_Resume.pdf"
-                className="inline-flex items-center justify-center rounded-full border border-[#C8D8F0]/40 bg-[#0B1428] px-6 py-3 text-sm font-medium uppercase tracking-[0.3em] text-[#C8D8F0] transition hover:border-[#B8960C] hover:text-[#EEF2F9]"
+                className="inline-flex items-center justify-center rounded-full border border-[#C8D8F0]/40 bg-[#0B1428] px-6 py-3 text-sm font-medium uppercase tracking-[0.2em] text-[#C8D8F0] transition hover:border-[#B8960C] hover:text-[#EEF2F9]"
               >
                 Download Resume
               </a>
