@@ -1,190 +1,138 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import React, { useEffect } from 'react';
+import { motion, useMotionValue, useSpring, animate } from 'framer-motion';
+
+const interactiveSelector = [
+  'a',
+  'button',
+  '[role="button"]',
+  'input',
+  'textarea',
+  'select',
+  '.cursor-pointer',
+].join(',');
+
+const textSelector = ['input', 'textarea', '[contenteditable="true"]'].join(',');
 
 const CustomCursor = () => {
-  const [cursorState, setCursorState] = useState('default');
-
-  // Native mouse positions
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
+  const smoothX = useSpring(mouseX, { damping: 28, stiffness: 420, mass: 0.35 });
+  const smoothY = useSpring(mouseY, { damping: 28, stiffness: 420, mass: 0.35 });
 
-  // Smooth springs for outer ring
-  const springConfigOuter = { damping: 25, stiffness: 300, mass: 0.5 };
-  const smoothX = useSpring(mouseX, springConfigOuter);
-  const smoothY = useSpring(mouseY, springConfigOuter);
+  // Custom motion values to animate properties without causing React re-renders
+  const width = useMotionValue(22);
+  const height = useMotionValue(22);
+  const opacity = useMotionValue(0);
+  const borderColor = useMotionValue('rgba(184, 150, 12, 0.55)');
+  const backgroundColor = useMotionValue('rgba(184, 150, 12, 0.02)');
+  const boxShadow = useMotionValue('none');
+  const dotOpacity = useMotionValue(0);
 
   useEffect(() => {
+    let currentCursorState = 'idle';
+    let isMouseOnScreen = false;
 
-    const trail = [];
-    let ticking = false;
+    const updateCursorProperties = (state, visible) => {
+      currentCursorState = state;
+      isMouseOnScreen = visible;
 
-    const onMouseMove = (e) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      const config = { type: 'spring', stiffness: 520, damping: 34, mass: 0.35 };
 
-      // Trailing dot logic restored
-      if (!ticking && cursorState === 'default') {
-        requestAnimationFrame(() => {
-          const dot = document.createElement('div');
-          dot.className = 'cursor-trail-dot';
-          dot.style.left = e.clientX + 'px';
-          dot.style.top = e.clientY + 'px';
-          document.body.appendChild(dot);
-          trail.push(dot);
-          if (trail.length > 4) {
-            const old = trail.shift();
-            old.remove();
-          }
-          setTimeout(() => {
-            dot.style.opacity = '0';
-            setTimeout(() => dot.remove(), 400);
-          }, 60);
-          ticking = false;
-        });
-        ticking = true;
+      if (!visible) {
+        animate(opacity, 0, { duration: 0.15 });
+        return;
+      }
+
+      if (state === 'idle') {
+        animate(width, 22, config);
+        animate(height, 22, config);
+        animate(opacity, 0.32, config);
+        animate(borderColor, 'rgba(184, 150, 12, 0.55)', config);
+        animate(backgroundColor, 'rgba(184, 150, 12, 0.02)', config);
+        animate(boxShadow, 'none', config);
+        animate(dotOpacity, 0, config);
+      } else if (state === 'action') {
+        animate(width, 38, config);
+        animate(height, 38, config);
+        animate(opacity, 0.72, config);
+        animate(borderColor, 'rgba(184, 150, 12, 0.9)', config);
+        animate(backgroundColor, 'rgba(184, 150, 12, 0.08)', config);
+        animate(boxShadow, '0 0 24px rgba(184, 150, 12, 0.18)', config);
+        animate(dotOpacity, 1, config);
+      } else if (state === 'text') {
+        animate(width, 10, config);
+        animate(height, 30, config);
+        animate(opacity, 0.55, config);
+        animate(borderColor, 'rgba(200, 216, 240, 0.75)', config);
+        animate(backgroundColor, 'rgba(200, 216, 240, 0.06)', config);
+        animate(boxShadow, 'none', config);
+        animate(dotOpacity, 0, config);
       }
     };
 
-    const handleMouseOver = (e) => {
-      const target = e.target;
-      const computedStyle = window.getComputedStyle(target);
-      
-      // Determine state by element type or styling
-      if (
-        target.tagName.toLowerCase() === 'a' ||
-        target.tagName.toLowerCase() === 'button' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.closest('.cursor-pointer') ||
-        computedStyle.cursor === 'pointer'
-      ) {
-        setCursorState('pointer');
-        trail.forEach(t => t.remove()); // Clear trail when hovering
-        trail.length = 0;
-      } else if (
-        target.tagName.toLowerCase() === 'input' ||
-        target.tagName.toLowerCase() === 'textarea' ||
-        target.tagName.toLowerCase() === 'p' ||
-        target.tagName.toLowerCase().match(/^h[1-6]$/) ||
-        computedStyle.cursor === 'text'
-      ) {
-        setCursorState('text');
-        trail.forEach(t => t.remove()); // Clear trail
-        trail.length = 0;
-      } else {
-        setCursorState('default');
+    const handleMouseMove = (event) => {
+      mouseX.set(event.clientX);
+      mouseY.set(event.clientY);
+      if (!isMouseOnScreen) {
+        updateCursorProperties(currentCursorState, true);
       }
     };
 
-    window.addEventListener('mousemove', onMouseMove);
+    const handleMouseOver = (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      let targetState = 'idle';
+      if (target.closest(textSelector)) {
+        targetState = 'text';
+      } else if (target.closest(interactiveSelector)) {
+        targetState = 'action';
+      }
+
+      if (currentCursorState !== targetState || !isMouseOnScreen) {
+        updateCursorProperties(targetState, true);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      updateCursorProperties(currentCursorState, false);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
-      trail.forEach(t => t.remove());
+      document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [mouseX, mouseY, cursorState]);
+  }, [mouseX, mouseY, width, height, opacity, borderColor, backgroundColor, boxShadow, dotOpacity]);
 
-
-
-  const variantsInner = {
-    default: {
-      width: 4,
-      height: 4,
-      opacity: 1,
-      backgroundColor: '#B8960C'
-    },
-    pointer: {
-      width: 0,
-      height: 0,
-      opacity: 0
-    },
-    text: {
-      width: 2,
-      height: 16,
-      opacity: 1,
-      backgroundColor: '#B8960C',
-      borderRadius: '2px'
-    }
-  };
-
-  const variantsOuter = {
-    default: {
-      width: 14,
-      height: 14,
-      borderWidth: 1,
-      borderColor: 'rgba(184, 150, 12, 0.4)',
-      backgroundColor: 'transparent',
-      opacity: 1,
-      scale: 1,
-      rotate: 45, // Sharp diamond
-      borderRadius: '2px'
-    },
-    pointer: {
-      width: 24,
-      height: 24,
-      borderWidth: 1,
-      borderColor: 'rgba(184, 150, 12, 0.8)',
-      backgroundColor: 'rgba(184, 150, 12, 0.05)',
-      opacity: 1,
-      scale: 1,
-      rotate: 90,
-      borderRadius: '0px' // Sharp square framing
-    },
-    text: {
-      width: 4,
-      height: 24,
-      borderWidth: 0,
-      borderColor: 'transparent',
-      backgroundColor: 'rgba(184, 150, 12, 0.2)',
-      opacity: 1,
-      scale: 1,
-      rotate: 0,
-      borderRadius: '0px'
-    }
-  };
-
-  // Primary inner point: Zero-latency tracking
   return (
-    <div className="custom-cursor-wrapper">
-      {/* Outer physics-based trailing ring */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2"
-        style={{
-          x: smoothX,
-          y: smoothY,
-          willChange: 'transform'
-        }}
-        variants={variantsOuter}
-        animate={cursorState}
-        transition={{ type: 'spring', stiffness: 450, damping: 30, mass: 0.4 }}
-      >
-        <AnimatePresence>
-          {cursorState === 'pointer' && (
-             <motion.div 
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                className="w-[2px] h-[2px] bg-[#EEF2F9] rounded-full absolute"
-             />
-          )}
-        </AnimatePresence>
-      </motion.div>
-
-      {/* Primary inner point: Zero-latency tracking */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[10000] flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2"
-        style={{
-          x: mouseX,
-          y: mouseY,
-          willChange: 'transform'
-        }}
-        variants={variantsInner}
-        animate={cursorState}
-        transition={{ type: 'tween', ease: 'linear', duration: 0 }}
+    <motion.div
+      aria-hidden="true"
+      className="custom-cursor-wrapper fixed left-0 top-0 z-[9999] pointer-events-none hidden items-center justify-center border sm:flex"
+      style={{
+        x: smoothX,
+        y: smoothY,
+        translateX: '-50%',
+        translateY: '-50%',
+        width,
+        height,
+        opacity,
+        borderColor,
+        backgroundColor,
+        boxShadow,
+        borderRadius: 999,
+        willChange: 'transform, width, height',
+      }}
+    >
+      <motion.span
+        className="h-1.5 w-1.5 rounded-full bg-[#B8960C]"
+        style={{ opacity: dotOpacity }}
       />
-    </div>
+    </motion.div>
   );
 };
 
