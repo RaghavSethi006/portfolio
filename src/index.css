@@ -41,15 +41,10 @@
     font-family: 'Inter', system-ui, sans-serif;
     background-color: #0B1428;
     color: #EEF2F9;
+    overflow-x: hidden;
   }
   
-  @media (pointer: fine) {
-    *, a, button, input, textarea, [role="button"] {
-      cursor: none !important;
-    }
-  }
-
-  /* Hide custom cursor + trails on touch-only devices (phones, tablets) */
+  /* Hide cursor enhancement on touch-only devices (phones, tablets) */
   @media not (pointer: fine) {
     .custom-cursor-wrapper,
     .cursor-trail-dot {
@@ -139,38 +134,6 @@
 }
 
 /* ── Cursor trail dot ────────────────────────────────── */
-.cursor-trail-dot {
-  position: fixed;
-  width: 14px;
-  height: 14px;
-  border: 1px solid rgba(184, 150, 12, 0.4);
-  background: transparent;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  transition: opacity 0.4s ease-out;
-}
-
-.cursor-trail-dot::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(184, 150, 12, 0.6);
-}
-
-.cursor-trail-dot::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(184, 150, 12, 0.6);
-}
-
 /* ── Custom Modal Scrollbar ──────────────────────────── */
 .custom-modal-scrollbar::-webkit-scrollbar {
   width: 4px;
@@ -234,4 +197,14 @@ body::before {
 @keyframes cursor-blink {
   from, to { opacity: 0; }
   50% { opacity: 1; }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
