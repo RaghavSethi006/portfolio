@@ -105,11 +105,11 @@ const HeroSection = () => {
 
           <div className="
             absolute lg:static 
-            right-0 sm:right-0 md:right-0 lg:right-auto 
+            right-[-50vw] sm:right-[-40vw] md:right-[-30vw] lg:right-auto 
             top-[45%] lg:top-auto 
             -translate-y-1/2 lg:translate-y-0 
             opacity-60 lg:opacity-100 
-            w-[100vw] sm:w-[80vw] md:w-[60vw] lg:w-full lg:max-w-[420px] 
+            w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-full lg:max-w-[420px] 
             -z-10 lg:z-10 
             pointer-events-none lg:pointer-events-auto
           ">
