@@ -1,6 +1,17 @@
 
 export const experience = [
   {
+    title: 'Research Trainee',
+    company: 'Computing Research Association',
+    period: 'Jun 2026 – Aug 2026',
+    description: 'Engaging in an intensive research fellowship focused on academic writing, experimental design, and advanced data analysis in computing.',
+    achievements: [
+      'Collaborating with research mentors to review state-of-the-art literature and synthesize methodologies for emerging computing challenges.',
+      'Strengthening competencies in rigorous research design, quantitative/qualitative data analysis, and ethical research protocols.',
+      'Participating in professional development seminars, peer workshops, and mentorship panels led by leading computer science researchers.'
+    ]
+  },
+  {
     title: 'Vice President of Technology',
     company: 'Undergraduate Artificial Intelligence Society (UAIS)',
     period: 'Apr 2026 – Present',
