@@ -74,7 +74,7 @@ const Navigation = ({ activeSection, onNavigate, isProjectOpen = false, onBackFr
           </span>
         </div>
 
-        {/* Mobile right slot */}
+        {/* Mobile right slot — visible only on mobile (< md) */}
         {isProjectOpen ? (
           /* Back arrow button — replaces hamburger when inside a project */
           <motion.button
@@ -84,7 +84,7 @@ const Navigation = ({ activeSection, onNavigate, isProjectOpen = false, onBackFr
             exit={{ opacity: 0, x: 8 }}
             type="button"
             onClick={onBackFromProject}
-            className="md:hidden flex h-10 w-10 items-center justify-center rounded-full border border-[#B8960C]/40 bg-[#B8960C]/10 text-[#B8960C] transition hover:bg-[#B8960C]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
+            className="flex md:hidden h-10 w-10 items-center justify-center rounded-full border border-[#B8960C]/40 bg-[#B8960C]/10 text-[#B8960C] transition hover:bg-[#B8960C]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
             aria-label="Back to projects"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -92,7 +92,7 @@ const Navigation = ({ activeSection, onNavigate, isProjectOpen = false, onBackFr
         ) : (
           /* Hamburger button — normal mode */
           <button
-            className="md:hidden rounded-md border border-[#7A8EAB]/20 p-2 text-[#EEF2F9] transition hover:bg-[#EEF2F9]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
+            className="flex md:hidden items-center justify-center rounded-md border border-[#7A8EAB]/20 bg-[#0B1428]/60 p-2 text-[#EEF2F9] transition hover:bg-[#EEF2F9]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle mobile menu"
           >

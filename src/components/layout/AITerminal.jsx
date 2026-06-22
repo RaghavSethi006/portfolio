@@ -111,9 +111,9 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
 
     const apiKey = process.env.REACT_APP_GROQ_API_KEY;
     if (!apiKey) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: `> REI_OFFLINE: I can still answer preset commands, but live AI responses need the portfolio API relay.` 
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: `> REI_OFFLINE\n> Live AI inference is disabled in this deployment.\n> Try built-in commands: \\skills  \\projects  \\contact  \\help`
       }]);
       setIsLoading(false);
       return;
