@@ -105,14 +105,13 @@ const HeroSection = () => {
 
           <div className="
             absolute lg:static 
-            right-[-75vw] sm:right-[-60vw] md:right-[-50vw] lg:right-auto 
+            right-0 sm:right-0 md:right-0 lg:right-auto 
             top-[45%] lg:top-auto 
             -translate-y-1/2 lg:translate-y-0 
             opacity-60 lg:opacity-100 
-            w-[150vw] sm:w-[120vw] md:w-[100vw] lg:w-full lg:max-w-[420px] 
+            w-[100vw] sm:w-[80vw] md:w-[60vw] lg:w-full lg:max-w-[420px] 
             -z-10 lg:z-10 
-            pointer-events-none lg:pointer-events-auto 
-            flex justify-end
+            pointer-events-none lg:pointer-events-auto
           ">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
