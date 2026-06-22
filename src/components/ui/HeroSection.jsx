@@ -10,7 +10,7 @@ const HeroSection = () => {
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
-        <div className="grid gap-12 lg:grid-cols-[1fr_minmax(320px,420px)] items-center relative z-10 w-full">
+        <div className="grid gap-12 lg:grid-cols-[1fr_minmax(320px,420px)] items-center relative z-10 w-full overflow-hidden">
           <motion.div
             className="space-y-8"
             initial={{ opacity: 0, y: 20 }}
