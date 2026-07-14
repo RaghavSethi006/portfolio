@@ -9,8 +9,9 @@ import ProjectDetailPage from './features/projects/ProjectDetailPage';
 import ResumePage from './features/resume/ResumePage';
 import ReviewsPage from './features/reviews/ReviewsPage';
 import ContactSection from './features/contact/ContactSection';
-import { reviews as initialReviews } from './data/profile';
+import { reviews as fallbackReviews } from './data/profile';
 import projectsData from './data/projects';
+import { fetchTestimonials } from './utils/googleSheet';
 import NeuralBackground from './components/ui/NeuralBackground';
 import InterestsStrip from './components/ui/InterestsStrip';
 import DataTicker from './components/ui/DataTicker';
@@ -24,10 +25,20 @@ const sectionIds = ['home', 'about', 'projects', 'resume', 'skills', 'reviews', 
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [reviews, setReviews] = useState(initialReviews);
+  const [reviews, setReviews] = useState(fallbackReviews);
   const [activeProjectId, setActiveProjectId] = useState(null);
 
   const activeProject = projectsData.find((project) => project.id === activeProjectId);
+
+  useEffect(() => {
+    fetchTestimonials().then((sheetReviews) => {
+      if (sheetReviews.length > 0) {
+        const existingKeys = new Set(fallbackReviews.map((r) => r.author + r.quote));
+        const unique = sheetReviews.filter((r) => !existingKeys.has(r.author + r.quote));
+        if (unique.length > 0) setReviews([...unique, ...fallbackReviews]);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (activeProjectId) return undefined;
@@ -144,7 +155,7 @@ const App = () => {
             <SectionDivider label="05" />
 
             <section id="reviews" className="scroll-mt-24">
-              <ReviewsPage reviews={reviews} setReviews={setReviews} />
+              <ReviewsPage reviews={reviews} />
             </section>
             
             <StatementBand text="LET'S TALK" sub="Precision in every exchange." />

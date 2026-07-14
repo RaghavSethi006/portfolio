@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { submitTestimonial } from '../../utils/googleSheet';
+
+const RELATIONSHIP_OPTIONS = ['Colleague', 'Manager', 'Client', 'Collaborator', 'Other'];
 
 const chessNav = [
   { prev: '← Qb6', next: 'Nf3 →' },
@@ -9,11 +12,22 @@ const chessNav = [
   { prev: '← Nd2', next: 'O-O-O →' },
 ];
 
-const ReviewsPage = ({ reviews, setReviews }) => {
+const ReviewsPage = ({ reviews }) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isComposing, setIsComposing] = useState(false);
-  const [formData, setFormData] = useState({ quote: '', author: '', role: '' });
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [formData, setFormData] = useState({
+    quote: '',
+    author: '',
+    role: '',
+    company: '',
+    linkedin: '',
+    relationship: '',
+    relationshipOther: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const current = reviews[index] || reviews[0];
   const nav = chessNav[index % chessNav.length];
@@ -23,16 +37,27 @@ const ReviewsPage = ({ reviews, setReviews }) => {
     setIndex((prev) => (prev + dir + reviews.length) % reviews.length);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.quote.trim() || !formData.author.trim()) return;
-    
-    setReviews(prev => [...prev, { ...formData }]);
-    setFormData({ quote: '', author: '', role: '' });
-    setIsComposing(false);
-    
-    setDirection(1);
-    setIndex(reviews.length);
+
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    const payload = {
+      ...formData,
+      relationship: formData.relationship === 'Other' ? formData.relationshipOther : formData.relationship,
+    };
+
+    const result = await submitTestimonial(payload);
+
+    if (result.success) {
+      setSubmitted(true);
+      setFormData({ quote: '', author: '', role: '', company: '', linkedin: '', relationship: '', relationshipOther: '' });
+    } else {
+      setSubmitError(result.error || 'Something went wrong. Please try again.');
+    }
+    setIsSubmitting(false);
   };
 
   const variants = {
@@ -64,15 +89,20 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                 className="font-serif text-[#EEF2F9] leading-relaxed"
                 style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)', fontStyle: 'italic' }}
               >
-                "{current.quote}"
+                &ldquo;{current.quote}&rdquo;
               </p>
               <div className="mt-8 flex flex-col items-center gap-1">
                 <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0]">
                   {current.author}
                 </span>
                 <span className="font-mono text-[10px] tracking-[0.2em] text-[#7A8EAB]">
-                  {current.role}
+                  {[current.role, current.company].filter(Boolean).join(', ')}
                 </span>
+                {current.relationship && (
+                  <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#B8960C] mt-1">
+                    {current.relationship}
+                  </span>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>
@@ -121,7 +151,22 @@ const ReviewsPage = ({ reviews, setReviews }) => {
 
         <div className="mt-16 pt-10 border-t border-[#1A2744] relative z-50 flex flex-col items-center">
           <AnimatePresence mode="wait">
-            {!isComposing ? (
+            {submitted ? (
+              <motion.div
+                key="thanks"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="font-serif text-[#EEF2F9] text-lg italic">
+                  Thank you for your note.
+                </p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#7A8EAB] mt-2">
+                  It will appear here once reviewed.
+                </p>
+              </motion.div>
+            ) : !isComposing ? (
               <motion.div
                 key="prompt"
                 initial={{ opacity: 0, y: 10 }}
@@ -133,7 +178,7 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                   Worked with me?
                 </p>
                 <button
-                  onClick={() => setIsComposing(true)}
+                  onClick={() => { setSubmitted(false); setIsComposing(true); }}
                   className="inline-block px-4 py-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#C8D8F0] hover:text-[#B8960C] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18] rounded"
                 >
                   Leave a note →
@@ -177,8 +222,50 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                       className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
                     />
                   </div>
+                  <div className="flex gap-4">
+                    <input
+                      type="text"
+                      placeholder="Company (Optional)"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                    />
+                    <input
+                      type="url"
+                      placeholder="LinkedIn URL (Optional)"
+                      value={formData.linkedin}
+                      onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <select
+                      value={formData.relationship}
+                      onChange={(e) => setFormData({ ...formData, relationship: e.target.value })}
+                      className="w-full bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] focus:border-[#B8960C] focus:outline-none transition-colors appearance-none"
+                      style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%237A8EAB' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 0.75rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.25rem' }}
+                    >
+                      <option value="" disabled className="bg-[#050A18]">Relationship (Optional)</option>
+                      {RELATIONSHIP_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt} className="bg-[#050A18]">{opt}</option>
+                      ))}
+                    </select>
+                    {formData.relationship === 'Other' && (
+                      <input
+                        type="text"
+                        placeholder="Specify relationship"
+                        value={formData.relationshipOther}
+                        onChange={(e) => setFormData({ ...formData, relationshipOther: e.target.value })}
+                        className="mt-2 w-full bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                      />
+                    )}
+                  </div>
                 </div>
-                
+
+                {submitError && (
+                  <p className="mt-4 font-mono text-[10px] tracking-[0.2em] text-red-400">{submitError}</p>
+                )}
+
                 <div className="mt-6 flex justify-between items-center">
                   <button
                     type="button"
@@ -189,9 +276,10 @@ const ReviewsPage = ({ reviews, setReviews }) => {
                   </button>
                   <button
                     type="submit"
-                    className="bg-[#1A2744] hover:bg-[#B8960C] text-[#EEF2F9] hover:text-[#050A18] px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
+                    disabled={isSubmitting}
+                    className="bg-[#1A2744] hover:bg-[#B8960C] text-[#EEF2F9] hover:text-[#050A18] px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
                   >
-                    Sign & Attach
+                    {isSubmitting ? 'Sending...' : 'Sign & Attach'}
                   </button>
                 </div>
               </motion.form>

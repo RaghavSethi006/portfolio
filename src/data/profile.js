@@ -143,17 +143,23 @@ export const reviews = [
   {
     quote: 'Raghav’s work feels inevitable. He takes a messy requirements brief and delivers a system that is as clear as it is powerful.',
     author: 'Aditi Rao',
-    role: 'Product Lead, FinTech'
+    role: 'Product Lead',
+    company: 'FinTech',
+    relationship: 'Client'
   },
   {
     quote: 'The attention to structure and detail in his projects makes every feature feel considered and complete.',
     author: 'Nishant Kapoor',
-    role: 'Data Science Manager'
+    role: 'Data Science Manager',
+    company: '',
+    relationship: 'Colleague'
   },
   {
-    quote: 'He builds tools that don’t just work — they feel like they were designed by someone who understands the problem deeply.',
+    quote: 'He builds tools that don\'t just work — they feel like they were designed by someone who understands the problem deeply.',
     author: 'Priya Menon',
-    role: 'Operations Director'
+    role: 'Operations Director',
+    company: '',
+    relationship: 'Manager'
   }
 ];
 
