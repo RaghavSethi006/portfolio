@@ -1,10 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Github } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Github } from 'lucide-react';
 import projectsData from '../../data/projects';
 import SplitHeading from '../../components/ui/SplitHeading';
 
 const ProjectsPage = ({ onOpenProject }) => {
+  const sortedProjects = [...projectsData].sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return 0;
+  });
+
   return (
     <section className="bg-[#050A18] py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -20,7 +26,7 @@ const ProjectsPage = ({ onOpenProject }) => {
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {projectsData.map((project, index) => (
+          {sortedProjects.map((project, index) => (
             <motion.article
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
@@ -87,17 +93,30 @@ const ProjectsPage = ({ onOpenProject }) => {
                   Open Case Study
                   <ArrowUpRight className="h-4 w-4" />
                 </button>
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 self-start rounded-full border border-[#1A2744] bg-[#050A18] px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] transition hover:border-[#B8960C] hover:text-[#EEF2F9]"
-                  >
-                    <Github className="h-3 w-3" />
-                    Source Code
-                  </a>
-                )}
+                <div className="flex flex-wrap gap-3">
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-[#B8960C] bg-[#B8960C]/10 px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-[#E6D08A] transition hover:bg-[#B8960C] hover:text-[#050A18]"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      Demo
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-[#1A2744] bg-[#050A18] px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-[#7A8EAB] transition hover:border-[#B8960C] hover:text-[#EEF2F9]"
+                    >
+                      <Github className="h-3 w-3" />
+                      Source Code
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.article>
           ))}
