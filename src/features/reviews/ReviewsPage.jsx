@@ -202,7 +202,7 @@ const ReviewsPage = ({ reviews }) => {
                     placeholder="Your note..."
                     value={formData.quote}
                     onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
-                    className="w-full bg-transparent border border-[#1A2744] rounded-lg p-4 font-serif text-[#EEF2F9] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors resize-none"
+                    className="w-full bg-[#0A1228] border border-[#2A3A5A] rounded-lg p-4 font-serif text-[#EEF2F9] placeholder:text-[#4A6A8A] focus:border-[#B8960C] focus:outline-none transition-colors resize-none"
                     style={{ fontSize: '1.2rem', fontStyle: 'italic' }}
                   />
                   <div className="flex gap-4">
@@ -212,14 +212,14 @@ const ReviewsPage = ({ reviews }) => {
                       placeholder="Name"
                       value={formData.author}
                       onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                      className="flex-1 bg-[#0A1228] border border-[#2A3A5A] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#4A6A8A] focus:border-[#B8960C] focus:outline-none transition-colors"
                     />
                     <input
                       type="text"
                       placeholder="Role (Optional)"
                       value={formData.role}
                       onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                      className="flex-1 bg-[#0A1228] border border-[#2A3A5A] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#4A6A8A] focus:border-[#B8960C] focus:outline-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-4">
@@ -228,26 +228,26 @@ const ReviewsPage = ({ reviews }) => {
                       placeholder="Company (Optional)"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                      className="flex-1 bg-[#0A1228] border border-[#2A3A5A] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#4A6A8A] focus:border-[#B8960C] focus:outline-none transition-colors"
                     />
                     <input
                       type="url"
                       placeholder="LinkedIn URL (Optional)"
                       value={formData.linkedin}
                       onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
-                      className="flex-1 bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                      className="flex-1 bg-[#0A1228] border border-[#2A3A5A] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#4A6A8A] focus:border-[#B8960C] focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
                     <select
                       value={formData.relationship}
                       onChange={(e) => setFormData({ ...formData, relationship: e.target.value })}
-                      className="w-full bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] focus:border-[#B8960C] focus:outline-none transition-colors appearance-none"
+                      className="w-full bg-[#0A1228] border border-[#2A3A5A] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] focus:border-[#B8960C] focus:outline-none transition-colors appearance-none"
                       style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%237A8EAB' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 0.75rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.25rem' }}
                     >
-                      <option value="" disabled className="bg-[#050A18]">Relationship (Optional)</option>
+                      <option value="" disabled className="bg-[#0A1228]">Relationship (Optional)</option>
                       {RELATIONSHIP_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt} className="bg-[#050A18]">{opt}</option>
+                        <option key={opt} value={opt} className="bg-[#0A1228]">{opt}</option>
                       ))}
                     </select>
                     {formData.relationship === 'Other' && (
@@ -256,7 +256,7 @@ const ReviewsPage = ({ reviews }) => {
                         placeholder="Specify relationship"
                         value={formData.relationshipOther}
                         onChange={(e) => setFormData({ ...formData, relationshipOther: e.target.value })}
-                        className="mt-2 w-full bg-transparent border border-[#1A2744] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#1A2744] focus:border-[#B8960C] focus:outline-none transition-colors"
+                        className="mt-2 w-full bg-[#0A1228] border border-[#2A3A5A] rounded-md px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#C8D8F0] placeholder:text-[#4A6A8A] focus:border-[#B8960C] focus:outline-none transition-colors"
                       />
                     )}
                   </div>
