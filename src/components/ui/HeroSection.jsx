@@ -90,7 +90,7 @@ const HeroSection = () => {
               transition={{ delay: 0.8, duration: 1.2 }}
             >
               {[
-                { label: 'PROJECTS', value: '09' },
+                { label: 'PROJECTS', value: '10' },
                 { label: 'YEAR', value: String(new Date().getFullYear()) },
                 { label: 'DEGREE', value: 'CS·AI' },
                 { label: 'STATUS', value: 'BUILDING' },
