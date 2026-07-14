@@ -135,8 +135,8 @@ const ProjectDetailPage = ({ project, onBack }) => {
         />
       </div>
 
-      <div className="relative z-10 lg:grid lg:grid-cols-[268px_minmax(0,1fr)]">
-        <aside className="hidden h-[calc(100vh-6rem)] border-r border-[#1A2744]/80 bg-[#070D1B]/88 backdrop-blur-xl lg:sticky lg:top-24 lg:flex lg:flex-col lg:self-start">
+      <div className="relative z-10">
+        <aside className="hidden h-[calc(100vh-6rem)] border-r border-[#1A2744]/80 bg-[#070D1B]/88 backdrop-blur-xl lg:fixed lg:top-24 lg:left-0 lg:z-40 lg:w-[268px] lg:flex lg:flex-col">
           <div className="border-b border-[#1A2744]/70 p-4 pt-6">
             <button
               type="button"
@@ -227,7 +227,7 @@ const ProjectDetailPage = ({ project, onBack }) => {
           </div>
         </aside>
 
-        <main>
+        <main className="lg:ml-[268px]">
           <section className="px-5 pb-10 pt-6 sm:px-8 lg:px-12 xl:px-16">
 
             <div className="mt-8 grid gap-10 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
