@@ -60,7 +60,7 @@ const ResumePage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
@@ -78,18 +78,25 @@ const ResumePage = () => {
 
         <div className="space-y-16">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="h-10 w-1 rounded-full bg-[#B8960C]" />
               <h3 className="text-2xl font-serif text-[#EEF2F9]">Experience</h3>
             </div>
-            <div className="space-y-8">
+            <div className="space-y-6">
               {experience.map((job, index) => (
-                <article key={index} className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8">
+                <motion.article
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.08 }}
+                  className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-6 sm:p-8"
+                >
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                       <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">{job.company}</p>
@@ -103,27 +110,33 @@ const ResumePage = () => {
                       <p key={idx}>• {item}</p>
                     ))}
                   </div>
-                </article>
+                </motion.article>
               ))}
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="h-10 w-1 rounded-full bg-[#B8960C]" />
               <h3 className="text-2xl font-serif text-[#EEF2F9]">Education</h3>
             </div>
-            <article className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-8">
+            <motion.article
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-6 sm:p-8"
+            >
               <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">{education.school}</p>
               <h4 className="mt-3 text-2xl font-serif text-[#EEF2F9]">{education.degree}</h4>
               <p className="mt-3 text-sm uppercase tracking-[0.35em] text-[#7A8EAB]">{education.period}</p>
               <p className="mt-5 text-[#CAD4E4] leading-7">{education.description}</p>
-            </article>
+            </motion.article>
           </motion.div>
 
           <motion.div
@@ -131,7 +144,7 @@ const ResumePage = () => {
             className="scroll-mt-24"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.15 }}
           >
             <div className="flex items-center gap-4 mb-8">
@@ -140,7 +153,14 @@ const ResumePage = () => {
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {technicalSkills.map((group) => (
-                <div key={group.category} className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-6 transition-all hover:border-[#B8960C]/50 hover:shadow-[0_0_15px_rgba(184,150,12,0.1)]">
+                <motion.div
+                  key={group.category}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="rounded-xl border border-[#1A2744] bg-[#0B1428] p-6 transition-all hover:border-[#B8960C]/50 hover:shadow-[0_0_15px_rgba(184,150,12,0.1)]"
+                >
                   <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-6">{group.category}</p>
                   <div className="flex flex-wrap items-center gap-3">
                     {group.skills.map((skillGroup, idx) => (
@@ -174,7 +194,7 @@ const ResumePage = () => {
                       </React.Fragment>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
