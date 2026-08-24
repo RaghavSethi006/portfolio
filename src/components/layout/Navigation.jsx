@@ -48,7 +48,11 @@ const Navigation = ({ activeSection, onNavigate, isProjectOpen = false, onBackFr
           className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#C8D8F0]/20 bg-[#0B1428] text-[#EEF2F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
           aria-label={isProjectOpen ? 'Back to projects' : 'Go to home'}
         >
-          <span className="font-serif text-[0.7rem] uppercase tracking-[0.35em]">RS</span>
+          <img
+            src={`${process.env.PUBLIC_URL}/rs_logo.png`}
+            alt="Raghav Sethi Logo"
+            className="h-8 w-8 rounded-full object-cover"
+          />
           <span className="absolute inset-2 rounded-full border border-[#B8960C]/20 watch-logo-ring" />
         </button>
 
