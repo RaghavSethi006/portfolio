@@ -45,15 +45,14 @@ const Navigation = ({ activeSection, onNavigate, isProjectOpen = false, onBackFr
         <button
           type="button"
           onClick={() => isProjectOpen ? onBackFromProject?.() : handleNavClick('home')}
-          className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#C8D8F0]/20 bg-[#0B1428] text-[#EEF2F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18]"
+          className="relative flex h-12 w-auto shrink-0 items-center justify-center bg-transparent text-[#EEF2F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8960C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050A18] rounded-md"
           aria-label={isProjectOpen ? 'Back to projects' : 'Go to home'}
         >
           <img
             src={`${process.env.PUBLIC_URL}/rs_logo.png`}
             alt="Raghav Sethi Logo"
-            className="h-8 w-8 rounded-full object-cover"
+            className="h-10 w-auto object-contain"
           />
-          <span className="absolute inset-2 rounded-full border border-[#B8960C]/20 watch-logo-ring" />
         </button>
 
         {/* Desktop nav links — hidden on mobile */}
