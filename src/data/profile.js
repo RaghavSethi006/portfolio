@@ -1,6 +1,19 @@
 
 export const experience = [
   {
+    title: 'Software Engineer Intern',
+    company: 'Kuwait Financial Centre - Markaz',
+    period: 'Jul 2026 – Aug 2026',
+    description: 'Developed an automated portfolio reporting pipeline and client-facing scorecards for a leading financial institution.',
+    achievements: [
+      'Developed an automated portfolio reporting pipeline in Python that ingests financial holding data from third-party sources, enriches it with proprietary analyst signals and risk ratings, and produces personalized client-facing scorecards — reducing manual reporting effort',
+      'Designed a quantitative scoring and client risk classification system that evaluates portfolio holdings across multiple weighted dimensions, translating raw analyst ratings into actionable numeric scores and categorical risk profiles',
+      'Built custom data visualizations using Matplotlib, including gauge and bar chart components with a brand-aligned color system, rendered headless and embedded dynamically into HTML reports',
+      'Created responsive email templates using MJML and Jinja2 templating, enabling per-client dynamic content injection (scores, charts, breakdowns, and rankings) for consistent cross-client delivery',
+      'Engineered modular pipeline stages (data ingestion, join/aggregation, scoring, rendering, delivery) with CLI and environment-driven configuration, supporting both offline preview and live email modes'
+    ]
+  },
+  {
     title: 'Research Trainee',
     company: 'Computing Research Association',
     period: 'Jun 2026 – Aug 2026',
