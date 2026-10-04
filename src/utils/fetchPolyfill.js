@@ -22,4 +22,5 @@ try {
   }
 } catch (_) {}
 
-export default true;
+const isFetchPolyfilled = true;
+export default isFetchPolyfilled;
