@@ -559,6 +559,53 @@ const projects = [
             status: 'In Progress',
         }
     },
+    {
+        id: 13,
+        title: 'FitPulse',
+        category: 'Mobile & AI Systems',
+        description: 'An AI-powered native Android fitness and nutrition ecosystem featuring multimodal Gemini food plate vision scanning, 2D biomechanical workout guides with voice coaching, and local Room persistence.',
+        tech: ['Kotlin', 'Jetpack Compose', 'Android SDK', 'Gemini AI', 'Room SQLite', 'Material 3', 'Coroutines', 'Retrofit'],
+        github: 'https://github.com/RaghavSethi006/Fitpulse-',
+        demo: null,
+        status: 'Completed',
+        progress: 100,
+        featured: true,
+        caseStudy: {
+            tagline: 'An all-in-one native Android fitness companion powered by on-device intelligence and Gemini Vision.',
+            overview: 'FitPulse is a comprehensive, offline-first mobile fitness and nutrition ecosystem built natively for Android using Kotlin and Jetpack Compose. Designed with an immersive Material 3 dark visual language, it unifies calorie and macro tracking, interactive 2D animated biomechanical gym guides, real-time voice coaching via Android TTS, and a 30-day telemetry dashboard into a single zero-bloat interface. To eliminate the friction of manual food logging, FitPulse leverages Google Gemini Flash multimodal vision to instantly identify complex meal plates, estimate portion weights, and break down macronutrients from a single camera snapshot.',
+            problem: 'The fitness app landscape is notoriously fragmented and user-hostile: calorie counters lock basic barcode scanning behind paywalls, workout apps lack real-time biomechanical cues during active sets, and nutrition planners fail to account for real-world messy food plates. Furthermore, most commercial apps rely entirely on cloud servers for basic metrics, resulting in slow load times and invasive telemetry.',
+            solution: 'Engineered an offline-first architecture where personal health telemetry, weight logs, and workout histories are persisted strictly to a local Room SQLite database with zero cloud dependency. Integrated Google Gemini Flash via structured JSON schema decoding to analyze meal images on demand, extracting granular macro breakdowns and calorie counts in seconds. For active gym sessions, developed a real-time workout player featuring 2D animated biomechanical skeletal form guides, an automated rest timer, and an Android TTS voice coach delivering cadence counts and form reminders hands-free.',
+            metrics: [
+                { label: 'Platform', value: 'Android 14+' },
+                { label: 'AI Vision Engine', value: 'Gemini Flash' },
+                { label: 'Local Persistence', value: 'Room SQLite' },
+                { label: 'Verified Foods', value: '100+ Preloaded' },
+            ],
+            howIBuiltIt: 'Architected following Android Modern App Architecture (MVVM + Repository pattern) with Kotlin 2.0 and Jetpack Compose. Built the local persistence layer first using Room with reactive Kotlin Coroutines StateFlow to drive live UI updates without manual re-fetching. Developed the Gemini AI Vision client with Retrofit and Moshi to serialize plate images into base64 and parse strict JSON nutritional responses with fallback nutrition heuristics. Built custom Jetpack Compose Canvas components for smooth 60fps circular progress rings, 30-day weight trend line charts, and animated 2D biomechanical skeletal movement guides for major compound lifts (squats, bench press, deadlifts). Wrapped the workout execution engine with Android\'s TextToSpeech API to provide hands-free voice cues during sets and rest intervals.',
+            features: [
+                'Multimodal AI Food Plate Scanner — snap a photo to instantly identify items, estimate portion sizes, and calculate protein, carbs, fats, and calories via Gemini Flash',
+                'Biomechanical 2D Workout Guide — real-time animated skeletal exercise cues illustrating proper joint angles, range of motion, and target muscle activation',
+                'Hands-Free Voice Coach — Android TTS integration delivering countdowns, rep pacing, and transition cues without needing to touch the phone during lifts',
+                'Offline-First Room SQLite Storage — 100% private local persistence for workout logs, weight trends, custom recipes, and hydration history',
+                'Comprehensive Health Dashboard — circular gradient calorie/macro rings, interactive 30-day weight trend line charts, and weekly volume tracking',
+                'Custom Routine & Split Builder — configure Push/Pull/Legs or custom splits with target sets, reps, load weights, and tailored rest timers',
+                'AI Nutritionist & Meal Planner — generates personalized 7-day nutritional roadmaps calibrated to user TDEE, dietary restrictions, and fitness goals',
+                'Coach Alex Conversational AI — context-aware fitness assistant capable of adjusting workout intensity based on reported fatigue or soreness',
+            ],
+            techStack: [
+                { name: 'Kotlin 2.0', detail: 'Primary modern language for native Android development, leveraging coroutines, structured concurrency, and type-safe DSLs.' },
+                { name: 'Jetpack Compose', detail: 'Declarative UI toolkit for reactive, declarative screen rendering with Material 3 theming and hardware-accelerated animations.' },
+                { name: 'Google Gemini Flash', detail: 'Multimodal vision and generative AI model utilized for plate image recognition, macro estimation, and dynamic meal planning.' },
+                { name: 'Room (SQLite)', detail: 'Local-first relational persistence abstraction layer providing reactive StateFlow streams and offline data caching.' },
+                { name: 'Android TTS', detail: 'Native on-device Text-to-Speech engine providing hands-free audio cues and coaching prompts during workout sets.' },
+                { name: 'Retrofit & Moshi', detail: 'Type-safe HTTP client with JSON serialization for seamless communication with AI endpoints and structured response parsing.' },
+                { name: 'Compose Canvas', detail: 'Low-level 2D graphics rendering for smooth circular progress rings, custom multi-axis charts, and skeletal exercise diagrams.' },
+                { name: 'Coil Compose', detail: 'Lightweight, coroutine-based image loading library optimized for fast thumbnail caching and memory efficiency.' },
+            ],
+            challenge: 'Handling multimodal vision parsing reliability and latency on mobile networks. Raw image uploads can be heavy, and unconstrained LLM responses often produce hallucinated or malformed nutritional estimates. Solved by implementing client-side image downscaling and compression before dispatch, accompanied by strict JSON schema prompt engineering that forces Gemini to return a structured nutritional schema with confidence boundaries, falling back to a curated local database of 100+ verified foods when connectivity is constrained.',
+            status: 'Completed',
+        }
+    },
 ];
 
 export default projects;

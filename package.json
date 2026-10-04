@@ -17,6 +17,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
+    "dev": "PORT=3000 HOST=0.0.0.0 react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
@@ -26,8 +27,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {

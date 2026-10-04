@@ -25,7 +25,7 @@ const CustomCursor = () => {
   const opacity = useMotionValue(0);
   const borderColor = useMotionValue('rgba(184, 150, 12, 0.55)');
   const backgroundColor = useMotionValue('rgba(184, 150, 12, 0.02)');
-  const boxShadow = useMotionValue('none');
+  const boxShadow = useMotionValue('0 0 0px rgba(184, 150, 12, 0)');
   const dotOpacity = useMotionValue(0);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const CustomCursor = () => {
         animate(opacity, 0.32, config);
         animate(borderColor, 'rgba(184, 150, 12, 0.55)', config);
         animate(backgroundColor, 'rgba(184, 150, 12, 0.02)', config);
-        animate(boxShadow, 'none', config);
+        animate(boxShadow, '0 0 0px rgba(184, 150, 12, 0)', config);
         animate(dotOpacity, 0, config);
       } else if (state === 'action') {
         animate(width, 38, config);
@@ -65,7 +65,7 @@ const CustomCursor = () => {
         animate(opacity, 0.55, config);
         animate(borderColor, 'rgba(200, 216, 240, 0.75)', config);
         animate(backgroundColor, 'rgba(200, 216, 240, 0.06)', config);
-        animate(boxShadow, 'none', config);
+        animate(boxShadow, '0 0 0px rgba(184, 150, 12, 0)', config);
         animate(dotOpacity, 0, config);
       }
     };

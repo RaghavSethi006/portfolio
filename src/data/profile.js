@@ -1,6 +1,36 @@
 
 export const experience = [
   {
+    title: '3rd Year Representative',
+    company: 'Computer Engineering Club, University of Alberta',
+    period: 'Oct 2026 – Present',
+    description: 'Representing 3rd-year Computer Engineering students within the Computer Engineering Club, bringing student perspectives, concerns, and interests to the executive team.',
+    achievements: [
+      'Represent 3rd-year Computer Engineering students within the Computer Engineering Club, bringing student perspectives, concerns, and interests to the executive team',
+      'Act as a communication link between 3rd-year students and the Club, helping ensure their feedback and priorities are effectively represented',
+      'Promote and publicize Computer Engineering Club events, initiatives, and opportunities to 3rd-year students and encourage student engagement',
+      'Collaborate with executive members across assigned portfolios to support the planning and execution of Club initiatives and events',
+      'Serve as a member of the Junior Executive Committee, contributing to organizational discussions and participating in committee decisions through an elected vote'
+    ]
+  },
+  {
+    title: 'Project Lead',
+    company: 'Undergraduate Artificial Intelligence Society (UAIS)',
+    period: 'Sep 2026 – Present',
+    description: 'Leading a 6-month AI engineering project focused on building an AI-native desktop environment where users can interact with their computer through natural language, multimodal input, and intelligent automation.',
+    achievements: [
+      'Lead the project’s technical architecture, development roadmap, team coordination, cross-team integration, and final product direction across AI, frontend, systems, computer vision, and infrastructure',
+      'Architecting a Windows-first desktop shell using Tauri, React, TypeScript, Rust, FastAPI, Python, SQLite, MediaPipe, and LLMs, with a roadmap toward cross-platform support',
+      'Designing an agentic AI layer with structured tool calling and desktop-state awareness, enabling the system to understand user intent and execute actions such as launching applications, managing windows, switching workspaces, and retrieving information',
+      'Leading the integration of Rust/Tauri with native Windows APIs to provide real-time application and window management, including window detection, focus tracking, movement, resizing, and state synchronization',
+      'Building a unified interaction architecture where AI commands, keyboard/mouse input, and computer-vision-based gestures can trigger the same underlying action system',
+      'Designing support for both hosted and local LLMs through Ollama, enabling experimentation with model capabilities, privacy, latency, and tool-calling reliability',
+      'Coordinating specialized contributors across Frontend & Desktop Shell, AI & Agent Systems, Rust & OS Integration, Multimodal Interaction, Search & Retrieval, and Infrastructure & QA',
+      'Establishing engineering practices around milestone planning, technical specifications, Git workflows, code reviews, testing, documentation, and iterative integration',
+      'Developing evaluation criteria for AI task success, tool-calling reliability, interaction efficiency, gesture performance, latency, and native desktop-control reliability'
+    ]
+  },
+  {
     title: 'Software Engineer Intern',
     company: 'Kuwait Financial Centre - Markaz',
     period: 'Jul 2026 – Aug 2026',

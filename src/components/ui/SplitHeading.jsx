@@ -16,7 +16,7 @@ const wordVariants = {
 
 const SplitHeading = ({ children, className = '', as: Tag = 'h2' }) => {
   const words = children.split(' ');
-  const MotionTag = motion(Tag);
+  const MotionTag = typeof motion.create === 'function' ? motion.create(Tag) : motion(Tag);
 
   return (
     <MotionTag
