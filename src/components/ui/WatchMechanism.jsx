@@ -420,41 +420,6 @@ const WatchMechanism = () => {
 
     containerRef.current.innerHTML = generateWatchMovement(isLite);
 
-    // Parallax logic for subtle depth
-    let raf = 0;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const handlePointer = (e) => {
-      if (prefersReduced || !containerRef.current) return;
-      const tx = e.clientX / window.innerWidth - 0.5;
-      const ty = e.clientY / window.innerHeight - 0.5;
-
-      const layerIds = [
-        ['L-lower', 0.2],
-        ['L-under', 0.4],
-        ['L-plate', 0.6],
-        ['L-gears', 1.0],
-        ['L-bridges', 1.3],
-        ['L-balance', 1.9],
-        ['L-cap', 1.3],
-      ];
-
-      const layers = layerIds
-        .map(([id, k]) => [containerRef.current.querySelector('#' + id), k])
-        .filter(([el]) => Boolean(el));
-
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        for (const [g, k] of layers) {
-          if (g) {
-            g.style.transform = `translate(${(-tx * 16 * k).toFixed(2)}px, ${(-ty * 16 * k).toFixed(2)}px)`;
-          }
-        }
-      });
-    };
-
-    window.addEventListener('pointermove', handlePointer, { passive: true });
-
     // Pause when scrolled out of view
     let observer;
     if ('IntersectionObserver' in window) {
@@ -467,8 +432,6 @@ const WatchMechanism = () => {
     }
 
     return () => {
-      if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener('pointermove', handlePointer);
       if (observer) observer.disconnect();
     };
   }, []);
@@ -477,7 +440,7 @@ const WatchMechanism = () => {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="relative aspect-square w-full select-none pointer-events-none drop-shadow-[0_12px_36px_rgba(0,0,0,0.6)]"
+      className="relative aspect-square w-full select-none pointer-events-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
     />
   );
 };
