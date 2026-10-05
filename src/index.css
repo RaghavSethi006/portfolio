@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -98,31 +98,84 @@
   }
 }
 
-/* ── Watch mechanism ring rotations ─────────────────── */
-@keyframes ring-cw-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+/* ── Mechanical Watch Movement (Haute Horlogerie Hero Artifact) ── */
+.movement-svg .turn {
+  transform-origin: 500px 500px;
+  animation: watch-spin linear infinite;
+  will-change: transform;
 }
-@keyframes ring-ccw-mid {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
+.movement-svg .spin {
+  transform-origin: 0 0;
+  animation: watch-spin linear infinite;
 }
-@keyframes ring-cw-fast {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+.movement-svg .osc {
+  transform-origin: 0 0;
+  animation: watch-osc 0.5s ease-in-out infinite alternate;
+}
+.movement-svg .rock {
+  transform-origin: 0 0;
+  animation: watch-rock 0.5s ease-in-out infinite alternate;
+}
+.movement-svg .glow {
+  animation: watch-glow 2.4s ease-in-out infinite alternate;
+}
+.movement-svg .dust {
+  fill: #E6D08A;
+  opacity: 0;
+  animation: watch-drift linear infinite;
 }
 
-.watch-ring-outer {
-  animation: ring-cw-slow 120s linear infinite;
-  transform-origin: center center;
+@keyframes watch-spin {
+  to { transform: rotate(360deg); }
 }
-.watch-ring-middle {
-  animation: ring-ccw-mid 80s linear infinite;
-  transform-origin: center center;
+@keyframes watch-osc {
+  from { transform: rotate(-200deg); }
+  to   { transform: rotate(200deg); }
 }
-.watch-ring-inner {
-  animation: ring-cw-fast 40s linear infinite;
-  transform-origin: center center;
+@keyframes watch-rock {
+  from { transform: rotate(-6deg); }
+  to   { transform: rotate(6deg); }
+}
+@keyframes watch-glow {
+  from { opacity: 0.2; }
+  to   { opacity: 0.95; }
+}
+@keyframes watch-drift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 14px);
+  }
+  30%, 70% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(16px, -44px);
+  }
+}
+
+.watch-off * {
+  animation-play-state: paused !important;
+}
+
+@media (max-width: 760px) {
+  .movement-svg .fine {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movement-svg .turn,
+  .movement-svg .spin,
+  .movement-svg .osc,
+  .movement-svg .rock,
+  .movement-svg .glow,
+  .movement-svg .dust {
+    animation: none !important;
+  }
+  .movement-svg .glow {
+    opacity: 0.5;
+  }
 }
 
 /* ── Hero name letter fade-in ────────────────────────── */
@@ -154,15 +207,21 @@
   background: transparent;
 }
 
-/* ── Subtle architectural background grid ────────────── */
+/* ── Prominent Architectural Blueprint Grid with Mixed Gold & Silver Accents ── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(200, 216, 240, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 216, 240, 0.03) 1px, transparent 1px);
-  background-size: 80px 80px;
+    /* Gold intersection crosshair nodes every 160px */
+    radial-gradient(circle at 1px 1px, rgba(184, 150, 12, 0.45) 1.5px, transparent 0),
+    /* Major Gold structural grid lines every 160px */
+    linear-gradient(rgba(184, 150, 12, 0.16) 1.2px, transparent 1.2px),
+    linear-gradient(90deg, rgba(184, 150, 12, 0.16) 1.2px, transparent 1.2px),
+    /* Minor Silver/Platinum precision sub-grid lines every 32px */
+    linear-gradient(rgba(200, 216, 240, 0.065) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 216, 240, 0.065) 1px, transparent 1px);
+  background-size: 160px 160px, 160px 160px, 160px 160px, 32px 32px, 32px 32px;
   pointer-events: none;
   z-index: 0;
 }
