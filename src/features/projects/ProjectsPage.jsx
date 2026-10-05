@@ -50,8 +50,8 @@ const ProjectsPage = ({ onOpenProject }) => {
                 </span>
               </div>
 
-              <p className="mt-5 text-xs font-mono uppercase tracking-[0.35em] text-[#7A8EAB]">
-                {project.category || 'ML System'}
+              <p className="mt-5 text-xs font-mono uppercase tracking-[0.35em] text-[#8BA3C7] transition-colors group-hover:text-[#B8960C]">
+                {project.category || 'Software Architecture'}
               </p>
 
               <h3 className="mt-4 text-2xl font-serif text-[#EEF2F9]">{project.title}</h3>

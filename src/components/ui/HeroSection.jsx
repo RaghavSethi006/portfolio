@@ -8,7 +8,7 @@ const HeroSection = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center relative overflow-hidden">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-8 lg:pb-12 flex items-center relative overflow-hidden">
       {/* Ambient mixed gold & silver radial lighting for hero */}
       <div 
         aria-hidden="true" 
@@ -21,7 +21,7 @@ const HeroSection = () => {
           `
         }}
       />
-      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10 lg:py-14 w-full">
+      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-4 lg:py-6 w-full">
         <div className="grid gap-8 lg:gap-8 xl:gap-12 lg:grid-cols-[1.05fr_minmax(560px,640px)] xl:grid-cols-[1fr_minmax(680px,780px)] 2xl:grid-cols-[1fr_minmax(800px,920px)] items-center relative z-10 w-full">
           <motion.div
             className="space-y-8"

@@ -232,7 +232,17 @@ const ProjectDetailPage = ({ project, onBack }) => {
 
             <div className="mt-8 grid gap-10 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.36em] text-[#B8960C]">{study.status || project.status || 'Case Study'}</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  {project.category && (
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#8BA3C7]">
+                      {project.category}
+                    </span>
+                  )}
+                  {project.category && <span className="text-[#C8D8F0]/30 font-mono text-[10px]">·</span>}
+                  <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-[#B8960C]">
+                    {study.status || project.status || 'Case Study'}
+                  </span>
+                </div>
                 <h1 className="mt-5 max-w-5xl font-serif text-5xl leading-[0.95] text-[#EEF2F9] sm:text-7xl lg:text-8xl">
                   {project.title}
                 </h1>

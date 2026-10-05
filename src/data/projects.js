@@ -2,6 +2,7 @@ const projects = [
     {
         id: 1,
         title: 'Jarvis',
+        category: 'Autonomous Multi-Agent System',
         description: 'A local-first, multi-agent AI desktop assistant with persistent four-tier memory, runtime self-synthesis, neural voice, biometric auth, and a British butler attitude.',
         tech: ['Python', 'React', 'Groq', 'ChromaDB', 'Kokoro TTS', 'OpenCV', 'MediaPipe', 'SQLite', 'asyncio'],
         github: 'https://github.com/RaghavSethi006/jarvis',
@@ -52,6 +53,7 @@ const projects = [
     {
         id: 2,
         title: 'Career Co-Pilot',
+        category: 'AI & Browser Automation',
         description: 'An AI-powered career intelligence system that optimizes job applications for quality over volume — with RAG-powered resume tailoring, visible browser submission, and feedback learning loops.',
         tech: ['React', 'TypeScript', 'FastAPI', 'Python', 'Gemini AI', 'Playwright', 'SQLite', 'Docker', 'Zustand'],
         github: 'https://github.com/RaghavSethi006/Career-Co-Pilot',
@@ -99,6 +101,7 @@ const projects = [
     {
         id: 3,
         title: 'TaskArena v2',
+        category: 'Local RAG & Study Engine',
         description: 'A personal AI study companion — manage tasks, index notes with SciBERT, chat with an AI grounded in your own lecture slides, generate quizzes, and build smarter schedules.',
         tech: ['React', 'TypeScript', 'Tauri v2', 'FastAPI', 'SQLAlchemy', 'SciBERT', 'Zustand', 'Vite', 'SQLite'],
         github: 'https://github.com/RaghavSethi006/TaskArena2.0',
@@ -148,6 +151,7 @@ const projects = [
     {
         id: 4,
         title: 'FinOS',
+        category: 'Local-First FinTech OS',
         description: 'A local-first, privacy-first Financial Operating System — combining finance tracking, double-entry accounting, investment portfolio, encrypted document vault, and tax assistant in one desktop app.',
         tech: ['React', 'TypeScript', 'Tauri v2', 'SQLite', 'Zustand', 'Recharts', 'AES-256-GCM', 'Zod', 'Tailwind CSS'],
         github: 'https://github.com/RaghavSethi006/FinOS',
@@ -198,6 +202,7 @@ const projects = [
     {
         id: 5,
         title: 'Schema Spark',
+        category: 'Visual Architecture & Code Gen',
         description: 'An enterprise-grade visual ER modeling platform that treats relationships as first-class citizens and generates production-ready backend code across FastAPI, Django, NestJS, Express, and Spring Boot.',
         tech: ['React', 'TypeScript', 'React Flow', 'Zustand', 'Zod', 'JSZip', 'Tailwind CSS', 'Vite', 'shadcn/ui'],
         github: 'https://github.com/RaghavSethi006/schema-spark',
@@ -244,6 +249,7 @@ const projects = [
     {
         id: 6,
         title: 'multi-style',
+        category: 'Cross-Framework Design Systems',
         description: 'A cross-framework UI component playground — customize components visually and export production-ready code for React, Angular, Streamlit, tkinter, or WinUI3.',
         tech: ['React', 'TypeScript', 'Tailwind CSS', 'Zustand', 'Vite', 'shadcn/ui', 'Radix UI'],
         github: 'https://github.com/RaghavSethi006/multi-style',
@@ -288,6 +294,7 @@ const projects = [
     {
         id: 7,
         title: 'RageBait-AI',
+        category: 'Cognitive Gaming & AI Engine',
         description: 'A high-intensity cognitive reaction engine with AI-powered real-time trash-talk via Gemini, Firestore leaderboards, and progressive accessibility including a comprehensive Blind Mode.',
         tech: ['React', 'Vite', 'Gemini 2.0 Flash', 'Firebase Firestore', 'Vercel Functions', 'Tailwind CSS', 'Framer Motion', 'Zod'],
         github: 'https://github.com/RaghavSethi006/RageBait-AI',
@@ -331,6 +338,7 @@ const projects = [
     {
         id: 8,
         title: 'Local Eco',
+        category: 'Decentralized P2P & Cryptography',
         description: 'A decentralized, cloudless Discord clone using WebRTC DataChannels — star topology with host migration, E2E encryption via ECDH + AES-256-GCM, and direct-routed DMs.',
         tech: ['React', 'TypeScript', 'WebRTC', 'Web Crypto API', 'Tailwind CSS', 'shadcn/ui', 'Vite'],
         github: 'https://github.com/RaghavSethi006/local-echo',
@@ -375,6 +383,7 @@ const projects = [
     {
         id: 9,
         title: 'Face Recognition Attendance',
+        category: 'Computer Vision & Biometrics',
         description: 'A Tkinter-based desktop application using OpenCV LBPH face recognition and SQLite to capture faces, train a recognizer, and mark attendance automatically with timestamps.',
         tech: ['Python', 'OpenCV', 'SQLite3', 'Tkinter', 'Pandas', 'Pillow'],
         github: 'https://github.com/RaghavSethi006/Face-Recognition-attendance-system-',
@@ -425,7 +434,7 @@ const projects = [
         status: 'In Progress',
         progress: 85,
         featured: true,
-        category: 'Desktop Application',
+        category: 'Computer Vision & Media Systems',
         caseStudy: {
             tagline: 'Google Photos convenience, but fully local and under your control.',
             overview: 'Open Photos is a local-first desktop photo management application built for users who want the convenience of modern cloud photo services without giving up ownership of their data. It scans and organizes large media libraries, extracts EXIF metadata, detects exact duplicates, clusters faces locally with ONNX-based models, and presents everything through a polished React interface with timeline, album, favorites, trash, and map views. The entire stack runs on-device through a Tauri architecture, with Rust handling file-system intensive operations and React delivering a smooth desktop-native experience.',
@@ -470,6 +479,7 @@ const projects = [
     {
         id: 11,
         title: 'ZenOS',
+        category: 'Systems & Desktop Focus Shell',
         description: 'A focus shell for your desktop — pick a profile, and for the length of a session your desktop becomes just a timer, an allow-listed browser, a scoped file explorer, and whatever apps you said you needed. Everything else waits outside.',
         tech: ['Tauri 2', 'Rust', 'React', 'TypeScript', 'Zustand', 'Vite'],
         github: 'https://github.com/RaghavSethi006/zenos' ,
@@ -516,6 +526,7 @@ const projects = [
     {
         id: 12,
         title: 'Targets',
+        category: 'Cross-Platform Productivity',
         description: 'A habit tracker, calendar, and to-do list unified into one app — everything you track is a Target with a smart recurrence rule, powered by a React Native frontend and a FastAPI recurrence engine.',
         tech: ['React Native', 'Expo', 'TypeScript', 'FastAPI', 'Python', 'SQLite', 'Zustand'],
         github: null,
@@ -562,7 +573,7 @@ const projects = [
     {
         id: 13,
         title: 'FitPulse',
-        category: 'Mobile & AI Systems',
+        category: 'Native Android & Multimodal AI',
         description: 'An AI-powered native Android fitness and nutrition ecosystem featuring multimodal Gemini food plate vision scanning, 2D biomechanical workout guides with voice coaching, and local Room persistence.',
         tech: ['Kotlin', 'Jetpack Compose', 'Android SDK', 'Gemini AI', 'Room SQLite', 'Material 3', 'Coroutines', 'Retrofit'],
         github: 'https://github.com/RaghavSethi006/Fitpulse-',

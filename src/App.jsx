@@ -85,9 +85,13 @@ const App = () => {
 
     setActiveSection(sectionId);
     window.setTimeout(() => {
-      const target = document.getElementById(sectionId);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (sectionId === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const target = document.getElementById(sectionId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }, 0);
   }, [activeProjectId]);
@@ -119,12 +123,12 @@ const App = () => {
         onBackFromProject={handleBackToProjects}
       />
 
-      <main className="relative z-10 pt-24">
+      <main className={`relative z-10 ${activeProject ? 'pt-24' : ''}`}>
         {activeProject ? (
           <ProjectDetailPage project={activeProject} onBack={handleBackToProjects} />
         ) : (
           <>
-            <section id="home" className="scroll-mt-24">
+            <section id="home">
               <HeroSection />
             </section>
 
