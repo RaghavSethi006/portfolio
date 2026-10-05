@@ -199,15 +199,24 @@ function generateWatchMovement(isLite = false) {
   const DEEP = grow('d', UNDER, 30000, [14, 56], ['night', 'dgold', 'dgold', 'night', 'gun'], isLite ? 14 : 34);
   const U = solve(UNDER.concat(DEEP));
 
-  const jewel = (x, y, i, s = 1) =>
-    `<g transform="translate(${f(x)} ${f(y)}) scale(${s})"><circle ${
-      i < 11 ? 'class="glow" ' : 'opacity=".45" '
-    }r="22" fill="url(#gGlow)" style="animation-delay:${-i * 0.7}s"/><circle r="15.5" fill="none" stroke="#B8960C" stroke-width="3" opacity=".18"/><circle r="12" fill="#050A18" stroke="#E6D08A" stroke-width="1.2"/><circle r="8.5" fill="none" stroke="#FF6BB0" stroke-width=".6" opacity=".7"/><circle r="6.5" fill="url(#gRuby)"/><path d="M-20 0H-14M14 0H20M0 -20V-14M0 14V20" stroke="#E6D08A" stroke-width=".8"/></g>`;
+  const jewel = (x, y, i, s = 1, mat = 'silver') => {
+    const isGoldParent = mat === 'gold' || mat === 'dgold';
+    const glowFill = isGoldParent ? 'url(#gGlowNavy)' : 'url(#gGlowGold)';
+    const jewelFill = isGoldParent ? 'url(#gJewelNavy)' : 'url(#gJewelGold)';
+    const rimStroke = isGoldParent ? '#3B82F6' : '#B8960C';
+    const chatonStroke = isGoldParent ? '#93C5FD' : '#E6D08A';
+    const jewelBorder = isGoldParent ? '#60A5FA' : '#FFF0A8';
+    const crossHair = isGoldParent ? '#3B82F6' : '#E6D08A';
+
+    return `<g transform="translate(${f(x)} ${f(y)}) scale(${s})"><circle ${
+      i < 11 ? 'class="glow" ' : 'opacity=".75" '
+    }r="${isGoldParent ? 24 : 22}" fill="${glowFill}" style="animation-delay:${-i * 0.7}s"/><circle r="15.5" fill="none" stroke="${rimStroke}" stroke-width="${isGoldParent ? 3.5 : 3}" opacity="${isGoldParent ? 0.45 : 0.2}"/><circle r="12" fill="#050A18" stroke="${chatonStroke}" stroke-width="1.4"/><circle r="8.5" fill="none" stroke="${jewelBorder}" stroke-width=".9" opacity=".95"/><circle r="6.8" fill="${jewelFill}"/><path d="M-20 0H-14M14 0H20M0 -20V-14M0 14V20" stroke="${crossHair}" stroke-width="1"/></g>`;
+  };
 
   const screw = (x, y, i) =>
-    `<g transform="translate(${f(x)} ${f(y)}) rotate(${i * 37})"><circle r="11" fill="none" stroke="#5B8DEF" stroke-width="2.6" opacity=".14"/><circle r="8.5" fill="#050A18" stroke="#5B8DEF" stroke-width="1"/><g class="spin" style="animation-duration:${
+    `<g transform="translate(${f(x)} ${f(y)}) rotate(${i * 37})"><circle r="11" fill="none" stroke="#3B82F6" stroke-width="3" opacity=".25"/><circle r="8.5" fill="#050A18" stroke="#3B82F6" stroke-width="1.4"/><g class="spin" style="animation-duration:${
       60 + i * 9
-    }s;${i % 2 ? 'animation-direction:reverse' : ''}"><path d="M-6 0H6" stroke="#EEF2F9" stroke-width="1.6" stroke-linecap="round"/></g></g>`;
+    }s;${i % 2 ? 'animation-direction:reverse' : ''}"><path d="M-6 0H6" stroke="#93C5FD" stroke-width="1.8" stroke-linecap="round"/></g></g>`;
 
   const bridge = (d, w = 27, c = '#E6D08A') => {
     const a = `d="${d}" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
@@ -323,11 +332,11 @@ function generateWatchMovement(isLite = false) {
   });
 
   ['barrel', 'third', 'fourth', 'escape', 'idle', 'minute', 'hour', 'setting', 'pin1', 'pin2', 'winding'].forEach(
-    (id, i) => (br += jewel(G[id].x, G[id].y, i))
+    (id, i) => (br += jewel(G[id].x, G[id].y, i, 1, G[id].mat))
   );
   FILL.forEach((t, i) => {
     const g = G[t.id];
-    br += jewel(g.x, g.y, i + 11, Math.min(1, Math.max(0.45, g.z / 36)));
+    br += jewel(g.x, g.y, i + 11, Math.min(1, Math.max(0.45, g.z / 36)), g.mat);
   });
 
   const ends = (c, r, a0, a1) => [a0, a1].map((a) => [c.x + r * Math.cos((a * Math.PI) / 180), c.y + r * Math.sin((a * Math.PI) / 180)]);
@@ -355,7 +364,7 @@ function generateWatchMovement(isLite = false) {
   }
   const arms = [0, 120, 240].map((a) => `M0 0L${P(92, (a * Math.PI) / 180 - Math.PI / 2)}`).join('');
   const GD = ['#E6D08A', '#B8960C'];
-  const balanceHtml = `<g transform="translate(${BAL.x} ${BAL.y})"><g class="osc">${ln(C(96), ...GD, 2.2)}${ln(C(88), ...GD, 0.6, 0.7)}${ln(C(104), ...GD, 0.6, 0.6)}${ln(arms, ...GD, 1.6)}<circle r="30" fill="#E6D08A" fill-opacity=".22"/>${ln(C(30), ...GD, 0.8, 0.8)}${wt}${ln(sp1, ...GD, 1)}${ln(sp2, '#EEF2F9', '#C8D8F0', 0.8, 0.8)}</g></g>${jewel(BAL.x, BAL.y, 3)}`;
+  const balanceHtml = `<g transform="translate(${BAL.x} ${BAL.y})"><g class="osc">${ln(C(96), ...GD, 2.2)}${ln(C(88), ...GD, 0.6, 0.7)}${ln(C(104), ...GD, 0.6, 0.6)}${ln(arms, ...GD, 1.6)}<circle r="30" fill="#E6D08A" fill-opacity=".22"/>${ln(C(30), ...GD, 0.8, 0.8)}${wt}${ln(sp1, ...GD, 1)}${ln(sp2, '#EEF2F9', '#C8D8F0', 0.8, 0.8)}</g></g>${jewel(BAL.x, BAL.y, 3, 1, 'gold')}`;
 
   let dust = '', wd = '';
   for (let i = 0; i < 16; i++) {
@@ -384,8 +393,10 @@ function generateWatchMovement(isLite = false) {
   return `
     <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" class="movement-svg w-full h-full block">
       <defs>
-        <radialGradient id="gRuby"><stop offset="0" stop-color="#FF6BB0"/><stop offset=".6" stop-color="#C2185B"/><stop offset="1" stop-color="#6A0F3A"/></radialGradient>
-        <radialGradient id="gGlow"><stop offset="0" stop-color="#FF4FA0" stop-opacity=".9"/><stop offset="1" stop-color="#FF4FA0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gJewelGold"><stop offset="0" stop-color="#FFF8D6"/><stop offset=".4" stop-color="#E6D08A"/><stop offset=".8" stop-color="#B8960C"/><stop offset="1" stop-color="#7A6208"/></radialGradient>
+        <radialGradient id="gGlowGold"><stop offset="0" stop-color="#E6D08A" stop-opacity=".8"/><stop offset="1" stop-color="#B8960C" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gJewelNavy"><stop offset="0" stop-color="#BFDBFE"/><stop offset=".28" stop-color="#3B82F6"/><stop offset=".7" stop-color="#1D4ED8"/><stop offset="1" stop-color="#0A1838"/></radialGradient>
+        <radialGradient id="gGlowNavy"><stop offset="0" stop-color="#3B82F6" stop-opacity=".95"/><stop offset=".5" stop-color="#2563EB" stop-opacity=".4"/><stop offset="1" stop-color="#1D4ED8" stop-opacity="0"/></radialGradient>
         <clipPath id="lens"><circle cx="500" cy="500" r="458"/></clipPath>
         <radialGradient id="gVig"><stop offset=".5" stop-color="#050A18" stop-opacity="0"/><stop offset="1" stop-color="#050A18" stop-opacity=".72"/></radialGradient>
         <radialGradient id="sg-gold"><stop offset="0" stop-color="#B8960C" stop-opacity=".25"/><stop offset=".65" stop-color="#E6D08A" stop-opacity=".5"/><stop offset="1" stop-color="#E6D08A" stop-opacity=".88"/></radialGradient>
