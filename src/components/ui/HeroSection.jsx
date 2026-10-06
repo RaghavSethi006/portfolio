@@ -22,9 +22,9 @@ const HeroSection = () => {
         }}
       />
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-4 lg:py-6 w-full">
-        <div className="grid gap-8 lg:gap-12 xl:gap-16 lg:grid-cols-[1.1fr_auto] xl:grid-cols-[1.15fr_auto] 2xl:grid-cols-[1.2fr_auto] items-center relative z-10 w-full">
+        <div className="grid gap-8 xl:gap-16 xl:grid-cols-[1.15fr_auto] 2xl:grid-cols-[1.2fr_auto] items-center relative z-10 w-full">
           <motion.div
-            className="space-y-8 max-w-xl xl:max-w-2xl relative z-20"
+            className="space-y-8 max-w-xl md:max-w-2xl xl:max-w-2xl relative z-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -34,10 +34,10 @@ const HeroSection = () => {
                 {nameParts.map((part, partIndex) => (
                   <h1
                     key={partIndex}
-                    className={`flex flex-wrap items-center gap-2 font-bold uppercase tracking-[0.18em] leading-none text-[#EEF2F9] ${
+                    className={`flex flex-nowrap whitespace-nowrap items-center gap-1 sm:gap-2 font-bold uppercase tracking-[0.16em] sm:tracking-[0.18em] leading-none text-[#EEF2F9] ${
                       partIndex === 0
-                        ? 'text-5xl sm:text-6xl md:text-8xl'
-                        : 'text-4xl sm:text-5xl md:text-7xl pl-1'
+                        ? 'text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl'
+                        : 'text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl pl-1'
                     }`}
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
@@ -46,7 +46,7 @@ const HeroSection = () => {
                       return (
                         <span
                           key={`${part}-${index}`}
-                          className="opacity-0 inline-block fade-letter"
+                          className="opacity-0 inline-block fade-letter shrink-0"
                           style={{ animationDelay: `${overallIndex * 0.05}s` }}
                         >
                           {letter}
@@ -116,20 +116,19 @@ const HeroSection = () => {
           </motion.div>
 
           <div className="
-            absolute lg:static 
-            right-[-75vw] sm:right-[-60vw] md:right-[-50vw] lg:right-auto 
-            top-[50%] lg:top-auto 
-            -translate-y-1/2 lg:translate-y-0 
-            opacity-65 lg:opacity-85 
-            w-[150vw] sm:w-[120vw] md:w-[100vw] 
-            lg:w-[560px] lg:max-w-[620px] 
+            absolute xl:static 
+            right-[-75vw] sm:right-[-60vw] md:right-[-45vw] lg:right-[-38vw] xl:right-auto 
+            top-[50%] xl:top-auto 
+            -translate-y-1/2 xl:translate-y-0 
+            opacity-60 md:opacity-65 lg:opacity-75 xl:opacity-85 
+            w-[150vw] sm:w-[120vw] md:w-[95vw] lg:w-[80vw] 
             xl:w-[700px] xl:max-w-[760px] 
             2xl:w-[840px] 2xl:max-w-[900px] 
-            -z-10 lg:z-0 
+            -z-10 xl:z-0 
             pointer-events-none 
-            flex justify-center lg:justify-end
-            lg:translate-x-10 xl:translate-x-16 2xl:translate-x-24
-            lg:-mr-10 xl:-mr-16 2xl:-mr-24
+            flex justify-center xl:justify-end
+            xl:translate-x-16 2xl:translate-x-24
+            xl:-mr-16 2xl:-mr-24
           ">
             <motion.div
               initial={{ opacity: 0 }}

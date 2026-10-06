@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { bio, philosophy } from '../../data/profile';
+import { bio } from '../../data/profile';
 import SplitHeading from '../../components/ui/SplitHeading';
+import TriLevelChess from '../../components/ui/TriLevelChess';
 
 const AboutPage = () => {
   return (
     <section
-      className="py-20 relative"
+      className="py-20 lg:py-24 relative border-y border-[#1A2744]/50"
       style={{
         background: '#050A18',
         backgroundImage: `linear-gradient(rgba(200,216,240,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(200,216,240,0.022) 1px, transparent 1px)`,
@@ -14,19 +15,31 @@ const AboutPage = () => {
       }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+        <div className="grid gap-8 lg:gap-14 lg:grid-cols-12 items-center">
+          {/* Left Column: Tri-Level Chess Artifact (responsive scale) */}
           <motion.div
-            className="flex flex-col gap-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="lg:col-span-5 flex justify-center items-center w-full"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8 }}
           >
+            <TriLevelChess />
+          </motion.div>
+
+          {/* Right Column: About Details */}
+          <motion.div
+            className="lg:col-span-7 flex flex-col justify-center gap-6"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+          >
             <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7]">About</p>
-            <SplitHeading className="max-w-3xl text-4xl font-serif text-[#EEF2F9] leading-tight sm:text-5xl">
+            <SplitHeading className="text-3xl font-serif text-[#EEF2F9] leading-tight sm:text-4xl lg:text-5xl max-w-3xl">
               Engineering intelligent systems with structural integrity and precision.
             </SplitHeading>
-            <div className="max-w-2xl text-base leading-8 text-[#CAD4E4] space-y-4">
+            <div className="text-base leading-relaxed text-[#CAD4E4] space-y-4 max-w-3xl">
               <p>
                 I am a Computer Science Honours student at the University of Alberta, specializing in Artificial Intelligence. Currently, I serve as the Vice President of Technology for the Undergraduate Artificial Intelligence Society (UAIS), overseeing technical operations and cloud infrastructure.
               </p>
@@ -39,39 +52,16 @@ const AboutPage = () => {
             </div>
 
             <div>
-              <p className="text-xs font-mono uppercase tracking-[0.35em] text-[#8BA3C7] mt-8 mb-3">Education</p>
+              <p className="text-xs font-mono uppercase tracking-[0.35em] text-[#8BA3C7] mt-4 mb-2">Education</p>
               <p className="text-sm text-[#CAD4E4] leading-7">
                 BSc Honours in Computer Science with AI — University of Alberta, 2024–2028.
               </p>
             </div>
           </motion.div>
-
-          <motion.aside
-            className="rounded-2xl border border-[#1A2744] bg-[#0B1428] p-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-          >
-            <p className="text-sm uppercase tracking-[0.35em] text-[#8BA3C7] mb-6">Philosophy</p>
-            <div className="space-y-6 border-l-2 border-[#B8960C]/50 pl-5">
-              {philosophy.map((item, idx) => (
-                <div key={item.title} className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[#B8960C]/60 text-lg" style={{ fontFamily: 'serif' }}>
-                      {['♔', '♕', '♖'][idx]}
-                    </span>
-                    <p className="text-xl font-serif font-bold text-[#EEF2F9]">{item.title}</p>
-                  </div>
-                  <p className="text-sm leading-7 text-[#CAD4E4]">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </motion.aside>
         </div>
 
         <motion.div
-          className="mt-14"
+          className="mt-16 pt-10 border-t border-[#1A2744]/40"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
