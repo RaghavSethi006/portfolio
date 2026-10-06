@@ -203,20 +203,20 @@ function generateWatchMovement(isLite = false) {
     const isGoldParent = mat === 'gold' || mat === 'dgold';
     const glowFill = isGoldParent ? 'url(#gGlowNavy)' : 'url(#gGlowGold)';
     const jewelFill = isGoldParent ? 'url(#gJewelNavy)' : 'url(#gJewelGold)';
-    const rimStroke = isGoldParent ? '#3B82F6' : '#B8960C';
-    const chatonStroke = isGoldParent ? '#93C5FD' : '#E6D08A';
-    const jewelBorder = isGoldParent ? '#60A5FA' : '#FFF0A8';
-    const crossHair = isGoldParent ? '#3B82F6' : '#E6D08A';
+    const rimStroke = isGoldParent ? '#4A658E' : '#B8960C';
+    const chatonStroke = isGoldParent ? '#C8D8F0' : '#E6D08A';
+    const jewelBorder = isGoldParent ? '#7A8EAB' : '#FFF0A8';
+    const crossHair = isGoldParent ? '#8BA3C7' : '#E6D08A';
 
     return `<g transform="translate(${f(x)} ${f(y)}) scale(${s})"><circle ${
-      i < 11 ? 'class="glow" ' : 'opacity=".75" '
-    }r="${isGoldParent ? 24 : 22}" fill="${glowFill}" style="animation-delay:${-i * 0.7}s"/><circle r="15.5" fill="none" stroke="${rimStroke}" stroke-width="${isGoldParent ? 3.5 : 3}" opacity="${isGoldParent ? 0.45 : 0.2}"/><circle r="12" fill="#050A18" stroke="${chatonStroke}" stroke-width="1.4"/><circle r="8.5" fill="none" stroke="${jewelBorder}" stroke-width=".9" opacity=".95"/><circle r="6.8" fill="${jewelFill}"/><path d="M-20 0H-14M14 0H20M0 -20V-14M0 14V20" stroke="${crossHair}" stroke-width="1"/></g>`;
+      i < 11 ? 'class="glow" ' : 'opacity=".6" '
+    }r="${isGoldParent ? 23 : 22}" fill="${glowFill}" style="animation-delay:${-i * 0.7}s"/><circle r="15.5" fill="none" stroke="${rimStroke}" stroke-width="3" opacity="${isGoldParent ? 0.35 : 0.2}"/><circle r="12" fill="#050A18" stroke="${chatonStroke}" stroke-width="1.3"/><circle r="8.5" fill="none" stroke="${jewelBorder}" stroke-width=".8" opacity=".9"/><circle r="6.8" fill="${jewelFill}"/><path d="M-20 0H-14M14 0H20M0 -20V-14M0 14V20" stroke="${crossHair}" stroke-width=".9"/></g>`;
   };
 
   const screw = (x, y, i) =>
-    `<g transform="translate(${f(x)} ${f(y)}) rotate(${i * 37})"><circle r="11" fill="none" stroke="#3B82F6" stroke-width="3" opacity=".25"/><circle r="8.5" fill="#050A18" stroke="#3B82F6" stroke-width="1.4"/><g class="spin" style="animation-duration:${
+    `<g transform="translate(${f(x)} ${f(y)}) rotate(${i * 37})"><circle r="11" fill="none" stroke="#4A658E" stroke-width="2.6" opacity=".2"/><circle r="8.5" fill="#050A18" stroke="#5B7AAB" stroke-width="1.2"/><g class="spin" style="animation-duration:${
       60 + i * 9
-    }s;${i % 2 ? 'animation-direction:reverse' : ''}"><path d="M-6 0H6" stroke="#93C5FD" stroke-width="1.8" stroke-linecap="round"/></g></g>`;
+    }s;${i % 2 ? 'animation-direction:reverse' : ''}"><path d="M-6 0H6" stroke="#C8D8F0" stroke-width="1.6" stroke-linecap="round"/></g></g>`;
 
   const bridge = (d, w = 27, c = '#E6D08A') => {
     const a = `d="${d}" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
@@ -395,8 +395,8 @@ function generateWatchMovement(isLite = false) {
       <defs>
         <radialGradient id="gJewelGold"><stop offset="0" stop-color="#FFF8D6"/><stop offset=".4" stop-color="#E6D08A"/><stop offset=".8" stop-color="#B8960C"/><stop offset="1" stop-color="#7A6208"/></radialGradient>
         <radialGradient id="gGlowGold"><stop offset="0" stop-color="#E6D08A" stop-opacity=".8"/><stop offset="1" stop-color="#B8960C" stop-opacity="0"/></radialGradient>
-        <radialGradient id="gJewelNavy"><stop offset="0" stop-color="#BFDBFE"/><stop offset=".28" stop-color="#3B82F6"/><stop offset=".7" stop-color="#1D4ED8"/><stop offset="1" stop-color="#0A1838"/></radialGradient>
-        <radialGradient id="gGlowNavy"><stop offset="0" stop-color="#3B82F6" stop-opacity=".95"/><stop offset=".5" stop-color="#2563EB" stop-opacity=".4"/><stop offset="1" stop-color="#1D4ED8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gJewelNavy"><stop offset="0" stop-color="#E2EAF8"/><stop offset=".25" stop-color="#7B9AC2"/><stop offset=".6" stop-color="#3A537A"/><stop offset="1" stop-color="#0E1A34"/></radialGradient>
+        <radialGradient id="gGlowNavy"><stop offset="0" stop-color="#5B7AAB" stop-opacity=".8"/><stop offset=".5" stop-color="#2A3D5E" stop-opacity=".3"/><stop offset="1" stop-color="#0B1428" stop-opacity="0"/></radialGradient>
         <clipPath id="lens"><circle cx="500" cy="500" r="458"/></clipPath>
         <radialGradient id="gVig"><stop offset=".5" stop-color="#050A18" stop-opacity="0"/><stop offset="1" stop-color="#050A18" stop-opacity=".72"/></radialGradient>
         <radialGradient id="sg-gold"><stop offset="0" stop-color="#B8960C" stop-opacity=".25"/><stop offset=".65" stop-color="#E6D08A" stop-opacity=".5"/><stop offset="1" stop-color="#E6D08A" stop-opacity=".88"/></radialGradient>
