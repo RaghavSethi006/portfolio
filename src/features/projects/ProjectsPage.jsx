@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
-import { ArrowLeft, ArrowRight, X, ExternalLink, Github, Grid, LayoutList, ChevronDown } from 'lucide-react';
-import projectsData from '../../data/projects';
+import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 
 const EASE = [0.45, 0.05, 0.2, 1];
 const SPR = { type: 'spring', duration: 0.65, bounce: 0.12 };
 const ROT = [-1.6, 1.2, -0.7, 1.7, -1.2, 0.9];
-const ROT_MOB = [-1.4, 1.2, -1.0, 1.5, -1.2, 0.9];
 const n2 = (i) => String(i + 1).padStart(2, '0');
 
 // Curated 6 flagship projects mapped with high fidelity
@@ -431,7 +429,6 @@ const ProjectsPage = ({ onOpenProject, onViewAllProjects }) => {
   const tableRef = useRef(null);
   const rowRef = useRef(null);
 
-  const mob = useMQ('(max-width:720px)');
   const red = useMQ('(prefers-reduced-motion: reduce)');
 
   const at = useCallback((fn, ms) => {
@@ -440,7 +437,8 @@ const ProjectsPage = ({ onOpenProject, onViewAllProjects }) => {
   }, [red]);
 
   useEffect(() => {
-    return () => tm.current.forEach(clearTimeout);
+    const timers = tm.current;
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   const go = useCallback((i) => {
@@ -455,17 +453,6 @@ const ProjectsPage = ({ onOpenProject, onViewAllProjects }) => {
 
   const nxt = useCallback(() => go((active + 1) % FEATURED_PROJECTS.length), [active, go]);
   const prv = useCallback(() => go((active + FEATURED_PROJECTS.length - 1) % FEATURED_PROJECTS.length), [active, go]);
-
-  const openAll = useCallback(() => {
-    if (phase !== 'idle' || lock.current) return;
-    lock.current = true;
-    setPhase('prep');
-    at(() => setPhase('sweep'), 760);
-    at(() => setPhase('grid'), 1860);
-    at(() => {
-      lock.current = false;
-    }, 2500);
-  }, [phase, at]);
 
   const closeAll = useCallback(() => {
     if (phase !== 'grid' || lock.current) return;
@@ -618,7 +605,7 @@ const ProjectsPage = ({ onOpenProject, onViewAllProjects }) => {
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onUp);
-  }, [phase, modal, at]);
+  }, [phase, modal, at, onViewAllProjects]);
 
   const triggerSlideTransition = useCallback(() => {
     if (lock.current) return;

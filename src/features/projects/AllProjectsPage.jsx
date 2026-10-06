@@ -7,9 +7,7 @@ import {
   ExternalLink, 
   Github, 
   Layers, 
-  X,
-  Zap,
-  SlidersHorizontal
+  X
 } from 'lucide-react';
 import projectsData from '../../data/projects';
 
