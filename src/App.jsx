@@ -6,6 +6,7 @@ import HeroSection from './components/ui/HeroSection';
 import AboutPage from './features/about/AboutPage';
 import ProjectsPage from './features/projects/ProjectsPage';
 import ProjectDetailPage from './features/projects/ProjectDetailPage';
+import AllProjectsPage from './features/projects/AllProjectsPage';
 import ResumePage from './features/resume/ResumePage';
 import ReviewsPage from './features/reviews/ReviewsPage';
 import ContactSection from './features/contact/ContactSection';
@@ -27,6 +28,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [reviews, setReviews] = useState(fallbackReviews);
   const [activeProjectId, setActiveProjectId] = useState(null);
+  const [viewAllProjects, setViewAllProjects] = useState(false);
 
   const activeProject = projectsData.find((project) => project.id === activeProjectId);
 
@@ -41,7 +43,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (activeProjectId) return undefined;
+    if (activeProjectId || viewAllProjects) return undefined;
 
     const sections = sectionIds
       .map((id) => document.getElementById(id))
@@ -63,24 +65,39 @@ const App = () => {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, [activeProjectId]);
+  }, [activeProjectId, viewAllProjects]);
 
   useEffect(() => {
-    const syncProjectFromHash = () => {
-      const match = window.location.hash.match(/^#project-(\d+)$/);
-      const projectId = match ? Number(match[1]) : null;
-      setActiveProjectId(projectsData.some((project) => project.id === projectId) ? projectId : null);
+    const syncFromHash = () => {
+      const hash = window.location.hash;
+      const match = hash.match(/^#project-(\d+)$/);
+      if (match) {
+        const projectId = Number(match[1]);
+        if (projectsData.some((project) => project.id === projectId)) {
+          setActiveProjectId(projectId);
+          setViewAllProjects(false);
+          return;
+        }
+      }
+      if (hash === '#all-projects' || hash.startsWith('#all-projects?')) {
+        setViewAllProjects(true);
+        setActiveProjectId(null);
+        return;
+      }
+      setActiveProjectId(null);
+      setViewAllProjects(false);
     };
 
-    syncProjectFromHash();
-    window.addEventListener('hashchange', syncProjectFromHash);
-    return () => window.removeEventListener('hashchange', syncProjectFromHash);
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
   const handleNavigate = useCallback((sectionId) => {
-    if (activeProjectId) {
+    if (activeProjectId || viewAllProjects) {
       window.history.pushState('', document.title, window.location.pathname + window.location.search);
       setActiveProjectId(null);
+      setViewAllProjects(false);
     }
 
     setActiveSection(sectionId);
@@ -94,16 +111,35 @@ const App = () => {
         }
       }
     }, 0);
-  }, [activeProjectId]);
+  }, [activeProjectId, viewAllProjects]);
 
   const handleOpenProject = useCallback((projectId) => {
     setActiveProjectId(projectId);
+    setViewAllProjects(false);
     setActiveSection('projects');
     window.location.hash = `project-${projectId}`;
   }, []);
 
+  const handleNavigateToAllProjects = useCallback(() => {
+    setViewAllProjects(true);
+    setActiveProjectId(null);
+    setActiveSection('projects');
+    window.location.hash = 'all-projects';
+  }, []);
+
   const handleBackToProjects = useCallback(() => {
     window.history.pushState('', document.title, window.location.pathname + window.location.search);
+    setActiveProjectId(null);
+    setViewAllProjects(false);
+    setActiveSection('projects');
+    window.setTimeout(() => {
+      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 0);
+  }, []);
+
+  const handleBackFromAllProjects = useCallback(() => {
+    window.history.pushState('', document.title, window.location.pathname + window.location.search);
+    setViewAllProjects(false);
     setActiveProjectId(null);
     setActiveSection('projects');
     window.setTimeout(() => {
@@ -119,13 +155,15 @@ const App = () => {
       <Navigation
         activeSection={activeSection}
         onNavigate={handleNavigate}
-        isProjectOpen={!!activeProject}
-        onBackFromProject={handleBackToProjects}
+        isProjectOpen={!!activeProject || viewAllProjects}
+        onBackFromProject={activeProject ? handleBackToProjects : handleBackFromAllProjects}
       />
 
-      <main className={`relative z-10 ${activeProject ? 'pt-24' : ''}`}>
+      <main className={`relative z-10 ${(activeProject || viewAllProjects) ? 'pt-24' : ''}`}>
         {activeProject ? (
           <ProjectDetailPage project={activeProject} onBack={handleBackToProjects} />
+        ) : viewAllProjects ? (
+          <AllProjectsPage onOpenProject={handleOpenProject} onBack={handleBackFromAllProjects} />
         ) : (
           <>
             <section id="home">
@@ -143,8 +181,11 @@ const App = () => {
             <InterestsStrip />
             <SectionDivider label="02" />
 
-            <section id="projects" className="scroll-mt-24">
-              <ProjectsPage onOpenProject={handleOpenProject} />
+            <section id="projects" className="scroll-mt-24 bg-[#050A18] relative z-20">
+              <ProjectsPage 
+                onOpenProject={handleOpenProject} 
+                onViewAllProjects={handleNavigateToAllProjects} 
+              />
             </section>
 
             <SectionDivider label="03" />
