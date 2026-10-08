@@ -8,6 +8,7 @@ import ProjectsPage from './features/projects/ProjectsPage';
 import ProjectDetailPage from './features/projects/ProjectDetailPage';
 import AllProjectsPage from './features/projects/AllProjectsPage';
 import ResumePage from './features/resume/ResumePage';
+import SkillsHUD from './features/skills/SkillsHUD';
 import ReviewsPage from './features/reviews/ReviewsPage';
 import ContactSection from './features/contact/ContactSection';
 import { reviews as fallbackReviews } from './data/profile';
@@ -189,15 +190,18 @@ const App = () => {
             </section>
 
             <SectionDivider label="03" />
-            <StatementBand text="EXPERIENCE" sub="Four roles. One direction." />
+            <StatementBand text="EXPERIENCE" sub="Ten roles. One line." />
 
             <section id="resume" className="scroll-mt-24">
               <ResumePage />
             </section>
 
             <SectionDivider label="04" />
-            <ThePocket />
+            <SkillsHUD />
+
             <SectionDivider label="05" />
+            <ThePocket />
+            <SectionDivider label="06" />
 
             <section id="reviews" className="scroll-mt-24">
               <ReviewsPage reviews={reviews} />

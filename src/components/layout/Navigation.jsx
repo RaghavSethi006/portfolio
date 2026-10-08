@@ -57,16 +57,6 @@ const Navigation = ({ activeSection, onNavigate, isProjectOpen = false, onBackFr
 
         {/* Desktop nav links — hidden on mobile */}
         <div className="hidden items-center gap-6 md:flex">
-          {isProjectOpen && (
-            <button
-              type="button"
-              onClick={onBackFromProject}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#B8960C]/40 bg-[#B8960C]/10 text-xs font-mono uppercase tracking-wider text-[#E6D08A] hover:bg-[#B8960C]/20 transition mr-2"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              Back
-            </button>
-          )}
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             return (

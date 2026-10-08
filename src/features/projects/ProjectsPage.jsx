@@ -266,24 +266,25 @@ function Feat({ p, i, open, onOpenDetail, prv, nxt }) {
             Swipe ↔
           </span>
         </div>
-        <h3 className="pim-h3">{p.t}</h3>
+        <h3
+          className="pim-h3 cursor-pointer hover:text-[#E6D08A] transition-colors"
+          onClick={() => (onOpenDetail ? onOpenDetail(p.id) : open())}
+          title="Open full case study"
+        >
+          {p.t}
+        </h3>
         <p className="pim-sub">{p.s}</p>
         <p className="pim-desc">{p.d}</p>
         <Pills k={p.k} />
         <div className="pim-metric">{p.m}</div>
         <div className="pim-acts">
-          <button className="pim-btn" type="button" onClick={open}>
+          <button
+            className="pim-btn"
+            type="button"
+            onClick={() => (onOpenDetail ? onOpenDetail(p.id) : open())}
+          >
             Explore case study <ArrowRight className="w-3.5 h-3.5" />
           </button>
-          {onOpenDetail && (
-            <button
-              className="pim-lnk"
-              type="button"
-              onClick={() => onOpenDetail(p.id)}
-            >
-              Full docs ↗
-            </button>
-          )}
           {p.github && (
             <a
               className="pim-lnk"
@@ -719,7 +720,7 @@ const ProjectsPage = ({ onOpenProject, onViewAllProjects }) => {
                   up={true}
                   dl={0}
                   st={true}
-                  pick={openCase}
+                  pick={onOpenProject ? () => onOpenProject(p.id) : openCase}
                 />
               ))}
             </div>
@@ -732,7 +733,7 @@ const ProjectsPage = ({ onOpenProject, onViewAllProjects }) => {
                   key={'feat-' + active}
                   p={FEATURED_PROJECTS[active]}
                   i={active}
-                  open={() => openCase(active)}
+                  open={() => (onOpenProject ? onOpenProject(FEATURED_PROJECTS[active].id) : openCase(active))}
                   onOpenDetail={onOpenProject}
                   prv={prv}
                   nxt={nxt}

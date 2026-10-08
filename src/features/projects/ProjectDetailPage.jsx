@@ -229,8 +229,18 @@ const ProjectDetailPage = ({ project, onBack }) => {
 
         <main className="lg:ml-[268px]">
           <section className="px-5 pb-10 pt-6 sm:px-8 lg:px-12 xl:px-16">
+            <div className="lg:hidden mb-6">
+              <button
+                type="button"
+                onClick={onBack}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#1A2744] bg-[#0B1428] text-xs font-mono uppercase tracking-[0.2em] text-[#C8D8F0] hover:text-[#EEF2F9] hover:border-[#B8960C] transition-all"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-[#B8960C]" />
+                Back to Work
+              </button>
+            </div>
 
-            <div className="mt-8 grid gap-10 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
+            <div className="mt-4 grid gap-10 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   {project.category && (

@@ -1,0 +1,1258 @@
+/* Najdorf Resume Component Styles
+   Scoped under .najdorf-resume to prevent any global leakage to the portfolio */
+
+.najdorf-resume {
+  --bg: #050a18;
+  --bg-2: #0b1428;
+  --bg-3: #111d38;
+  --line: rgba(200, 216, 240, 0.14);
+  --line-2: rgba(200, 216, 240, 0.28);
+  --ink: #c8d8f0;
+  --ink-hi: #eef2f9;
+  --ink-lo: #8ba3c7;
+  --ink-dim: #7a8eab;
+  --gold: #e6d08a;
+  --gold-deep: #b8960c;
+  --gold-ink: #1a1405;
+  --steel: #b3c5de;
+  --sq-light: #223256;
+  --sq-dark: #0e1a34;
+  --f-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --step: 5200ms;
+  --gut: clamp(16px, 3vw, 40px);
+  color-scheme: dark;
+  font-family: var(--f-body);
+  color: var(--ink);
+  line-height: 1.55;
+  position: relative;
+  width: 100%;
+}
+
+.najdorf-resume * {
+  box-sizing: border-box;
+}
+
+.najdorf-resume [hidden] {
+  display: none !important;
+}
+
+.najdorf-resume .app {
+  max-width: 1440px;
+  margin-inline: auto;
+  display: grid;
+  gap: 20px;
+}
+
+.najdorf-resume .lab {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* Header */
+.najdorf-resume .top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 24px;
+  align-items: end;
+  padding-bottom: 8px;
+}
+
+.najdorf-resume .intro {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.najdorf-resume .intro .lab {
+  color: var(--gold-deep);
+}
+
+.najdorf-resume h1 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  line-height: 1.08;
+  color: var(--ink-hi);
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.najdorf-resume .lede {
+  grid-column: 1 / -1;
+  color: var(--ink-lo);
+  font-size: 0.94rem;
+  line-height: 1.48;
+  margin: 0;
+}
+
+.najdorf-resume .e-fit {
+  display: none;
+}
+
+.najdorf-resume .tools {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.najdorf-resume .seg {
+  display: inline-flex;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+  background: rgba(11, 20, 40, 0.7);
+}
+
+.najdorf-resume .seg button {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-lo);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.najdorf-resume .seg button:hover {
+  color: var(--ink-hi);
+}
+
+.najdorf-resume .seg button[aria-selected="true"] {
+  background: var(--gold);
+  color: var(--gold-ink);
+  font-weight: 600;
+}
+
+.najdorf-resume .ext {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-deep);
+  padding-block: 4px;
+  transition: color 0.2s;
+}
+
+.najdorf-resume .ext:hover {
+  color: var(--ink-hi);
+}
+
+@media (max-width: 699px) {
+  .najdorf-resume .lede,
+  .najdorf-resume .tools .ext,
+  .najdorf-resume .ply-of {
+    display: none;
+  }
+  .najdorf-resume .intro {
+    display: contents;
+  }
+  .najdorf-resume .intro .lab {
+    grid-column: 1 / -1;
+  }
+  .najdorf-resume h1 {
+    font-size: clamp(1.25rem, 5.2vw, 1.6rem);
+    align-self: center;
+  }
+  .najdorf-resume .seg button {
+    padding: 7px 14px;
+  }
+}
+
+/* Stage: stacked layout by default */
+.najdorf-resume .stage {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+
+.najdorf-resume .col-board {
+  order: 1;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-width: 0;
+  width: min(100%, 540px);
+  margin-inline: auto;
+}
+
+.najdorf-resume .col-moves {
+  display: contents;
+}
+
+.najdorf-resume .sheet {
+  order: 2;
+  min-width: 0;
+}
+
+.najdorf-resume .card {
+  order: 3;
+}
+
+.najdorf-resume .pgn {
+  order: 4;
+}
+
+/* Tablet layout (768px - 959px): 2 columns, board and scoresheet on left, wide job entry card on right */
+@media (min-width: 768px) and (max-width: 959px) {
+  .najdorf-resume .stage {
+    display: grid;
+    gap: 16px 20px;
+    align-items: start;
+    grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+  }
+  .najdorf-resume .e-fit {
+    display: inline;
+  }
+  .najdorf-resume .e-std {
+    display: none;
+  }
+  .najdorf-resume .col-board {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .najdorf-resume .col-moves {
+    display: grid;
+    grid-column: 1;
+    grid-row: 2;
+    align-content: start;
+    gap: 12px;
+    max-height: 380px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+    padding-right: 4px;
+  }
+  .najdorf-resume .card {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    min-height: 540px;
+    max-height: 720px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+  }
+  .najdorf-resume .card .nav {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+}
+
+/* Desktop and Wide Tablet layout (>= 960px): 3 columns shifted left, expanded width for job entry */
+@media (min-width: 960px) {
+  .najdorf-resume .stage {
+    gap: 0 20px;
+    align-items: start;
+    grid-template-columns: minmax(280px, 330px) 215px minmax(0, 1fr);
+  }
+  .najdorf-resume .e-fit {
+    display: inline;
+  }
+  .najdorf-resume .e-std {
+    display: none;
+  }
+  .najdorf-resume .col-board {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .najdorf-resume .col-moves {
+    display: grid;
+    grid-column: 2;
+    grid-row: 1;
+    align-content: start;
+    gap: 14px;
+    max-height: 610px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+    padding-right: 4px;
+  }
+  .najdorf-resume .card {
+    grid-column: 3;
+    grid-row: 1;
+    min-height: 540px;
+    max-height: 610px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+  }
+  .najdorf-resume .card .nav {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+}
+
+/* Board */
+.najdorf-resume .board-wrap {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.najdorf-resume .board {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  background: var(--bg-2);
+}
+
+.najdorf-resume .sq.l {
+  fill: var(--sq-light);
+}
+
+.najdorf-resume .sq.d {
+  fill: var(--sq-dark);
+}
+
+.najdorf-resume .frame {
+  fill: none;
+  stroke: var(--gold-deep);
+  stroke-width: 3;
+}
+
+.najdorf-resume .co {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 21px;
+  fill: var(--ink-dim);
+}
+
+.najdorf-resume .hl.from {
+  fill: rgba(230, 208, 138, 0.16);
+}
+
+.najdorf-resume .hl.to {
+  fill: rgba(230, 208, 138, 0.30);
+}
+
+.najdorf-resume .pc {
+  transition: transform 0.55s cubic-bezier(0.3, 0.75, 0.25, 1), opacity 0.35s ease;
+}
+
+.najdorf-resume .pc-in {
+  transform-origin: 50px 50px;
+  transition: transform 0.35s ease;
+}
+
+.najdorf-resume .pc.cap {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.najdorf-resume .pc.cap .pc-in {
+  transform: scale(0.55);
+}
+
+.najdorf-resume .board.instant .pc,
+.najdorf-resume .board.instant .pc-in {
+  transition: none !important;
+}
+
+.najdorf-resume .pc.w use {
+  fill: url(#gGold);
+  stroke: #2b2203;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  color: #2b2203;
+}
+
+.najdorf-resume .pc.b use {
+  fill: url(#gSteel);
+  stroke: #08101f;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  color: #08101f;
+}
+
+.najdorf-resume .arrow-shaft {
+  stroke: var(--gold);
+  stroke-width: 13;
+  opacity: 0.72;
+}
+
+.najdorf-resume .arrow-head {
+  fill: var(--gold);
+  opacity: 0.72;
+}
+
+.najdorf-resume .arrow-g {
+  animation: nrFadeIn 0.5s ease both;
+}
+
+.najdorf-resume .ring {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 4;
+  animation: nrPing 1.7s ease-in-out infinite;
+}
+
+@keyframes nrPing {
+  0%, 100% { opacity: 0.95; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes nrFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.najdorf-resume .board.can-play {
+  cursor: pointer;
+}
+
+/* Controls */
+.najdorf-resume .controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.najdorf-resume .status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.najdorf-resume .btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.najdorf-resume .ib {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--bg-2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.najdorf-resume .ib svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.najdorf-resume .ib:hover:not(:disabled) {
+  border-color: var(--gold-deep);
+  color: var(--gold);
+  background: #111d38;
+}
+
+.najdorf-resume .ib:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.najdorf-resume .play {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background: var(--gold);
+  color: var(--gold-ink);
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.najdorf-resume .play svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+
+.najdorf-resume .play:hover {
+  background: #f1dfa0;
+  transform: translateY(-1px);
+}
+
+.najdorf-resume .bar {
+  height: 3px;
+  background: var(--line);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.najdorf-resume .bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--gold);
+}
+
+.najdorf-resume .bar.run i {
+  animation: nrFill var(--step) linear forwards;
+}
+
+@keyframes nrFill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Scoresheet */
+.najdorf-resume .sheet-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-block: 0 8px;
+}
+
+.najdorf-resume .pgn-btn {
+  display: none;
+}
+
+.najdorf-resume .rows {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-block: 2px 6px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+
+.najdorf-resume .rows::-webkit-scrollbar {
+  display: none;
+}
+
+.najdorf-resume .rows[data-edge="mid"] {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 28px), transparent);
+}
+
+.najdorf-resume .rows[data-edge="end"] {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px);
+  mask-image: linear-gradient(90deg, transparent, #000 24px);
+}
+
+.najdorf-resume .rows[data-edge="all"] {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.najdorf-resume .rows li {
+  flex: none;
+  scroll-snap-align: center;
+}
+
+.najdorf-resume .mv {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-align: left;
+  white-space: nowrap;
+  background: var(--bg-2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.najdorf-resume .mv .no {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+}
+
+.najdorf-resume .mv .san {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.najdorf-resume .mv .who {
+  display: none;
+}
+
+.najdorf-resume .mv.w .san {
+  color: var(--gold);
+}
+
+.najdorf-resume .mv.b .san {
+  color: var(--steel);
+}
+
+.najdorf-resume .mv:hover {
+  background: var(--bg-3);
+  border-color: var(--line-2);
+}
+
+.najdorf-resume .mv.cur {
+  background: rgba(184, 150, 12, 0.2);
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 12px rgba(184, 150, 12, 0.2);
+}
+
+.najdorf-resume .mv.later {
+  opacity: 0.55;
+}
+
+.najdorf-resume .mv.later:hover {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .najdorf-resume .sheet-head {
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+  .najdorf-resume .legend {
+    display: none;
+  }
+  .najdorf-resume .pgn-btn {
+    display: inline-flex;
+    align-items: center;
+  }
+  .najdorf-resume .rows {
+    display: grid;
+    gap: 4px;
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .najdorf-resume .rows li {
+    border: none;
+  }
+  .najdorf-resume .mv {
+    display: grid;
+    grid-template-columns: 2rem 3rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 4px;
+    width: 100%;
+    min-height: 0;
+    padding: 6px 8px;
+    margin-block: 0;
+    border: 1px solid rgba(200, 216, 240, 0.08);
+    border-radius: 8px;
+    background: rgba(11, 20, 40, 0.7);
+  }
+  .najdorf-resume .mv:hover {
+    border-color: var(--line-2);
+    background: var(--bg-3);
+  }
+  .najdorf-resume .mv.cur {
+    border-color: var(--gold-deep);
+    background: rgba(184, 150, 12, 0.18);
+  }
+  .najdorf-resume .mv .who {
+    display: block;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: var(--ink-lo);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Role Card (Board View) */
+.najdorf-resume .card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 24px 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.najdorf-resume .card-in {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100%;
+  animation: nrCardIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes nrCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.najdorf-resume .meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.najdorf-resume .meta .wb-w {
+  color: var(--gold);
+}
+
+.najdorf-resume .meta .wb-b {
+  color: var(--steel);
+}
+
+.najdorf-resume .card h2 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.85rem);
+  line-height: 1.14;
+  color: var(--ink-hi);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.najdorf-resume .org {
+  color: var(--ink-lo);
+  font-size: 0.92rem;
+  margin-top: -6px;
+}
+
+.najdorf-resume .note {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.02rem;
+  line-height: 1.42;
+  color: var(--gold);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.najdorf-resume .sum {
+  color: var(--ink);
+  max-width: 62ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.najdorf-resume .figs {
+  display: flex;
+  padding: 8px 0;
+  margin: 0;
+  list-style: none;
+  gap: 12px;
+}
+
+.najdorf-resume .figs li {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 10px 14px;
+  display: grid;
+  gap: 3px;
+  align-content: start;
+  background: rgba(5, 10, 24, 0.6);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.najdorf-resume .figs b {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 1.45rem;
+  line-height: 1;
+  color: var(--ink-hi);
+  font-variant-numeric: tabular-nums;
+}
+
+.najdorf-resume .figs span {
+  font-size: 0.76rem;
+  line-height: 1.3;
+  color: var(--ink-lo);
+}
+
+.najdorf-resume .bul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.najdorf-resume .bul li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.52;
+  max-width: 66ch;
+  color: var(--ink);
+}
+
+.najdorf-resume .bul li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: var(--gold-deep);
+  transform: rotate(45deg);
+}
+
+.najdorf-resume .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.najdorf-resume .tag {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-lo);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+  background: rgba(5, 10, 24, 0.5);
+}
+
+.najdorf-resume .link {
+  justify-self: start;
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold-deep);
+  padding-block: 2px;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.najdorf-resume .link:hover {
+  color: var(--ink-hi);
+}
+
+.najdorf-resume .nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 12px;
+  margin-top: auto;
+  background: var(--bg-2);
+}
+
+.najdorf-resume .nav button {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-lo);
+  padding: 8px 4px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.najdorf-resume .nav button:hover:not(:disabled) {
+  color: var(--gold);
+}
+
+.najdorf-resume .nav button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Game Header (PGN) */
+.najdorf-resume .pgn {
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  min-width: 0;
+}
+
+.najdorf-resume .pgn summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  list-style: none;
+  padding-block: 2px;
+  min-height: 28px;
+  align-items: center;
+}
+
+.najdorf-resume .pgn summary::-webkit-details-marker {
+  display: none;
+}
+
+.najdorf-resume .pgn summary .lab:last-child::after {
+  content: " +";
+}
+
+.najdorf-resume .pgn[open] summary .lab:last-child::after {
+  content: " –";
+}
+
+.najdorf-resume .tagsgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 10px 14px;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.najdorf-resume .tagsgrid dt {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.najdorf-resume .tagsgrid dd {
+  font-size: 0.84rem;
+  line-height: 1.35;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  margin: 2px 0 0;
+}
+
+.najdorf-resume .tagsgrid dd small {
+  color: var(--ink-dim);
+  font-size: 0.76rem;
+}
+
+.najdorf-resume .movetext {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.najdorf-resume .movetext code {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--steel);
+  overflow-wrap: anywhere;
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   List View: Enhanced Card Layout (NO harsh separator lines)
+───────────────────────────────────────────────────────────── */
+.najdorf-resume .list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 1050px;
+  margin-inline: auto;
+}
+
+.najdorf-resume .entry-card {
+  background: #0B1428;
+  border: 1px solid rgba(200, 216, 240, 0.13);
+  border-radius: 16px;
+  padding: 26px 30px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.najdorf-resume .entry-card:hover {
+  border-color: rgba(184, 150, 12, 0.45);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.48), 0 0 20px rgba(184, 150, 12, 0.1);
+  transform: translateY(-2px);
+}
+
+.najdorf-resume .entry-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.najdorf-resume .entry-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.najdorf-resume .entry-move-pill {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.04em;
+}
+
+.najdorf-resume .entry-move-pill.w {
+  background: rgba(230, 208, 138, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(230, 208, 138, 0.28);
+}
+
+.najdorf-resume .entry-move-pill.b {
+  background: rgba(179, 197, 222, 0.12);
+  color: var(--steel);
+  border: 1px solid rgba(179, 197, 222, 0.28);
+}
+
+.najdorf-resume .entry-date {
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  color: var(--ink-lo);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(5, 10, 24, 0.6);
+  border: 1px solid var(--line);
+  letter-spacing: 0.04em;
+}
+
+.najdorf-resume .entry-board-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(184, 150, 12, 0.1);
+  color: var(--gold);
+  border: 1px solid rgba(184, 150, 12, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.najdorf-resume .entry-board-btn svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  transition: transform 0.2s;
+}
+
+.najdorf-resume .entry-board-btn:hover {
+  background: var(--gold);
+  color: var(--gold-ink);
+  border-color: var(--gold);
+}
+
+.najdorf-resume .entry-board-btn:hover svg {
+  transform: translateX(2px);
+}
+
+.najdorf-resume .entry-header {
+  display: grid;
+  gap: 4px;
+}
+
+.najdorf-resume .entry-card h3 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.7rem);
+  line-height: 1.2;
+  color: var(--ink-hi);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.najdorf-resume .entry-org {
+  font-size: 0.94rem;
+  color: var(--gold);
+  font-weight: 500;
+  margin: 0;
+}
+
+.najdorf-resume .entry-note {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--gold-deep);
+  margin: 0;
+  line-height: 1.45;
+  opacity: 0.95;
+}
+
+.najdorf-resume .entry-sum {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+
+.najdorf-resume .entry-figs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.najdorf-resume .entry-figs li {
+  padding: 8px 14px;
+  background: rgba(5, 10, 24, 0.55);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.najdorf-resume .entry-figs b {
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  color: var(--ink-hi);
+}
+
+.najdorf-resume .entry-figs span {
+  font-size: 0.78rem;
+  color: var(--ink-lo);
+}
+
+.najdorf-resume .entry-bullets {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.najdorf-resume .entry-bullets li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.92rem;
+  line-height: 1.58;
+  color: #cdd9ec;
+}
+
+.najdorf-resume .entry-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* Education card */
+.najdorf-resume .entry-education {
+  border-left: 3px solid var(--gold);
+}
+
+@media (max-width: 699px) {
+  .najdorf-resume .sheet-head {
+    display: none;
+  }
+  .najdorf-resume .card {
+    padding-inline: 18px;
+  }
+  .najdorf-resume .entry-card {
+    padding: 20px 18px;
+    gap: 14px;
+  }
+}
+
+@media (pointer: coarse) {
+  .najdorf-resume .ib,
+  .najdorf-resume .play {
+    height: 46px;
+  }
+  .najdorf-resume .ib {
+    width: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .najdorf-resume *,
+  .najdorf-resume *::before,
+  .najdorf-resume *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .najdorf-resume .ring {
+    animation: none;
+  }
+}
