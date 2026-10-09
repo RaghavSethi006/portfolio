@@ -457,6 +457,8 @@ const SkillsHUD = () => {
   }, [activeSkill]);
 
   const activeSectorObj = activeSkill ? BY[activeSkill]?.sector : activeSector;
+  const dailySkills = useMemo(() => SKILLS.filter((s) => s.tier === 'd'), []);
+  const dailyCount = dailySkills.length;
 
   // Search filtered systems in list view
   const filteredList = useMemo(() => {
@@ -967,7 +969,7 @@ const SkillsHUD = () => {
                       <span>Scan <b>{SECT_MAP[activeSector]?.name}</b></span>
                     </>
                   ) : (
-                    <span>Click <b>a system</b> or <b>a dot</b> to inspect</span>
+                    <span>Click <b>a dot</b> or <b>a system wedge</b> to inspect details</span>
                   )}
                 </div>
               </div>
@@ -977,22 +979,33 @@ const SkillsHUD = () => {
             <div className="panel-col">
               <aside className="panel" id="panel" aria-live="polite">
                 {/* 1. Skill Detailed Panel */}
-                {activeSkill ? (() => {
-                  const s = BY[activeSkill];
-                  const u = (USES[activeSkill] || []).slice().sort((a, b) => {
-                    const order = ['build', 'role', 'about'];
-                    return order.indexOf(a.kind) - order.indexOf(b.kind);
-                  });
-                  const lk = linksOf(activeSkill);
+                  {activeSkill ? (() => {
+                    const s = BY[activeSkill];
+                    const u = (USES[activeSkill] || []).slice().sort((a, b) => {
+                      const order = ['build', 'role', 'about'];
+                      return order.indexOf(a.kind) - order.indexOf(b.kind);
+                    });
+                    const lk = linksOf(activeSkill);
 
-                  return (
-                    <>
-                      <div className="ph">
-                        <button type="button" className="back" onClick={handleGoBack}>
-                          ← Back
-                        </button>
-                        <p className="lab">Trace · one skill</p>
-                      </div>
+                    return (
+                      <>
+                        <div className="ph">
+                          <button type="button" className="back" onClick={handleGoBack}>
+                            ← Back
+                          </button>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <p className="lab" style={{ margin: 0 }}>Trace · one skill</p>
+                            <button
+                              type="button"
+                              className="back-close"
+                              onClick={() => handleOverview()}
+                              aria-label="Close detail panel"
+                              title="Close detail panel"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        </div>
 
                       <h2 className="pt">{s.name}</h2>
                       <div className="badges">
@@ -1075,7 +1088,18 @@ const SkillsHUD = () => {
                         <button type="button" className="back" onClick={() => handleOverview()}>
                           ← All systems
                         </button>
-                        <p className="lab">Scan · one system</p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <p className="lab" style={{ margin: 0 }}>Scan · one system</p>
+                          <button
+                            type="button"
+                            className="back-close"
+                            onClick={() => handleOverview()}
+                            aria-label="Close detail panel"
+                            title="Close detail panel"
+                          >
+                            ✕
+                          </button>
+                        </div>
                       </div>
 
                       <h2 className="pt">{sec.name}</h2>
@@ -1133,46 +1157,34 @@ const SkillsHUD = () => {
                     </>
                   );
                 })() : (
-                  /* 3. Overview Panel */
+                  /* 3. Overview Panel (Default state) */
                   <>
                     <div className="ph">
-                      <p className="lab">Scan · all systems</p>
+                      <p className="lab" style={{ margin: 0 }}>Scan · all systems</p>
+                      <span className="dotk d" style={{ width: 8, height: 8 }} aria-hidden="true"></span>
                     </div>
 
                     <h2 className="pt">
                       {dailyCount} daily drivers. {SKILLS.length - dailyCount} more in the toolbox.
                     </h2>
-
-                    <ul className="how">
-                      <li>
-                        <i className="kd k-d"></i>
-                        <span><b>Daily driver</b>, inner orbit</span>
-                      </li>
-                      <li>
-                        <i className="kd k-t"></i>
-                        <span><b>Toolbox</b>, outer orbit</span>
-                      </li>
-                      <li>
-                        <i className="kd k-u"></i>
-                        <span><b>No build linked yet</b></span>
-                      </li>
-                      <li>
-                        <span className="gl" aria-hidden="true">↗</span>
-                        <span>Bigger dot, more builds. <b>Click a dot</b> to trace it.</span>
-                      </li>
-                    </ul>
+                    <p className="pd">
+                      Hover or tap any node to inspect. Inner orbit is daily tools; outer orbit is the deep toolbox.
+                    </p>
 
                     <div className="sec">
                       <h3 className="lab">Daily drivers · inner orbit</h3>
                       <div className="chips">
-                        {SKILLS.filter((s) => s.tier === 'd').map((s) => (
+                        {dailySkills.map((s) => (
                           <button
                             key={s.id}
                             type="button"
                             className="chip d"
                             onClick={() => handleSelectSkill(s.id)}
+                            onPointerEnter={() => handleHover(s.id)}
+                            onPointerLeave={() => handleHover(null)}
+                            title={`Inspect ${s.name}`}
                           >
-                            {s.short}
+                            {s.name}
                           </button>
                         ))}
                       </div>
@@ -1180,63 +1192,38 @@ const SkillsHUD = () => {
 
                     <div className="sec">
                       <h3 className="lab">Systems · pick one to zoom in</h3>
-                      <div className="rows sys">
+                      <div className="rows c2">
                         {SECTORS.map((sec) => {
-                          const list = SKILLS.filter((s) => s.sector === sec.id);
-                          const d = list.filter((s) => s.tier === 'd').length;
+                          const count = SKILLS.filter((s) => s.sector === sec.id).length;
+                          const dCount = SKILLS.filter((s) => s.sector === sec.id && s.tier === 'd').length;
                           return (
                             <button
                               key={sec.id}
                               type="button"
                               className="srow"
                               onClick={() => handleSelectSector(sec.id)}
+                              onPointerEnter={() => handleHover(null)}
+                              title={`Focus ${sec.name} system`}
                             >
+                              <span
+                                className="dotk"
+                                style={{ background: `var(--sec-${sec.id})` }}
+                              ></span>
                               <span className="nm">{sec.name}</span>
                               <span className="ct">
-                                {list.length} skills · {d} daily
-                              </span>
-                              <span className="bar">
-                                <i style={{ width: `${f1((d / list.length) * 100)}%` }}></i>
-                                <i style={{ width: `${f1(((list.length - d) / list.length) * 100)}%` }}></i>
+                                {count} skills · {dCount} daily
                               </span>
                             </button>
                           );
                         })}
-                      </div>
-                      <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid rgba(200, 216, 240, 0.08)' }}>
-                        <button
-                          type="button"
-                          onClick={() => handleSetView('list')}
-                          style={{
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '8px',
-                            padding: '10px 16px',
-                            borderRadius: '8px',
-                            background: 'rgba(184, 150, 12, 0.12)',
-                            border: '1px solid rgba(184, 150, 12, 0.35)',
-                            color: 'var(--gold)',
-                            fontFamily: 'var(--f-mono)',
-                            fontSize: '0.78rem',
-                            letterSpacing: '0.08em',
-                            textTransform: 'uppercase',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          Open List View (All {SKILLS.length} Skills) →
-                        </button>
                       </div>
                     </div>
                   </>
                 )}
               </aside>
             </div>
-          </main>
-        )}
+        </main>
+      )}
 
         {/* View List */}
         {view === 'list' && (

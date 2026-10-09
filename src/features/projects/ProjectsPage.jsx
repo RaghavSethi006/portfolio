@@ -127,17 +127,25 @@ const SU = [
 
 const useMQ = (query) => {
   const [matches, setMatches] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia(query).matches;
+    if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+      const res = window.matchMedia(query);
+      return res ? res.matches : false;
     }
     return false;
   });
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
     const mq = window.matchMedia(query);
+    if (!mq) return;
     const handler = () => setMatches(mq.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler);
+      return () => mq.removeEventListener('change', handler);
+    } else if (mq.addListener) {
+      mq.addListener(handler);
+      return () => mq.removeListener(handler);
+    }
   }, [query]);
 
   return matches;
