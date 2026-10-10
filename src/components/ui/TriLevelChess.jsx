@@ -67,7 +67,7 @@ const TriLevelChess = () => {
 
     const VAL = { K: 1000, Q: 9, R: 5, N: 3, P: 1 };
 
-    // Hex-ring profiles: [radius, height, lean toward enemy]
+    // Hex-ring profiles [radius, height, lean, zig]; the knight's head is a separate extruded side profile [forward, height]
     const SH = {
       P: [
         [0.3, 0, 0],
@@ -86,21 +86,17 @@ const TriLevelChess = () => {
         [0.2, 1.08, 0],
       ],
       N: [
-        [0.33, 0, 0],
-        [0.25, 0.2, 0],
-        [0.21, 0.62, 0.06],
-        [0.27, 0.88, 0.15],
-        [0.12, 1.08, 0.26],
-        [0, 1, 0.3],
+        [0.34, 0, 0],
+        [0.27, 0.1, 0],
+        [0.22, 0.22, 0],
       ],
       Q: [
         [0.35, 0, 0],
         [0.25, 0.2, 0],
         [0.18, 0.85, 0],
         [0.31, 1.02, 0],
-        [0.35, 1.28, 0],
-        [0.12, 1.3, 0],
-        [0, 1.55, 0],
+        [0.37, 1.18, 0],
+        [0.37, 1.18, 0, 0.3],
       ],
       K: [
         [0.36, 0, 0],
@@ -112,7 +108,27 @@ const TriLevelChess = () => {
         [0.1, 1.52, 0],
       ],
     };
-    const top = (t) => SH[t][SH[t].length - 1][1];
+    const HEAD = [
+      [-0.22, 0.2],
+      [-0.24, 0.5],
+      [-0.16, 0.78],
+      [-0.1, 1],
+      [-0.02, 1.16],
+      [0.06, 1],
+      [0.16, 0.96],
+      [0.3, 0.74],
+      [0.38, 0.6],
+      [0.36, 0.46],
+      [0.22, 0.46],
+      [0.12, 0.52],
+      [0.2, 0.34],
+      [0.2, 0.2],
+    ];
+    const HT = { N: 1.16 };
+    const top = (t) => {
+      const r = SH[t][SH[t].length - 1];
+      return HT[t] || r[1] + (r[3] || 0);
+    };
 
     /* Rules */
     const D = [];
@@ -596,36 +612,48 @@ const TriLevelChess = () => {
         const o = [];
         for (let k = 0; k < 6; k++) {
           const an = k * 1.0472 + 0.5236;
-          o.push(P(x + M.cos(an) * r[0], y + M.sin(an) * r[0] + r[2] * dr, u + r[1]));
+          o.push(P(x + M.cos(an) * r[0], y + M.sin(an) * r[0] + r[2] * dr, u + r[1] + (k & 1 ? r[3] || 0 : 0)));
         }
         return o;
       });
-      const b = P(x, y, u)[1];
-      const t = P(x, y, u + T)[1];
+      // knight head plane: faces the screen and points toward the enemy side
+      const hp = (f, h, l) => P(x - dr * cc * f + l * ss, y + dr * ss * f + l * cc, u + h);
+      const gs = [rs];
       const F = new Path2D();
       const E = new Path2D();
-      for (let i = 0; i < rs.length; i++) {
-        const o = rs[i];
-        o.forEach((q, k) => (k ? E.lineTo(q[0], q[1]) : E.moveTo(q[0], q[1])));
-        E.closePath();
-        if (i < rs.length - 1) {
-          const q = rs[i + 1];
-          for (let k = 0; k < 6; k++) {
-            const n = (k + 1) % 6;
-            F.moveTo(...o[k]);
-            F.lineTo(...o[n]);
-            F.lineTo(...q[n]);
-            F.lineTo(...q[k]);
-            F.closePath();
-            E.moveTo(...o[k]);
-            E.lineTo(...q[k]);
-          }
-        }
+      const Cp = new Path2D();
+      if (p.t === 'N') {
+        const hd = [-0.12, 0.12].map((l) => HEAD.map(([f, h]) => hp(f, h, l)));
+        gs.push(hd);
+        hd[1].forEach((q, k) => (k ? Cp.lineTo(q[0], q[1]) : Cp.moveTo(q[0], q[1])));
+        Cp.closePath();
       }
+      for (const rr of gs) {
+        rr.forEach((o, i) => {
+          const m = o.length;
+          o.forEach((q, k) => (k ? E.lineTo(q[0], q[1]) : E.moveTo(q[0], q[1])));
+          E.closePath();
+          if (i < rr.length - 1) {
+            const q = rr[i + 1];
+            for (let k = 0; k < m; k++) {
+              const n = (k + 1) % m;
+              F.moveTo(...o[k]);
+              F.lineTo(...o[n]);
+              F.lineTo(...q[n]);
+              F.lineTo(...q[k]);
+              F.closePath();
+              E.moveTo(...o[k]);
+              E.lineTo(...q[k]);
+            }
+          }
+        });
+      }
+      const b = P(x, y, u)[1];
+      const t = P(x, y, u + T)[1];
       if (p.c && !tk) {
-        cx.globalCompositeOperation = 'source-over';
         cx.fillStyle = rgba('pn', 0.78 * a * fl);
         cx.fill(F);
+        cx.fill(Cp);
       }
       cx.globalCompositeOperation = 'source-over';
       const g = cx.createLinearGradient(0, b, 0, t);
@@ -633,6 +661,7 @@ const TriLevelChess = () => {
       g.addColorStop(1, rgba(fk, (p.c ? 0.2 : 0.28) * a * fl));
       cx.fillStyle = g;
       cx.fill(F);
+      cx.fill(Cp);
       const h = cx.createLinearGradient(0, b, 0, t);
       h.addColorStop(0, rgba(ek, 0.4 * a * w));
       h.addColorStop(1, rgba(ek, 0.9 * a * w));
@@ -641,10 +670,34 @@ const TriLevelChess = () => {
       cx.lineWidth = 1;
       cx.stroke(E);
       cx.fillStyle = rgba(dk, 0.85 * a * w);
-      for (const o of rs) {
-        for (const q of o) {
-          cx.fillRect(q[0] - 1, q[1] - 1, 2, 2);
+      for (const rr of gs) {
+        for (const o of rr) {
+          for (const q of o) {
+            cx.fillRect(q[0] - 1, q[1] - 1, 2, 2);
+          }
         }
+      }
+      if (p.t === 'N') {
+        // eye, nostril and mane strokes on the visible face
+        const e = hp(0.17, 0.84, 0.12);
+        const nz = hp(0.34, 0.55, 0.12);
+        cx.fillStyle = rgba(dk, a * w);
+        cx.fillRect(e[0] - 1.6, e[1] - 1.6, 3.2, 3.2);
+        cx.fillRect(nz[0] - 1, nz[1] - 1, 2, 2);
+        cx.beginPath();
+        for (const [f0, h0, f1, h1] of [
+          [-0.24, 0.5, -0.06, 0.5],
+          [-0.17, 0.76, -0.01, 0.72],
+          [-0.1, 1, 0.04, 0.9],
+        ]) {
+          const q0 = hp(f0, h0, 0.12);
+          const q1 = hp(f1, h1, 0.12);
+          cx.moveTo(q0[0], q0[1]);
+          cx.lineTo(q1[0], q1[1]);
+        }
+        cx.strokeStyle = rgba(ek, 0.6 * a * w);
+        cx.lineWidth = 1;
+        cx.stroke();
       }
       for (const ph of [0, 0.5]) {
         const hs = ((time * 0.3 + p.id * 0.19 + ph) % 1) * T;
@@ -652,7 +705,7 @@ const TriLevelChess = () => {
         while (i < R.length - 2 && R[i + 1][1] < hs) i++;
         const A = R[i];
         const B = R[i + 1];
-        const k = B[1] > A[1] ? (hs - A[1]) / (B[1] - A[1]) : 0;
+        const k = B[1] > A[1] ? M.min(1, (hs - A[1]) / (B[1] - A[1])) : 0;
         const r = lerp(A[0], B[0], k);
         const l = lerp(A[2], B[2], k);
         cx.beginPath();
@@ -682,6 +735,7 @@ const TriLevelChess = () => {
       if (p.f > 0.02 && !tk) {
         cx.fillStyle = rgba('t1', p.f * 0.35);
         cx.fill(F);
+        cx.fill(Cp);
         cx.strokeStyle = rgba('t1', p.f);
         cx.lineWidth = 1.6;
         cx.stroke(E);
@@ -812,9 +866,9 @@ const TriLevelChess = () => {
       if (!W || !H) return;
       cv.width = (W * DPR) | 0;
       cv.height = (H * DPR) | 0;
-      S = M.min(W / 4.2, H / 10.2);
+      S = M.min(W / 5.0, H / 9.2);
       ox = W / 2;
-      oy = H / 2 + 2.75 * S;
+      oy = H / 2 + 2.73 * S;
     }
 
     function frame(ts) {
