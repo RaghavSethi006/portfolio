@@ -74,7 +74,7 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
     }
   }, [isOpen]);
 
-  const streamGroqResponse = async (userMessage) => {
+  const streamAIResponse = async (userMessage) => {
     // Command Parser
     const cmd = userMessage.toLowerCase().trim();
     if (cmd === '\\clear' || cmd === 'clear') {
@@ -109,35 +109,29 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
     setInput('');
     setIsLoading(true);
 
-    const apiKey = process.env.REACT_APP_GROQ_API_KEY;
-    if (!apiKey) {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: `> REI_OFFLINE\n> Live AI inference is disabled in this deployment.\n> Try built-in commands: \\skills  \\projects  \\contact  \\help`
-      }]);
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
-          messages: [
-            { role: 'system', content: contextData || "You are Raghav's assistant." },
-            ...newMessages.filter(m => !m.isSystem).map(m => ({ role: m.role, content: m.content }))
-          ],
-          stream: true,
-          max_tokens: 500
+          systemPrompt: contextData || "You are REI, Raghav Sethi's executive AI assistant.",
+          messages: newMessages.filter(m => !m.isSystem).map(m => ({
+            role: m.role,
+            content: m.content
+          }))
         })
       });
 
-      if (!response.ok) throw new Error("API call failed");
+      if (!response.ok) {
+        let errMessage = 'Inference server error';
+        try {
+          const errData = await response.json();
+          if (errData && errData.error) errMessage = errData.error;
+        } catch (_) {}
+        throw new Error(errMessage);
+      }
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
@@ -146,32 +140,47 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
       setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
 
       let fullContent = '';
+      let buffer = '';
+
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-        
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
         for (const line of lines) {
-          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-            try {
-              const data = JSON.parse(line.substring(6));
-              if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
-                const content = data.choices[0].delta.content;
-                fullContent += content;
-                updateStreamingContent(fullContent);
-              }
-            } catch (e) {
-              // ignore parse errors for partial chunks
+          const trimmed = line.trim();
+          if (!trimmed || !trimmed.startsWith('data: ')) continue;
+          const dataStr = trimmed.substring(6).trim();
+          if (dataStr === '[DONE]') break;
+
+          try {
+            const parsed = JSON.parse(dataStr);
+            if (parsed.text) {
+              fullContent += parsed.text;
+              updateStreamingContent(fullContent);
+            } else if (parsed.error) {
+              fullContent += `\n[ERROR: ${parsed.error}]`;
+              updateStreamingContent(fullContent);
             }
+          } catch (_) {
+            // ignore partial chunk json parse errors
           }
         }
       }
 
+      if (!fullContent.trim()) {
+        updateStreamingContent('REI acknowledged. Ready for follow-up.');
+      }
+
     } catch (err) {
       console.error(err);
-      setMessages(prev => [...prev, { role: 'assistant', content: `> CONNECTION_ERROR: Internal server relay down. Connectivity to Raghav's neural engine limited.` }]);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: `> CONNECTION_NOTICE: Neural relay re-routing.\n> ${err.message || 'Connecting to Google AI Studio engine...'}\n> Try commands: \\help, \\whoami, \\projects, or retry momentarily.` 
+      }]);
       setIsLoading(false);
     }
   };
@@ -179,7 +188,7 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-    streamGroqResponse(input.trim());
+    streamAIResponse(input.trim());
   };
 
   return (
@@ -213,13 +222,13 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
                 <span className="text-[10px] text-[#7A8EAB] tracking-[0.2em]">TERMINAL.SYS // RAGHAV_SETHI</span>
                 <div className="hidden sm:flex items-center gap-4">
                   <button 
-                    onClick={() => streamGroqResponse('\\help')}
+                    onClick={() => streamAIResponse('\\help')}
                     className="text-[9px] text-[#B8960C]/60 hover:text-[#B8960C] transition-colors tracking-widest font-bold"
                   >
                     \HELP
                   </button>
                   <button 
-                    onClick={() => streamGroqResponse('\\clear')}
+                    onClick={() => streamAIResponse('\\clear')}
                     className="text-[9px] text-[#B8960C]/60 hover:text-[#B8960C] transition-colors tracking-widest font-bold"
                   >
                     \CLEAR
@@ -274,7 +283,7 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
                    {SUGGESTIONS.map(sug => (
                      <button
                        key={sug}
-                       onClick={() => streamGroqResponse(sug)}
+                       onClick={() => streamAIResponse(sug)}
                        className="text-[10px] text-[#8BA3C7] border border-[#1A2744] hover:border-[#B8960C]/50 bg-[#0B1428] px-3 py-1 transition-colors"
                      >
                        {sug}
