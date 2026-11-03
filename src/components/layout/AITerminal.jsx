@@ -125,10 +125,17 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
       });
 
       if (!response.ok) {
-        let errMessage = 'Inference server error';
+        let errMessage = `HTTP ${response.status}: Failed to reach AI endpoint`;
         try {
-          const errData = await response.json();
-          if (errData && errData.error) errMessage = errData.error;
+          const raw = await response.text();
+          try {
+            const errData = JSON.parse(raw);
+            if (errData && errData.error) errMessage = errData.error;
+          } catch (_) {
+            if (raw && raw.length < 200 && !raw.includes('<!DOCTYPE')) {
+              errMessage = raw;
+            }
+          }
         } catch (_) {}
         throw new Error(errMessage);
       }
