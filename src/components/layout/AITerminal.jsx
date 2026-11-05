@@ -51,7 +51,7 @@ BEHAVIOR:
 4. PHILOSOPHY: You embody his principles: ${philosophy.map(p => p.title).join('; ')}.
 5. SIGNATURE REFUSAL: Use the phrase "I can only answer portfolio-related questions about Raghav's work, background, and projects." for out-of-scope requests.
 
-IDENTITY: Raghav Sethi. AI/ML Engineer. BSc CS with AI, University of Alberta.
+IDENTITY: Raghav Sethi. AI/ML Engineer & IBM Z Ambassador. BSc CS with AI, University of Alberta.
 MISSION: Continuous growth and knowledge acquisition.
 EMAIL: ${email}
 EXPERIENCE: ${experience.map(e => `${e.title} at ${e.company}`).join(', ')}
@@ -89,7 +89,7 @@ PROJECTS: ${projectsData.map(p => p.title).join(', ')}
     if (cmd === '\\help' || cmd === 'help') {
       setMessages(prev => [...prev, 
         { role: 'user', content: userMessage },
-        { role: 'assistant', content: '> AVAILABLE COMMANDS: \\CLEAR, \\HELP, \\WHOAMI, \\PROJECTS.\n> OR ASK ABOUT: JARVIS, CAREER CO-PILOT, FINOS, UAIS.', isSystem: true }
+        { role: 'assistant', content: '> AVAILABLE COMMANDS: \\CLEAR, \\HELP, \\WHOAMI, \\PROJECTS.\n> OR ASK ABOUT: IBM Z, JARVIS, CAREER CO-PILOT, FINOS, UAIS.', isSystem: true }
       ]);
       setInput('');
       return;

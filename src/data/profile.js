@@ -1,6 +1,18 @@
 
 export const experience = [
   {
+    title: 'IBM Z Ambassador',
+    company: 'IBM',
+    period: 'Nov 2026 – Present',
+    description: 'Selected into the global IBM Z Student Ambassador leadership and technical advocacy program, empowering students in enterprise computing, mainframe systems, and LinuxONE architectures.',
+    achievements: [
+      'Selected into the competitive global IBM Z Student Ambassador cohort, organized in collaboration with Your Big Year®',
+      'Advocate for enterprise computing, modern mainframe infrastructure, and LinuxONE technologies across the University of Alberta campus',
+      'Organize campus workshops, study sessions, and digital learning pathways via IBM Z Xplore to equip students with enterprise tech skills',
+      'Collaborate with an international network of student ambassadors, IBM technical coaches, and industry mentors to expand student engagement and opportunities'
+    ]
+  },
+  {
     title: '3rd Year Representative',
     company: 'Computer Engineering Club, University of Alberta',
     period: 'Oct 2026 – Present',
@@ -210,7 +222,7 @@ export const bio = {
   name: 'Raghav Sethi',
   title: 'Software Engineer specializing in AI and Systems Architecture',
   description: 'Specializing in RAG pipelines, full-stack development, and technical infrastructure.',
-  highlights: ['AI/ML', 'React', 'Python', 'Node.js', 'SQL', 'Tailwind']
+  highlights: ['AI/ML', 'React', 'Python', 'Node.js', 'SQL', 'IBM Z', 'Tailwind']
 };
 
 export const interests = [

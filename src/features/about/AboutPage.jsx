@@ -41,7 +41,7 @@ const AboutPage = () => {
             </SplitHeading>
             <div className="text-base leading-relaxed text-[#CAD4E4] space-y-4 max-w-3xl">
               <p>
-                I am a Computer Science Honours student at the University of Alberta, specializing in Artificial Intelligence. Currently, I serve as the Vice President of Technology for the Undergraduate Artificial Intelligence Society (UAIS), overseeing technical operations and cloud infrastructure.
+                I am a Computer Science Honours student at the University of Alberta, specializing in Artificial Intelligence. Currently, I serve as an IBM Z Ambassador and the Vice President of Technology for the Undergraduate Artificial Intelligence Society (UAIS), overseeing technical operations and cloud infrastructure.
               </p>
               <p>
                 My work involves architecting retrieval-augmented generation (RAG) pipelines, building secure enterprise features, and designing scalable full-stack applications. I work primarily with Python, React, and Node.js, focusing on creating robust systems where every component serves a clear functional purpose.

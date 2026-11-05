@@ -3,7 +3,7 @@ import './NajdorfResume.css';
 
 const FILES = 'abcdefgh';
 const SQ = 100;
-const START_PLY = 9; // opens on the Project Lead move
+const START_PLY = 11; // opens on the newest role (IBM Z Ambassador)
 const STEP_MS = 5200;
 
 const SCHOOL = 'Fahaheel Al Watanieh Indian Private School (DPS Kuwait)';
@@ -247,6 +247,31 @@ const ROLES = [
     ],
     pick: [1, 3, 4],
     tags: []
+  },
+  {
+    ply: 11,
+    san: 'Be3',
+    from: 'c1',
+    to: 'e3',
+    short: 'IBM Z Amb',
+    title: 'IBM Z Ambassador',
+    org: 'IBM',
+    orgShort: 'IBM',
+    dates: 'Nov 2026 – Present',
+    sum: 'Advocating enterprise computing, mainframe systems, and digital skills as part of the global IBM Z ambassador initiative.',
+    note: 'The English Attack. Expanding the field to global enterprise computing, modern mainframes, and digital skills advocacy.',
+    figs: [
+      ['Global', 'ambassador cohort'],
+      ['IBM Z', 'Xplore pathways']
+    ],
+    bullets: [
+      'Selected into the global IBM Z Student Ambassador leadership and technical advocacy cohort, in collaboration with Your Big Year®',
+      'Champion enterprise computing, modern mainframe architecture, and LinuxONE technologies within the academic community at the University of Alberta',
+      'Host and facilitate technical workshops, study cohorts, and digital learning pathways using IBM Z Xplore to upskill students in enterprise systems',
+      'Collaborate with an international network of student ambassadors, IBM technical coaches, and industry mentors to expand student engagement'
+    ],
+    pick: [0, 1, 2, 3],
+    tags: ['IBM Z', 'LinuxONE', 'Enterprise Systems', 'Mainframe']
   }
 ];
 
@@ -610,7 +635,7 @@ const NajdorfResume = () => {
               <span className="e-fit">BSc Honours, Computer Science with AI · University of Alberta · 2024 – 2028</span>
               <span className="e-std">Resume · each role is a move</span>
             </p>
-            <h1>Ten roles. One line.</h1>
+            <h1>Eleven roles. One line.</h1>
           </div>
           <div className="tools">
             <div className="seg" role="tablist" aria-label="Resume view">
@@ -949,7 +974,7 @@ const NajdorfResume = () => {
                 <div className="card-in">
                   <p className="lab">Starting position</p>
                   <h2>Before the first move</h2>
-                  <p className="note">Ten roles, oldest first. Press play, or click the glowing pawn on e2.</p>
+                  <p className="note">Eleven roles, oldest first. Press play, or click the glowing pawn on e2.</p>
                   <button
                     type="button"
                     className="link"
