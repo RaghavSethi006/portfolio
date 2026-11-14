@@ -3,7 +3,7 @@ import './NajdorfResume.css';
 
 const FILES = 'abcdefgh';
 const SQ = 100;
-const START_PLY = 11; // opens on the newest role (IBM Z Ambassador)
+const START_PLY = 12; // opens on the newest role (IBM Z UAlberta Chapter Founder / President)
 const STEP_MS = 5200;
 
 const SCHOOL = 'Fahaheel Al Watanieh Indian Private School (DPS Kuwait)';
@@ -272,6 +272,31 @@ const ROLES = [
     ],
     pick: [0, 1, 2, 3],
     tags: ['IBM Z', 'LinuxONE', 'Enterprise Systems', 'Mainframe']
+  },
+  {
+    ply: 12,
+    san: 'e5',
+    from: 'e7',
+    to: 'e5',
+    short: 'IBM Z Pres',
+    title: 'Founder / President',
+    org: 'IBM Z UAlberta Chapter',
+    orgShort: 'IBM Z UAlberta',
+    dates: 'Nov 2026 – Present',
+    sum: 'Leading the IBM Z student chapter at the University of Alberta (Edmonton · Hybrid), building a student community around mainframe systems and enterprise computing.',
+    note: '6... e5 — the defining central thrust of the Najdorf. From ambassador to building the chapter itself.',
+    figs: [
+      ['Founder', 'UAlberta chapter'],
+      ['Hybrid', 'Edmonton, AB']
+    ],
+    bullets: [
+      'Lead the IBM Z student chapter at the University of Alberta, fostering a community of students interested in IBM Z, mainframe technology, and enterprise computing',
+      'Lead chapter initiatives focused on student learning, networking, and engagement with IBM Z technologies',
+      'Build the chapter’s online presence through LinkedIn, GitHub, and Discord to connect students and expand the community',
+      'Promote IBM Z learning resources and encourage students to explore mainframe technology and IBM’s learning ecosystem'
+    ],
+    pick: [0, 1, 2, 3],
+    tags: ['IBM Z', 'Mainframe', 'Enterprise Computing', 'Community']
   }
 ];
 
@@ -635,7 +660,7 @@ const NajdorfResume = () => {
               <span className="e-fit">BSc Honours, Computer Science with AI · University of Alberta · 2024 – 2028</span>
               <span className="e-std">Resume · each role is a move</span>
             </p>
-            <h1>Eleven roles. One line.</h1>
+            <h1>Twelve roles. One line.</h1>
           </div>
           <div className="tools">
             <div className="seg" role="tablist" aria-label="Resume view">
@@ -974,7 +999,7 @@ const NajdorfResume = () => {
                 <div className="card-in">
                   <p className="lab">Starting position</p>
                   <h2>Before the first move</h2>
-                  <p className="note">Eleven roles, oldest first. Press play, or click the glowing pawn on e2.</p>
+                  <p className="note">Twelve roles, oldest first. Press play, or click the glowing pawn on e2.</p>
                   <button
                     type="button"
                     className="link"

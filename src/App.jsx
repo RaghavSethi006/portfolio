@@ -190,7 +190,7 @@ const App = () => {
             </section>
 
             <SectionDivider label="03" />
-            <StatementBand text="EXPERIENCE" sub="Eleven roles. One line." />
+            <StatementBand text="EXPERIENCE" sub="Twelve roles. One line." />
 
             <section id="resume" className="scroll-mt-24">
               <ResumePage />

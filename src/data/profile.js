@@ -1,6 +1,18 @@
 
 export const experience = [
   {
+    title: 'Founder / President',
+    company: 'IBM Z UAlberta Chapter',
+    period: 'Nov 2026 – Present',
+    description: 'Leading the IBM Z student chapter at the University of Alberta (Edmonton, AB · Hybrid), fostering a community of students exploring IBM Z, mainframe technology, and enterprise computing.',
+    achievements: [
+      'Lead the IBM Z student chapter at the University of Alberta, fostering a community of students interested in IBM Z, mainframe technology, and enterprise computing',
+      'Lead chapter initiatives focused on student learning, networking, and engagement with IBM Z technologies',
+      'Build the chapter’s online presence through LinkedIn, GitHub, and Discord to connect students and expand the community',
+      'Promote IBM Z learning resources and encourage students to explore mainframe technology and IBM’s learning ecosystem'
+    ]
+  },
+  {
     title: 'IBM Z Ambassador',
     company: 'IBM',
     period: 'Nov 2026 – Present',
