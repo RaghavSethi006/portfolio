@@ -12,7 +12,7 @@ const LINKS = {
   fallbackPdf: 'https://portfolio-raghavsethi006.vercel.app/assets/Raghav_Sethi_Resume.pdf'
 };
 
-const ROLES = [
+export const ROLES = [
   {
     ply: 1,
     san: 'e4',

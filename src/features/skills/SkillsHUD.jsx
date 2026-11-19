@@ -9,7 +9,7 @@ const rad = (d) => (d * Math.PI) / 180;
 const pol = (r, a) => [C + r * Math.cos(rad(a)), C + r * Math.sin(rad(a))];
 const f1 = (n) => Math.round(n * 10) / 10;
 
-const SECTORS_RAW = [
+export const SECTORS_RAW = [
   { id: 'lang', name: 'Languages', rim: 'LANGUAGES' },
   { id: 'front', name: 'Frontend', rim: 'FRONTEND' },
   { id: 'back', name: 'Backend', rim: 'BACKEND' },
@@ -19,7 +19,7 @@ const SECTORS_RAW = [
   { id: 'tools', name: 'Tools & Deployment', rim: 'TOOLS' }
 ];
 
-const SKILLS_RAW = [
+export const SKILLS_RAW = [
   ['python', 'Python', 'Python', 'lang', 'd'],
   ['typescript', 'TypeScript', 'TypeScript', 'lang', 'd'],
   ['rust', 'Rust', 'Rust', 'lang', 'd'],
@@ -70,7 +70,7 @@ const SKILLS_RAW = [
 ];
 
 const GH = 'https://github.com/RaghavSethi006/';
-const EVID = [
+export const EVID = [
   { kind: 'build', name: 'Jarvis', line: 'Local-first multi-agent desktop assistant with four-tier memory, neural voice and face auth.', skills: ['python', 'react', 'chroma', 'agents'], links: [['Source', GH + 'jarvis']] },
   { kind: 'build', name: 'Career Co-Pilot', line: 'Career intelligence system with RAG resume tailoring and 12 API routes.', skills: ['react', 'typescript', 'fastapi', 'python', 'gemini', 'rag'], links: [['Source', GH + 'Career-Co-Pilot']] },
   { kind: 'build', name: 'TaskArena v2', line: 'AI study companion that chats with your own lecture slides.', skills: ['react', 'typescript', 'tauri', 'fastapi', 'python', 'rag'], links: [['Source', GH + 'TaskArena2.0']] },

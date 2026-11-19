@@ -216,7 +216,7 @@ const App = () => {
         )}
       </main>
 
-      <Footer />
+      <Footer reviews={reviews} />
     </div>
     <AITerminal />
     </>
